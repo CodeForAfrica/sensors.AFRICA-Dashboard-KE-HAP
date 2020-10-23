@@ -11,10 +11,7 @@ import PartnerLogos from '../../components/PartnerLogos';
 import Footer from '../../components/Footer';
 import SensorMap from '../../components/SensorMap';
 import CityHeader from '../../components/City/Header/CityHeader';
-import CallToAction from '../../components/City/CallToAction';
-import PollutionStats from '../../components/City/PollutionStats';
 import QualityStats from '../../components/City/SensorsQualityStats';
-import HostSensorsButton from '../../components/City/HostSensors/HostSensorButtons';
 import QualityStatsGraph from '../../components/City/QualityStatsGraph';
 
 import {
@@ -27,29 +24,7 @@ import {
 import '../../assets/css/App.css';
 
 const DEFAULT_CITY = 'nairobi';
-const CITIES_POLLUTION_STATS = {
-  nairobi: {
-    deathCount: '19,112',
-    childDeathCount: '6,672',
-    topIllness: 'Acute Lower',
-    annualAverage: '17',
-    percent: '70% more'
-  },
-  lagos: {
-    deathCount: '290,456',
-    childDeathCount: '98,001',
-    topIllness: 'Lower',
-    annualAverage: '122',
-    percent: '170% more'
-  },
-  'dar-es-salaam': {
-    deathCount: '41,251',
-    childDeathCount: '11,440',
-    topIllness: 'Lower',
-    annualAverage: '23',
-    percent: '130% more'
-  }
-};
+
 const AQ_COLOR = [
   '#5fbf82',
   '#34b86f',
@@ -253,15 +228,7 @@ class City extends React.Component {
             handleSearch={this.handleSearch}
           />
         </Grid>
-        <Grid item xs={12}>
-          <HostSensorsButton city={CITIES_LOCATION[city]} />
-        </Grid>
-        <Grid item xs={12}>
-          <PollutionStats
-            pollutionStats={CITIES_POLLUTION_STATS[city]}
-            city={CITIES_LOCATION[city]}
-          />
-        </Grid>
+
         <Grid item xs={12} id="map">
           <SensorMap
             zoom={CITIES_LOCATION[city].zoom}
@@ -280,9 +247,6 @@ class City extends React.Component {
           {cityP2WeeklyStats.length && (
             <QualityStatsGraph data={cityP2WeeklyStats} />
           )}
-        </Grid>
-        <Grid item xs={12}>
-          <CallToAction />
         </Grid>
         <Grid item xs={12}>
           <PartnerLogos />

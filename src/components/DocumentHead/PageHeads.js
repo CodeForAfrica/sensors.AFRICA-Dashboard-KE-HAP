@@ -10,6 +10,8 @@ const URLS = {
     CITY_HOME: '/air/city',
     CITY_DEFAULT: '/air/city/nairobi',
     CITY: '/air/city/:city(nairobi|dar-es-salaam|lagos)',
+    COUNTRY_HOME: '/air/country',
+    COUNTRY_DEFAULT: '/air/country/nairobi',
     HOW_SENSORS_WORK: '/air/how-sensors-work',
     IMPACT: '/air/health-and-climate-impact',
     JOIN: '/air/join-network'
@@ -69,6 +71,11 @@ export default [
   {
     url: URLS.AIR.CITY,
     title: 'sensors.AFRICA | Air | City',
+    color: 'green'
+  },
+  {
+    url: URLS.AIR.COUNTRY,
+    title: 'sensors.AFRICA | Air | Country',
     color: 'green'
   },
   {

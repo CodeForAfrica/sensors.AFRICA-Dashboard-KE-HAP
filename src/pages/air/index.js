@@ -12,14 +12,21 @@ import Navbar from '../../components/Header/Navbar';
 import AirHeader from '../../components/Air/AirHeader';
 import Footer from '../../components/Footer';
 import PartnerLogos from '../../components/PartnerLogos';
-import IndoorOutdoor from '../../components/Air/IndoorOutdoor';
 import Issues from '../../components/Air/Issues';
-import Stories from '../../components/About/Stories';
-import Support from '../../components/Support';
 import HealthAndClimateImpacts from './HealthAndClimateImpacts';
-import Showcase from '../../components/Showcase';
+import AfricaMap from '../../components/AfricaMap';
+import Country from './Country';
 
 const CITY_PATHNAME = '/air/city';
+
+const COUNTRIES_OPTIONS = [
+  { value: 'nairobi', label: 'Kenya' },
+  { value: 'lagos', label: 'Nigeria' },
+  { value: 'dar-es-salaam', label: 'Tanzania' },
+  { value: 'durban', label: 'South Africa' },
+  { value: 'kampala', label: 'Uganda' }
+];
+
 class AirHome extends React.Component {
   constructor(props) {
     super(props);
@@ -39,12 +46,13 @@ class AirHome extends React.Component {
       <React.Fragment>
         <DocumentHead url={url} />
         <Navbar />
-        <AirHeader handleSearch={this.handleSearch} />
-        <Showcase />
+        <AirHeader
+          handleSearch={this.handleSearch}
+          placeholder="Search for country ..."
+          options={COUNTRIES_OPTIONS}
+        />
+        <AfricaMap />
         <Issues />
-        <IndoorOutdoor />
-        <Stories />
-        <Support />
         <PartnerLogos />
         <Footer />
       </React.Fragment>
@@ -61,6 +69,7 @@ export {
   About,
   HowSensorsWork,
   City,
+  Country,
   JoinNetwork,
   Data,
   HealthAndClimateImpacts

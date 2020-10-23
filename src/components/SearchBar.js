@@ -276,9 +276,11 @@ const components = {
 };
 
 const DEFAULT_OPTIONS = [
-  { value: 'nairobi', label: 'Nairobi, Kenya' },
-  { value: 'lagos', label: 'Lagos, Nigeria' },
-  { value: 'dar-es-salaam', label: 'Dar-es-Salaam, Tanzania' }
+  { value: 'nairobi', label: 'Kenya' },
+  { value: 'lagos', label: 'Nigeria' },
+  { value: 'dar-es-salaam', label: 'Tanzania' },
+  { value: 'kampala', label: 'Uganda' },
+  { value: 'durban', label: 'South Africa' }
 ];
 
 class SearchBar extends React.Component {

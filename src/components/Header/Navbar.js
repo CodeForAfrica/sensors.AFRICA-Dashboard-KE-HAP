@@ -135,25 +135,6 @@ class Navbar extends React.Component {
                     AIR
                   </Link>
                 </MenuItem>
-
-                <MenuItem className={classes.waterText}>
-                  <a
-                    href="/water"
-                    className={classes.waterlink}
-                    onClick={this.showComingSoonAlert}
-                  >
-                    WATER
-                  </a>
-                </MenuItem>
-                <MenuItem className={classes.soundText}>
-                  <a
-                    href="/sound"
-                    className={classes.soundlink}
-                    onClick={this.showComingSoonAlert}
-                  >
-                    SOUND
-                  </a>
-                </MenuItem>
               </Grid>
 
               <Hidden smDown>

@@ -29,7 +29,7 @@ const styles = theme => ({
   }
 });
 
-function AirHeaderContent({ classes, handleSearch }) {
+function AirHeaderContent({ classes, handleSearch, placeholder, options }) {
   return (
     <Grid
       container
@@ -39,18 +39,14 @@ function AirHeaderContent({ classes, handleSearch }) {
     >
       <Grid item xs={12}>
         <Typography variant="h3" className={classes.headerText}>
-          WE&apos;VE TESTED THE QUALITY
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h3" className={classes.headerText}>
-          OF YOUR CITY&apos;S AIR.
+          SENSOR DATA COLLATED
         </Typography>
       </Grid>
       <Grid item className={classes.searchBar}>
         <SearchBar
-          placeholder="Search for your city ..."
+          placeholder={placeholder}
           handleSearch={handleSearch}
+          options={options}
         />
       </Grid>
     </Grid>
@@ -59,7 +55,9 @@ function AirHeaderContent({ classes, handleSearch }) {
 
 AirHeaderContent.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleSearch: PropTypes.func.isRequired
+  handleSearch: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(AirHeaderContent);

@@ -14,6 +14,7 @@ import Air, {
   Data as AirData,
   HowSensorsWork as AirHowSensorsWork,
   City as AirCity,
+  Country as AirCountry,
   JoinNetwork as AirJoinNetwork,
   HealthAndClimateImpacts as AirHealthAndClimateImpacts
 } from './pages/air';
@@ -141,6 +142,15 @@ function App() {
             <Route
               path={URLS.AIR.CITY}
               render={props => <AirCity {...props} url={URLS.AIR.CITY} />}
+            />
+            <Route
+              exact
+              path={URLS.AIR.COUNTRY_HOME}
+              render={() => <Redirect to={URLS.AIR.COUNTRY_DEFAULT} />}
+            />
+            <Route
+              path={URLS.AIR.COUNTRY}
+              render={props => <AirCountry {...props} url={URLS.AIR.COUNTRY} />}
             />
             <Route
               path={URLS.AIR.JOIN}

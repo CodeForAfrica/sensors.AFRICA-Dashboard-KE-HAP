@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
-import { Grid, Card, CardActionArea, CardMedia } from '@material-ui/core';
+import { Grid, Card, CardMedia } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import ComingSoon from '../ComingSoon';
 
 import air from '../../assets/images/button/airbtn.png';
-import water from '../../assets/images/button/waterbtn.png';
-import sound from '../../assets/images/button/soundbtn.png';
 
 const styles = theme => ({
   root: {
@@ -127,30 +125,6 @@ class TestQuality extends React.Component {
                   />
                 </Card>
               </Link>
-            </Grid>
-            <Grid item>
-              <Card className={classes.waterCard}>
-                <CardActionArea onClick={this.showComingSoonAlert}>
-                  <CardMedia
-                    component="img"
-                    className={classes.img}
-                    image={water}
-                    title="water"
-                  />
-                </CardActionArea>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.soundCard}>
-                <CardActionArea onClick={this.showComingSoonAlert}>
-                  <CardMedia
-                    component="img"
-                    className={classes.img}
-                    image={sound}
-                    title="sound"
-                  />
-                </CardActionArea>
-              </Card>
             </Grid>
           </Grid>
         </Grid>

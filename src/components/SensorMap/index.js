@@ -42,8 +42,38 @@ function Map({ classes, zoom, latitude, longitude }) {
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
-          src={`//v2.map.aq.sensors.africa/#${zoom}/${latitude}/${longitude}`}
+          src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
           height="500"
+          width="100%"
+          frameBorder="0"
+          scrolling="no"
+        />
+      </Grid>
+    </Grid>
+  );
+}
+
+function AfricaMap({ classes }) {
+  return (
+    <Grid
+      container
+      className={classes.root}
+      justify="center"
+      alignItems="center"
+    >
+      <Grid item xs={12}>
+        <Typography variant="h5" className={classes.headline}>
+          SENSORS IN AFRICA
+          <Typography variant="caption" className={classes.caption}>
+            * Click a sensor to view latest readings.
+          </Typography>
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <IframeComponent
+          title="Map section"
+          src="//wb.map.sensors.africa/#4/-10.79/20.87"
+          height="600"
           width="100%"
           frameBorder="0"
           scrolling="no"
@@ -59,4 +89,8 @@ Map.propTypes = {
   latitude: PropTypes.string.isRequired,
   longitude: PropTypes.string.isRequired
 };
-export default withStyles(styles)(Map);
+
+AfricaMap.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+export default withStyles(styles)(Map, AfricaMap);

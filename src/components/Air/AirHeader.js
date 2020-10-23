@@ -17,7 +17,7 @@ const styles = theme => ({
   }
 });
 
-function AirHeader({ classes, handleSearch }) {
+function AirHeader({ classes, handleSearch, placeholder, options }) {
   return (
     <Grid
       container
@@ -26,7 +26,11 @@ function AirHeader({ classes, handleSearch }) {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <AirHeaderContent handleSearch={handleSearch} />
+        <AirHeaderContent
+          handleSearch={handleSearch}
+          placeholder={placeholder}
+          options={options}
+        />
       </Grid>
     </Grid>
   );
@@ -34,7 +38,9 @@ function AirHeader({ classes, handleSearch }) {
 
 AirHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleSearch: PropTypes.func.isRequired
+  handleSearch: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(AirHeader);
