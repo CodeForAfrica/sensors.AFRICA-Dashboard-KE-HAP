@@ -112,6 +112,45 @@ const CITIES_LOCATION = {
   }
 };
 
+const COUNTRIES_LOCATION = {
+  kenya: {
+    slug: 'kenya',
+    latitude: '0.17666667',
+    longitude: '37.90832778',
+    name: 'Kenya',
+    label: 'Kenya',
+    zoom: '12',
+    center: '0.17666667,37.90832778'
+  },
+  uganda: {
+    slug: 'uganda',
+    latitude: '1.373333',
+    longitude: '32.290275',
+    name: 'Uganda',
+    label: 'Uganda',
+    zoom: '12',
+    center: '1.373333,32.290275'
+  },
+  southafrica: {
+    slug: 'southafrica',
+    latitude: '30.559482',
+    longitude: '22.937506',
+    name: 'South Africa',
+    label: 'South Africa',
+    zoom: '12',
+    center: '30.559482,22.937506'
+  },
+  nigeria: {
+    slug: 'nigeria',
+    latitude: '9.081999',
+    longitude: '8.675277',
+    name: 'Nigeria',
+    label: 'Nigeria',
+    zoom: '12',
+    center: '9.081999,8.675277'
+  }
+};
+
 const API = {
   getAirData(city) {
     return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);

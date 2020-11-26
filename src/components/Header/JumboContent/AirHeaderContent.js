@@ -40,17 +40,11 @@ function AirHeaderContent({ handleSearch }) {
     >
       <Grid item xs={12}>
         <Typography variant="h3" className={classes.headerText}>
-          WE&apos;VE TESTED THE QUALITY
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h3" className={classes.headerText}>
-          OF YOUR CITY&apos;S AIR.
+          SENSOR DATA COLLATED
         </Typography>
       </Grid>
       <Grid item className={classes.searchBar}>
         <SearchBar
-          placeholder="Search for your city ..."
           handleSearch={handleSearch}
         />
       </Grid>

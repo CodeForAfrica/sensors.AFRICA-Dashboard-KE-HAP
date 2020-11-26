@@ -27,7 +27,9 @@ function AirHeader({ handleSearch }) {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <AirHeaderContent handleSearch={handleSearch} />
+        <AirHeaderContent
+          handleSearch={handleSearch}
+        />
       </Grid>
     </Grid>
   );
