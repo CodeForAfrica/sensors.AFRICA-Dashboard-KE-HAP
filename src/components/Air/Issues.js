@@ -1,51 +1,51 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import HealthEffects from './HealthEffects';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     paddingBottom: '2rem',
     paddingTop: '2rem',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   subheading: {
     paddingTop: '1rem',
     paddingBottom: '2rem',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
   },
   issues: {
     textAlign: 'center',
-    paddingBottom: '1rem'
+    paddingBottom: '1rem',
   },
   title: {
     textAlign: 'center',
-    textTransform: 'none'
+    textTransform: 'none',
   },
   caption: {
     paddingTop: '1rem',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   graph: {
     margin: '0 auto',
     width: '9rem',
     [theme.breakpoints.up('md')]: {
       width: '12rem',
-      padding: '0 1rem'
+      padding: '0 1rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '15rem'
-    }
-  }
-});
+      width: '15rem',
+    },
+  },
+}));
 
-function Issues({ classes }) {
+function Issues() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -68,8 +68,8 @@ function Issues({ classes }) {
           and is the biggest environmental health crisis we face
         </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Typography variant="caption" className={classes.caption}>
+      <Grid item xs={12} className={classes.caption}>
+        <Typography variant="caption">
           While it’s not always visible, air pollution is the cause of some of
           our most common illnesses.
         </Typography>
@@ -82,8 +82,4 @@ function Issues({ classes }) {
   );
 }
 
-Issues.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Issues);
+export default Issues;

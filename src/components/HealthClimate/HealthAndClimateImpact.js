@@ -1,42 +1,42 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import ImpactCard from './ImpactCard';
+import ImpactCard from 'components/HealthClimate/ImpactCards';
 
-import HealthImpact from '../../assets/images/healthimpacticon.png';
-import ClimateImpact from '../../assets/images/climateimpacticon.png';
+import HealthImpact from 'assets/images/healthimpacticon.png';
+import ClimateImpact from 'assets/images/climateimpacticon.png';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     paddingTop: '3rem',
     backgroundColor: 'white',
     [theme.breakpoints.up('md')]: {
-      paddingBottom: '3rem'
-    }
+      paddingBottom: '3rem',
+    },
   },
   health: {
     [theme.breakpoints.up('md')]: {
-      marginRight: '4.8125rem'
+      marginRight: '4.8125rem',
     },
     [theme.breakpoints.up('lg')]: {
-      marginRight: '1.875rem'
-    }
+      marginRight: '1.875rem',
+    },
   },
   climate: {
     [theme.breakpoints.up('md')]: {
-      marginLeft: '4.8125rem'
+      marginLeft: '4.8125rem',
     },
     [theme.breakpoints.up('lg')]: {
-      marginLeft: '1.875rem'
-    }
-  }
-});
+      marginLeft: '1.875rem',
+    },
+  },
+}));
 
-function HealthClimateCards({ classes }) {
+function HealthClimateCards() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -83,8 +83,4 @@ function HealthClimateCards({ classes }) {
   );
 }
 
-HealthClimateCards.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(HealthClimateCards);
+export default HealthClimateCards;

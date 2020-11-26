@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = () => ({
+const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    paddingBottom: '3rem'
+    paddingBottom: '3rem',
   },
   input: {
-    width: '31.25rem'
+    width: '31.25rem',
   },
   dense: {
-    marginTop: 16
+    marginTop: 16,
   },
   menu: {
-    width: 200
-  }
+    width: 200,
+  },
 });
-function Embed({ classes, city }) {
+function Embed({ city }) {
+  const classes = useStyles();
   const iframe = `
     <iframe src="https://sensors.africa/embeded/air/dial?city=${city.slug}"
             style="border: none;"
@@ -40,11 +41,10 @@ function Embed({ classes, city }) {
 }
 
 Embed.propTypes = {
-  classes: PropTypes.object.isRequired,
   city: PropTypes.shape({
     slug: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default withStyles(styles)(Embed);
+export default Embed;

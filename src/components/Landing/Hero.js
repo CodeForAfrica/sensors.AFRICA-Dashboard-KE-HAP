@@ -1,18 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import Logo from '../Logo';
-import TestQuality from './TestQuality';
+import Link from 'components/Link';
+import Logo from 'components/Logo';
+import TestQuality from 'components/Landing/TestQuality';
 
-import '../../assets/css/App.css';
-import bglanding from '../../assets/images/background/bglanding.jpg';
+import bglanding from 'assets/images/background/bglanding.jpg';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     textAlign: 'center',
@@ -20,23 +17,24 @@ const styles = theme => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     [theme.breakpoints.up('md')]: {
-      height: '100vh'
-    }
+      height: '100vh',
+    },
   },
   intro: {
     color: 'white',
     textAlign: 'center',
     textTransform: 'none',
     paddingTop: '1rem',
-    lineHeight: '3.5rem'
+    lineHeight: '3.5rem',
   },
   img: {
     height: '8rem',
-    maxWidth: '100%'
-  }
-});
+    maxWidth: '100%',
+  },
+}));
 
-function Hero({ classes }) {
+function Hero() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -45,7 +43,7 @@ function Hero({ classes }) {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <Link to="/">
+        <Link href="/">
           <Logo badge="landing" classes={{ img: classes.img }} />
         </Link>
       </Grid>
@@ -53,10 +51,9 @@ function Hero({ classes }) {
       <Grid item xs={6}>
         <Typography variant="h4" className={classes.intro}>
           We are here to give you actionable information about the quality of
-          your city&apos;s air, water and sound.
+          your city&apos;s air, water, sound and radiation levels.
         </Typography>
       </Grid>
-
       <Grid item xs={12}>
         <TestQuality />
       </Grid>
@@ -64,8 +61,4 @@ function Hero({ classes }) {
   );
 }
 
-Hero.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Hero);
+export default Hero;

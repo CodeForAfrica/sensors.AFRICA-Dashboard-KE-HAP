@@ -1,42 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography, ListItem, List, Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import '../../../assets/css/App.css';
-
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   findOutMore: {
-    color: theme.palette.primary.dark
+    color: theme.palette.primary.dark,
   },
   buttonContained: {
     backgroundColor: theme.palette.primary.light,
     color: '#fff',
     borderRadius: 0,
-    margin: theme.spacing.unit * 2,
-    marginLeft: 80
+    margin: theme.spacing(2),
+    marginLeft: 80,
   },
   body1: {
     fontSize: '14px',
     fontWeight: 'bold',
-    textDecoration: 'underline'
+    textDecoration: 'underline',
   },
   gridContent: {
     textAlign: 'center',
-    padding: '1.5rem'
+    padding: '1.5rem',
   },
   tweetContent: {
-    fontSize: theme.typography.fontSize
+    fontSize: theme.typography.fontSize,
   },
   titleText: {
     marginLeft: '4.5rem',
     color: theme.palette.primary.light,
-    fontSize: theme.typography.fontSize
-  }
-});
+    fontSize: theme.typography.fontSize,
+  },
+}));
 
-function ArrowCards({ classes }) {
+function ArrowCards() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -147,8 +145,4 @@ function ArrowCards({ classes }) {
     </Grid>
   );
 }
-
-ArrowCards.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-export default withStyles(styles)(ArrowCards);
+export default ArrowCards;

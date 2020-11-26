@@ -2,24 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import DataTable from './DataTable';
+import DataTable from 'components/City/SensorsQualityStats/DataTable';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop: theme.spacing.unit * 0,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(4),
   },
   statsSummary: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '19.875rem'
+      width: '19.875rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '26.5rem'
-    }
+      width: '26.5rem',
+    },
   },
 
   // TODO(kilemensi): Currently statsSummary is not implemented yet so make
@@ -29,20 +29,20 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: '59.625rem',
       borderTop: '1px solid rgba(0,0,0,0.1)',
-      borderBottom: '1px solid rgba(0,0,0,0.1)'
+      borderBottom: '1px solid rgba(0,0,0,0.1)',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '79.5rem'
-    }
-  }
-});
+      width: '79.5rem',
+    },
+  },
+}));
 
 function SensorsQualityStats({
-  classes,
   cityHumidityStats,
   cityTemperatureStats,
-  cityP2Stats
+  cityP2Stats,
 }) {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -64,9 +64,8 @@ function SensorsQualityStats({
 }
 
 SensorsQualityStats.propTypes = {
-  classes: PropTypes.object.isRequired,
-  cityHumidityStats: PropTypes.object.isRequired,
-  cityTemperatureStats: PropTypes.object.isRequired,
-  cityP2Stats: PropTypes.object.isRequired
+  cityHumidityStats: PropTypes.shape({}).isRequired,
+  cityTemperatureStats: PropTypes.shape({}).isRequired,
+  cityP2Stats: PropTypes.shape({}).isRequired,
 };
-export default withStyles(styles)(SensorsQualityStats);
+export default SensorsQualityStats;

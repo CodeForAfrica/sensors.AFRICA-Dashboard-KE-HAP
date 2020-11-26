@@ -1,25 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import Link from 'components/Link';
 
 import {
   Button,
   Card,
   CardContent,
   Grid,
-  Typography
+  Typography,
 } from '@material-ui/core/';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const howToLink = props => <Link to="/air/how-sensors-work" {...props} />;
+const howToLink = (props) => <Link href="/air/how-sensors-work" {...props} />;
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
     flexGrow: 1,
     [theme.breakpoints.up('md')]: {
-      paddingBottom: '3rem'
-    }
+      paddingBottom: '3rem',
+    },
   },
   sensorsWorkCard: {
     color: '#fff',
@@ -29,14 +28,14 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: '25rem',
       height: '13.25rem',
-      marginRight: '4.8125rem'
+      marginRight: '4.8125rem',
     },
     [theme.breakpoints.up('lg')]: {
       paddingTop: '4rem',
       width: '37.875rem',
       height: '21.75rem',
-      marginRight: '1.875rem'
-    }
+      marginRight: '1.875rem',
+    },
   },
   joinNowCard: {
     color: '#fff',
@@ -47,29 +46,29 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: '25rem',
       height: '13.25rem',
-      marginLeft: '4.8125rem'
+      marginLeft: '4.8125rem',
     },
     [theme.breakpoints.up('lg')]: {
       paddingTop: '4rem',
       width: '37.875rem',
       height: '21.75rem',
-      marginLeft: '1.875rem'
-    }
+      marginLeft: '1.875rem',
+    },
   },
   cardContent: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   typography: {
     textAlign: 'center',
     color: '#fff',
     [theme.breakpoints.up('lg')]: {
       fontSize: theme.typography.h4.fontSize,
-      fontWeight: theme.typography.h4.fontWeight
-    }
+      fontWeight: theme.typography.h4.fontWeight,
+    },
   },
   buttonContainer: {
     paddingTop: '2rem',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   learnMorebutton: {
     backgroundColor: theme.palette.primary.dark,
@@ -82,8 +81,8 @@ const styles = theme => ({
       fontSize: theme.typography.subtitle1.fontSize,
       height: '3.5rem',
       paddingLeft: '2rem',
-      paddingRight: '2rem'
-    }
+      paddingRight: '2rem',
+    },
   },
   joinNowbutton: {
     backgroundColor: '#f3f3f3',
@@ -95,12 +94,13 @@ const styles = theme => ({
       fontSize: theme.typography.subtitle1.fontSize,
       height: '3.5rem',
       paddingLeft: '2rem',
-      paddingRight: '2rem'
-    }
-  }
-});
+      paddingRight: '2rem',
+    },
+  },
+}));
 
-function CallToAction({ classes }) {
+function CallToAction() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -159,7 +159,4 @@ function CallToAction({ classes }) {
   );
 }
 
-CallToAction.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-export default withStyles(styles)(CallToAction);
+export default CallToAction;

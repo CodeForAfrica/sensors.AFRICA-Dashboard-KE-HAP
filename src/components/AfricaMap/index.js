@@ -6,21 +6,21 @@ import { withStyles } from '@material-ui/core/styles';
 
 import IframeComponent from './IframeComponent';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     height: 610,
     width: '100%',
     marginBottom: '3rem',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   headline: {
     textAlign: 'center',
-    paddingBottom: theme.spacing.unit * 3
+    paddingBottom: theme.spacing.unit * 3,
   },
   caption: {
-    textTransform: 'none'
-  }
+    textTransform: 'none',
+  },
 });
 
 function AfricaMap({ classes }) {
@@ -54,6 +54,6 @@ function AfricaMap({ classes }) {
 }
 
 AfricaMap.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape({}).isRequired,
 };
 export default withStyles(styles)(AfricaMap);

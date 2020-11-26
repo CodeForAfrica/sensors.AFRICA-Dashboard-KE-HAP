@@ -1,91 +1,91 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import business from '../../assets/images/logos/business.png';
-import premium from '../../assets/images/logos/premium.png';
-import guardian from '../../assets/images/logos/guardian.png';
-import nation from '../../assets/images/logos/nation.png';
-import star from '../../assets/images/logos/star.jpg';
-import womanng from '../../assets/images/logos/womanng.png';
-import dailynation from '../../assets/images/logos/dailynation.png';
-import cable from '../../assets/images/logos/cable.png';
-import code from '../../assets/images/logos/cfafrica_gray.png';
-import innovate from '../../assets/images/logos/innovateafrica_gray.jpg';
-import luftdaten from '../../assets/images/logos/luftdaten.jpg';
+import business from 'assets/images/logos/business.png';
+import premium from 'assets/images/logos/premium.png';
+import guardian from 'assets/images/logos/guardian.png';
+import nation from 'assets/images/logos/nation.png';
+import star from 'assets/images/logos/star.jpg';
+import womanng from 'assets/images/logos/womanng.png';
+import dailynation from 'assets/images/logos/dailynation.png';
+import cable from 'assets/images/logos/cable.png';
+import code from 'assets/images/logos/cfafrica_gray.png';
+import innovate from 'assets/images/logos/innovateafrica_gray.jpg';
+import luftdaten from 'assets/images/logos/luftdaten.jpg';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   mediaTypography: {
-    paddingTop: theme.spacing.unit * 6,
+    paddingTop: theme.spacing(6),
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   partnerTypography: {
-    paddingTop: theme.spacing.unit * 6,
+    paddingTop: theme.spacing(6),
     // textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   mainGrid: {
     flexGrow: 1,
     [theme.breakpoints.up('sm')]: {
       paddingLeft: '8rem',
-      paddingRight: '8rem'
-    }
+      paddingRight: '8rem',
+    },
   },
   imgContainer: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   mediaImg: {
     maxWidth: '100%',
     height: 'auto',
-    maxHeight: 100
+    maxHeight: 100,
   },
   logoImg: {
     maxWidth: '100%',
     height: 50,
     padding: '0 8px',
     [theme.breakpoints.up('sm')]: {
-      height: 60
+      height: 60,
     },
     filter: 'grayscale(1)',
     [theme.breakpoints.up('md')]: {
-      height: 70
-    }
+      height: 70,
+    },
   },
   img: {
     maxWidth: '100%',
     height: 50,
     padding: '0 8px',
     [theme.breakpoints.up('sm')]: {
-      height: 60
+      height: 60,
     },
     filter: 'grayscale(1)',
     [theme.breakpoints.up('md')]: {
-      height: 100
-    }
+      height: 100,
+    },
   },
   partnersContainer: {
-    margin: theme.spacing.unit * 6,
+    margin: theme.spacing(6),
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
-      paddingTop: 0
-    }
+      paddingTop: 0,
+    },
   },
   titleGrid: {
-    padding: '1rem 0'
+    padding: '1rem 0',
   },
   logoContainer: {
-    padding: '0 2rem'
-  }
-});
+    padding: '0 2rem',
+  },
+}));
 
-function Partners({ classes }) {
+function Partners(props) {
+  const classes = useStyles(props);
   return (
     <Grid
       container
@@ -205,7 +205,4 @@ function Partners({ classes }) {
   );
 }
 
-Partners.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-export default withStyles(styles)(Partners);
+export default Partners;

@@ -2,24 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { HashLink } from 'react-router-hash-link';
+import { makeStyles } from '@material-ui/core/styles';
+// import { HashLink } from 'react-router-hash-link';
 
-import HostSensorButton from './HostSensorButton';
-import ShareButton from './ShareButton';
+import HostSensorButton from 'components/City/HostSensors/HostSensorButton';
+import ShareButton from 'components/City/HostSensors/ShareButton';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: '2rem'
+    paddingTop: '2rem',
   },
   button: {
     margin: '0.25rem 1rem',
     width: '100%',
     [theme.breakpoints.up('md')]: {
       margin: 0,
-      width: 'auto'
-    }
+      width: 'auto',
+    },
   },
   buttonLink: {
     display: 'block',
@@ -27,12 +27,13 @@ const styles = theme => ({
     textDecoration: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'inline-block',
-      width: 'auto'
-    }
-  }
-});
+      width: 'auto',
+    },
+  },
+}));
 
-function HostSensorButtons({ city, classes }) {
+function HostSensorButtons({ city }) {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -61,9 +62,7 @@ function HostSensorButtons({ city, classes }) {
         </a>
       </Grid>
       <Grid item className={classes.button}>
-        <HashLink smooth to="#map" className={classes.buttonLink}>
-          <HostSensorButton>EXPLORE</HostSensorButton>
-        </HashLink>
+        <HostSensorButton href="#map">EXPLORE</HostSensorButton>
       </Grid>
       <Grid item className={classes.button}>
         <ShareButton city={city}>SHARE</ShareButton>
@@ -73,7 +72,7 @@ function HostSensorButtons({ city, classes }) {
 }
 
 HostSensorButtons.propTypes = {
-  classes: PropTypes.object.isRequired,
-  city: PropTypes.shape({}).isRequired
+  city: PropTypes.shape({}).isRequired,
 };
-export default withStyles(styles)(HostSensorButtons);
+
+export default HostSensorButtons;

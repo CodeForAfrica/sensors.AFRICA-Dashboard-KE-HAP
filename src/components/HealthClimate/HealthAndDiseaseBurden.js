@@ -1,52 +1,52 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import HealthEffects from '../Air/HealthEffects';
-import Burden from './Burden';
+import HealthEffects from 'components/Air/HealthEffects';
+import Burden from 'components/HealthClimate/Burden';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
-    display: 'block'
+    display: 'block',
   },
   grid: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   mainTitle: {
     textAlign: 'center',
     fontWeight: 800,
-    fontSize: theme.typography.fontSize
+    fontSize: theme.typography.fontSize,
   },
   caption: {
     paddingTop: '1rem',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   graph: {
     margin: '0 auto',
     width: '9rem',
     [theme.breakpoints.up('md')]: {
       width: '12rem',
-      padding: '0 1rem'
+      padding: '0 1rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '15rem'
-    }
+      width: '15rem',
+    },
   },
   titleGrid: {
     marginRight: '15%',
-    marginLeft: '15%'
+    marginLeft: '15%',
   },
   title: {
     textAlign: 'center',
-    textTransform: 'None'
-  }
-});
+    textTransform: 'None',
+  },
+}));
 
-function HealthAndBurden({ classes }) {
+function HealthAndBurden() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -73,8 +73,5 @@ function HealthAndBurden({ classes }) {
     </Grid>
   );
 }
-HealthAndBurden.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
-export default withStyles(styles)(HealthAndBurden);
+export default HealthAndBurden;

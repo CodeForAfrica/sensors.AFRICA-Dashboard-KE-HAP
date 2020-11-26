@@ -1,32 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import MenuBar from '../Header/MenuBar';
-import AboutHeaderContent from '../Header/JumbotronContent/AboutHeaderContent';
+import MenuBar from 'components/Header/MenuBar';
+import AboutHeaderContent from 'components/Header/JumboContent/AboutHeaderContent';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   jumbotron: {
     flexGrow: 1,
-    backgroundColor: '#424143',
+    backgroundColor: theme.palette.secondary.main,
     borderRadius: 'none',
     [theme.breakpoints.up('md')]: {
-      height: 450
-    }
+      height: 450,
+    },
   },
   link: {
     paddingRight: '0.2rem',
     paddingLeft: '0.2rem',
     color: 'white',
     '&:hover': {
-      color: '#2FB56B'
-    }
-  }
-});
+      color: '#2FB56B',
+    },
+  },
+}));
 
-function AboutHeader({ classes }) {
+function AboutHeader(props) {
+  const classes = useStyles(props);
   return (
     <Grid
       container
@@ -46,7 +46,7 @@ function AboutHeader({ classes }) {
             <a href="https://luftdaten.info/" className={classes.link}>
               Luftdaten project
             </a>,
-            '. The initiative was seed-funded by innovateAFRICA and is being incubated by Code for Africa.'
+            '. The initiative was seed-funded by innovateAFRICA and is being incubated by Code for Africa.',
           ]}
         />
       </Grid>
@@ -54,8 +54,4 @@ function AboutHeader({ classes }) {
   );
 }
 
-AboutHeader.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(AboutHeader);
+export default AboutHeader;

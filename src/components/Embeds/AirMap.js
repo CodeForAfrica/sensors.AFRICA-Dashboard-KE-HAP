@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CITIES_LOCATION } from '../../api';
+import { CITIES_LOCATION } from 'api';
 
-function AirMap({ location }) {
-  const params = new URLSearchParams(location.search);
-  const city = params.get('city');
+function AirMap({ city }) {
   return (
     <iframe
       src={`https://v2.map.aq.sensors.africa/#${CITIES_LOCATION[city].zoom}/${CITIES_LOCATION[city].latitude}/${CITIES_LOCATION[city].longitude}`}
@@ -17,7 +15,7 @@ function AirMap({ location }) {
       width="100%"
       style={{
         width: '100vw',
-        height: '100vh'
+        height: '100vh',
       }}
       allowFullScreen
     />
@@ -25,7 +23,7 @@ function AirMap({ location }) {
 }
 
 AirMap.propTypes = {
-  location: PropTypes.isRequired
+  city: PropTypes.string.isRequired,
 };
 
 export default AirMap;

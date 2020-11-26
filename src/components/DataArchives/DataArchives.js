@@ -1,34 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   main: {
     paddingBottom: '3rem',
     [theme.breakpoints.up('md')]: {
-      width: '59.625rem'
+      width: '59.625rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '79.5rem'
-    }
+      width: '79.5rem',
+    },
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: theme.spacing.unit * 6,
+    paddingTop: theme.spacing(6),
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   title: {
     fontWeight: 700,
     fontSize: '1rem',
     paddingTop: '2rem',
-    paddingBottom: '1rem'
+    paddingBottom: '1rem',
   },
   dlFirst: {
     padding: '1rem 0.5rem',
@@ -36,59 +35,59 @@ const styles = theme => ({
     borderBottom: '1px solid #f0f4f7',
     [theme.breakpoints.up('md')]: {
       paddingLeft: 0,
-      paddingRight: 0
-    }
+      paddingRight: 0,
+    },
   },
   dl: {
     padding: '1rem 0.5rem',
     borderBottom: '1px solid #f0f4f7',
     [theme.breakpoints.up('md')]: {
       paddingLeft: 0,
-      paddingRight: 0
-    }
+      paddingRight: 0,
+    },
   },
   dt: {
     [theme.breakpoints.up('md')]: {
-      width: '29.8125rem'
+      width: '29.8125rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '39.75rem'
+      width: '39.75rem',
     },
-    marginBottom: '0.5rem'
+    marginBottom: '0.5rem',
   },
   dd: {
     [theme.breakpoints.up('md')]: {
       width: '29.8125rem',
-      float: 'left'
+      float: 'left',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '39.75rem'
-    }
+      width: '39.75rem',
+    },
   },
   code: {
     display: 'inline-block',
     color: theme.palette.secondary.main,
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   query: {
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   queryParam: {
     color: theme.palette.primary.dark,
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   queryDescription: {
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   var: {
     color: theme.palette.primary.dark,
     fontStyle: 'italic',
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   wiki: {
-    marginTop: '2rem'
-  }
-});
+    marginTop: '2rem',
+  },
+}));
 
 const sensors = 'https://api.sensors.africa/v1/sensors/{sensor_id}/';
 const query = 'https://api.sensors.africa/v1/filter?city=&country=&type=';
@@ -113,7 +112,8 @@ const valueType = '{P1, P2, temperature, humidity}';
 // const area = '{lat, lon, distance}';
 // const box = '{lat1, lon1, lat2, lon2}';
 
-function DataArchives({ classes }) {
+function DataArchives() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -536,8 +536,4 @@ function DataArchives({ classes }) {
   );
 }
 
-DataArchives.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(DataArchives);
+export default DataArchives;

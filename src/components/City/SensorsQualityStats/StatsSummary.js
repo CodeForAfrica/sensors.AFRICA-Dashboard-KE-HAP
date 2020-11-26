@@ -1,42 +1,42 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Button, Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     [theme.breakpoints.down('lg')]: {
-      paddingBottom: '3rem'
-    }
+      paddingBottom: '3rem',
+    },
   },
   button: {
     backgroundColor: theme.palette.primary.dark,
     color: '#fff',
     height: 50,
     width: 100,
-    borderRadius: 0
+    borderRadius: 0,
   },
   container: {
     textAlign: 'center',
-    paddingTop: '0.4rem'
+    paddingTop: '0.4rem',
   },
   buttonConnectText: {
-    margin: '2rem'
+    margin: '2rem',
   },
   display2: {
-    color: theme.palette.primary.light
+    color: theme.palette.primary.light,
   },
   caption: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   small: {
-    fontSize: '1.5rem'
-  }
-});
+    fontSize: '1.5rem',
+  },
+}));
 
-function StatsSummary({ classes }) {
+function StatsSummary() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -96,7 +96,4 @@ function StatsSummary({ classes }) {
   );
 }
 
-StatsSummary.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-export default withStyles(styles)(StatsSummary);
+export default StatsSummary;

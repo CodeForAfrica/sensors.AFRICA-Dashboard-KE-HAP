@@ -1,38 +1,37 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
-    padding: '2rem'
+    padding: '2rem',
   },
   mainTitle: {
     color: theme.palette.primary.light,
     textAlign: 'center',
-    fontSize: theme.typography.h6.fontSize
+    fontSize: theme.typography.h6.fontSize,
   },
   subTitle: {
     textAlign: 'center',
-    fontWeight: 600
+    fontWeight: 600,
   },
   body: {
-    paddingTop: '1.5rem'
+    paddingTop: '1.5rem',
   },
   bodyCopy: {
-    textAlign: 'center'
-  }
-});
-
+    textAlign: 'center',
+  },
+}));
 function PollutionSource({
-  classes,
   title,
   sources,
   impact,
   reduction,
-  backgroundColor
+  backgroundColor,
 }) {
+  const classes = useStyles();
   return (
     <Grid
       direction="row"
@@ -84,16 +83,15 @@ function PollutionSource({
 }
 
 PollutionSource.propTypes = {
-  classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   sources: PropTypes.string.isRequired,
   impact: PropTypes.string.isRequired,
   reduction: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string
+  backgroundColor: PropTypes.string,
 };
 
 PollutionSource.defaultProps = {
-  backgroundColor: '#F3F3F3'
+  backgroundColor: '#F3F3F3',
 };
 
-export default withStyles(styles)(PollutionSource);
+export default PollutionSource;

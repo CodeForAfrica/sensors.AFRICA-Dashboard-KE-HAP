@@ -1,29 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
+import risingtemperature from 'assets/images/icons/Risingtemperature.png';
+import snowmelt from 'assets/images/icons/snowmelt.png';
+import cropdamage from 'assets/images/icons/cropdamage.png';
 import PollutionBurden from './PollutionBurden';
 
-import risingtemperature from '../../assets/images/icons/Risingtemperature.png';
-import snowmelt from '../../assets/images/icons/snowmelt.png';
-import cropdamage from '../../assets/images/icons/cropdamage.png';
-
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
     backgroundColor: 'white',
-    paddingBottom: '3rem'
+    paddingBottom: '3rem',
   },
   titleContainer: {
     marginLeft: '15%',
     marginRight: '15%',
-    paddingBottom: '3rem'
+    paddingBottom: '3rem',
   },
   title: {
     textAlign: 'center',
-    textTransform: 'none'
+    textTransform: 'none',
   },
 
   // For temparate, snowAndIce, and crops cards, include margins in width since
@@ -32,35 +30,36 @@ const styles = theme => ({
     width: '100vw',
     backgroundColor: theme.palette.primary.light,
     [theme.breakpoints.up('md')]: {
-      width: '19.875rem'
+      width: '19.875rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '26.5rem'
-    }
+      width: '26.5rem',
+    },
   },
   snowAndIce: {
     width: '100vw',
     backgroundColor: theme.palette.primary.dark,
     [theme.breakpoints.up('md')]: {
-      width: '19.875rem'
+      width: '19.875rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '26.5rem'
-    }
+      width: '26.5rem',
+    },
   },
   crops: {
     width: '100vw',
     backgroundColor: theme.palette.primary.light,
     [theme.breakpoints.up('md')]: {
-      width: '19.875rem'
+      width: '19.875rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '26.5rem'
-    }
-  }
-});
+      width: '26.5rem',
+    },
+  },
+}));
 
-function Burden({ classes }) {
+function Burden() {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -116,8 +115,5 @@ function Burden({ classes }) {
     </Grid>
   );
 }
-Burden.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
-export default withStyles(styles)(Burden);
+export default Burden;

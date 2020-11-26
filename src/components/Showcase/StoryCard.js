@@ -1,57 +1,57 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   Typography,
   Card,
   CardActionArea,
   CardMedia,
-  CardContent
+  CardContent,
 } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import '../../assets/css/App.css';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100vw',
     height: '100%',
     backgroundColor: '#fafafa',
     border: '1px solid #eeeeee',
+    maxWidth: '100%',
     opacity: 0.9,
     '&:hover': {
       opacity: 1,
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
     },
     [theme.breakpoints.up('md')]: {
-      width: '19.875rem'
+      width: '19.875rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '26.5rem'
-    }
+      width: '26.5rem',
+    },
   },
   media: {
     height: 0,
     paddingTop: '56.25%',
-    width: '100%'
+    width: '100%',
   },
   cardLink: {
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   overline: {
     color: '#c7c7c7',
     opacity: '0.5',
     fontSize: '14px',
-    paddingTop: '1rem'
+    paddingTop: '1rem',
   },
   body: {
-    color: theme.typography.h5.color
+    color: theme.typography.h5.color,
   },
   bodyArea: {
-    paddingTop: '2rem'
-  }
-});
+    paddingTop: '2rem',
+  },
+}));
 
-function StoryCard({ story, classes }) {
+function StoryCard({ story }) {
+  const classes = useStyles();
   const { image, date, title, body, link } = story;
 
   return (
@@ -83,9 +83,4 @@ function StoryCard({ story, classes }) {
   );
 }
 
-StoryCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  story: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(StoryCard);
+export default StoryCard;

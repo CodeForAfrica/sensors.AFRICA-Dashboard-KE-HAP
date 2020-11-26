@@ -1,28 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import {
   Card,
   CardActionArea,
   CardMedia,
   Grid,
   Typography,
-  CardContent
+  CardContent,
 } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-import chege from '../../assets/images/team/chege.png';
-import kirah from '../../assets/images/team/kirah.jpeg';
+import chege from 'assets/images/team/chege.png';
+import kirah from 'assets/images/team/kirah.jpeg';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     paddingTop: '2.5rem',
     paddingBottom: '2.5rem',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   staffRoot: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   card: {
     // height: 200,
@@ -33,42 +31,43 @@ const styles = theme => ({
       marginLeft: '0.1rem',
       marginRight: '0.1rem',
       width: '18.5rem',
-      display: 'inline-block'
+      display: 'inline-block',
     },
     [theme.breakpoints.up('md')]: {
       marginLeft: '1rem',
       marginRight: '1rem',
-      width: '20.75rem'
-    }
+      width: '20.75rem',
+    },
   },
   cardMedia: {
     height: 200,
     objectFit: 'cover',
     maxWidth: '20.75rem',
-    margin: 'auto'
+    margin: 'auto',
   },
   carContent: {
-    padding: 0
+    padding: 0,
   },
   title: {
     fontWeight: 800,
     fontSize: '1rem',
-    marginBottom: theme.spacing.unit * 3
+    marginBottom: theme.spacing(3),
   },
   h6: {
     textTransform: 'Uppercase',
-    fontWeight: 'bolder'
+    fontWeight: 'bolder',
   },
   a: {
     textDecoration: 'none',
     color: 'rgba(0, 0, 0, 0.87)',
     '&:hover': {
-      color: theme.palette.primary.light
-    }
-  }
-});
+      color: theme.palette.primary.light,
+    },
+  },
+}));
 
-function Staff({ classes }) {
+function Staff(props) {
+  const classes = useStyles(props);
   return (
     <Grid
       container
@@ -124,7 +123,7 @@ function Staff({ classes }) {
                 WARUKIRA THEURI
               </Typography>
               <Typography variant="subtitle1">
-                kira at codeforafrica.org
+                kirah at codeforafrica.org
               </Typography>
               <Typography variant="subtitle1">
                 <a className={classes.a} href="https://twitter.com/warukira_m">
@@ -139,8 +138,4 @@ function Staff({ classes }) {
   );
 }
 
-Staff.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Staff);
+export default Staff;

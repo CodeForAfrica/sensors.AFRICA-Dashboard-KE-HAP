@@ -7,8 +7,8 @@ const styles = {
   fullHeight: {
     display: 'inline-block',
     margin: '0 auto',
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+  },
 };
 
 function MapAfrica({
@@ -18,7 +18,7 @@ function MapAfrica({
   height,
   width,
   frameBorder,
-  scrolling
+  scrolling,
 }) {
   return (
     <iframe
@@ -35,19 +35,19 @@ function MapAfrica({
 }
 
 MapAfrica.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   height: PropTypes.string,
   width: PropTypes.string,
   frameBorder: PropTypes.string,
-  scrolling: PropTypes.string
+  scrolling: PropTypes.string,
 };
 
 MapAfrica.defaultProps = {
   height: '',
   width: '',
   frameBorder: '0',
-  scrolling: 'auto'
+  scrolling: 'auto',
 };
 export default withStyles(styles)(MapAfrica);

@@ -1,40 +1,43 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 
 import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+
 import classNames from 'classnames';
 
-import logowhite from '../assets/images/logos/logowhite.png';
+import logowhite from 'assets/images/logos/logowhite.png';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   defaultBadge: {
     zIndex: 1301,
     top: '5.8rem',
     right: '1.65rem',
     color: theme.palette.primary.dark,
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   defaultActiveBadge: {
     zIndex: 1301,
     top: '5.8rem',
     right: '1.65rem',
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   landingBadge: {
     zIndex: 1301,
     top: '7.175rem',
     right: '1.65rem',
-    fontSize: theme.typography.caption.fontSize
+    fontSize: theme.typography.caption.fontSize,
   },
   logo: {
     zIndex: 1301,
-    position: 'relative'
+    position: 'relative',
   },
-  img: {}
-});
+  img: {},
+}));
 
-function Logo({ badge, active, classes }) {
+function Logo({ badge, active }) {
+  const classes = useStyles();
   const activeStatus = active && badge === 'default' ? 'Active' : '';
   const imgClassName = classNames(classes.logo, classes.img);
   return (
@@ -54,13 +57,12 @@ function Logo({ badge, active, classes }) {
 
 Logo.propTypes = {
   active: PropTypes.bool,
-  classes: PropTypes.object.isRequired,
-  badge: PropTypes.string
+  badge: PropTypes.string,
 };
 
 Logo.defaultProps = {
   active: false,
-  badge: 'default'
+  badge: 'default',
 };
 
-export default withStyles(styles)(Logo);
+export default Logo;

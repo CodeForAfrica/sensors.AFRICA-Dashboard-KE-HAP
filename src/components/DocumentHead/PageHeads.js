@@ -9,20 +9,23 @@ const URLS = {
     // Redirect /air/city to /air/city/nairobi
     CITY_HOME: '/air/city',
     CITY_DEFAULT: '/air/city/nairobi',
-    CITY: '/air/city/:city(nairobi|dar-es-salaam|lagos)',
-    COUNTRY_HOME: '/air/country',
-    COUNTRY_DEFAULT: '/air/country/nairobi',
+    CITY_DSM: '/air/city/dar-es-salaam',
+    CITY_LAGOS: '/air/city/lagos',
+    CITY_NAIROBI: '/air/city/nairobi',
     HOW_SENSORS_WORK: '/air/how-sensors-work',
     IMPACT: '/air/health-and-climate-impact',
-    JOIN: '/air/join-network'
+    JOIN: '/air/join-network',
   },
   WATER: {
-    HOME: '/water'
+    HOME: '/water',
   },
   SOUND: {
-    HOME: '/sound'
+    HOME: '/sound',
   },
-  NOT_FOUND: '*'
+  RADIATION: {
+    HOME: '/radiation',
+  },
+  NOT_FOUND: '*',
 };
 
 export { URLS };
@@ -31,66 +34,76 @@ export default [
   {
     url: URLS.HOME,
     title: 'sensors.AFRICA | Home',
-    color: 'black'
+    color: 'black',
   },
   {
     url: URLS.ABOUT,
     title: 'sensors.AFRICA | ABOUT',
-    color: 'black'
+    color: 'black',
   },
   {
     url: URLS.AIR.DATA,
     title: 'sensors.AFRICA | Air | DATA',
-    color: 'green'
+    color: 'green',
   },
   {
     url: URLS.AIR.HOME,
     title: 'sensors.AFRICA | Air | Home',
-    color: 'green'
+    color: 'green',
   },
   {
     url: URLS.AIR.ABOUT,
     title: 'sensors.AFRICA | Air | About',
-    color: 'green'
+    color: 'green',
   },
   {
     url: URLS.AIR.JOIN,
     title: 'sensors.AFRICA | Air | Join Network',
-    color: 'green'
+    color: 'green',
   },
   {
     url: URLS.AIR.HOW_SENSORS_WORK,
     title: 'sensors.AFRICA | Air | How Sensors Work',
-    color: 'green'
+    color: 'green',
   },
   {
     url: URLS.AIR.IMPACT,
     title: 'sensors.AFRICA | Air | Health and Climate Impacts',
-    color: 'green'
+    color: 'green',
   },
   {
-    url: URLS.AIR.CITY,
-    title: 'sensors.AFRICA | Air | City',
-    color: 'green'
+    url: URLS.AIR.CITY_DSM,
+    title: 'sensors.AFRICA | Air | Dar es Salaam',
+    color: 'green',
   },
   {
-    url: URLS.AIR.COUNTRY,
-    title: 'sensors.AFRICA | Air | Country',
-    color: 'green'
+    url: URLS.AIR.CITY_LAGOS,
+    title: 'sensors.AFRICA | Air | Lagos',
+    color: 'green',
   },
   {
-    url: URLS.WATER.HOME,
-    title: 'sensors.AFRICA | Water | Coming Soon',
-    color: 'blue'
+    url: URLS.AIR.CITY_NAIROBI,
+    title: 'sensors.AFRICA | Air | Nairobi',
+    color: 'green',
+  },
+  {
+    url: URLS.RADIATION.HOME,
+    title: 'sensors.AFRICA | Radiation | Coming Soon',
+    color: 'orange',
   },
   {
     url: URLS.SOUND.HOME,
     title: 'sensors.AFRICA | Sound | Coming Soon',
-    color: 'purple'
+    color: 'purple',
+  },
+  {
+    url: URLS.WATER.HOME,
+    title: 'sensors.AFRICA | Water | Coming Soon',
+    color: 'blue',
   },
   {
     url: URLS.NOT_FOUND,
     title: 'sensors.AFRICA | Page Not Found',
-    color: 'black'
-  }
+    color: 'black',
+  },
 ];
