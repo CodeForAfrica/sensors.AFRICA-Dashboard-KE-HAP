@@ -24,7 +24,7 @@ function Link(props) {
   const router = useRouter();
 
   const className = classNames(classNameProps, {
-    [activeClassName]: router.pathname === href && activeClassName
+    [activeClassName]: router.pathname === href && activeClassName,
   });
 
   if (naked) {
@@ -54,10 +54,10 @@ Link.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
   href: PropTypes.string,
-  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
   naked: PropTypes.bool,
   onClick: PropTypes.func,
-  prefetch: PropTypes.bool
+  prefetch: PropTypes.bool,
 };
 
 Link.defaultProps = {
@@ -68,7 +68,7 @@ Link.defaultProps = {
   innerRef: undefined,
   naked: undefined,
   onClick: undefined,
-  prefetch: undefined
+  prefetch: undefined,
 };
 
 export default React.forwardRef((props, ref) => (

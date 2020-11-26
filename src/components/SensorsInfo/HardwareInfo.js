@@ -8,60 +8,60 @@ import DHT22 from 'assets/images/sensors/sensor2.jpg';
 import GSMSIM800L from 'assets/images/sensors/sensor3.jpg';
 import NODEMCU from 'assets/images/sensors/sensor4.jpg';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: 'white',
     [theme.breakpoints.up('md')]: {
       paddingRight: '10%',
-      paddingLeft: '10%'
-    }
+      paddingLeft: '10%',
+    },
   },
   column: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '23rem'
+      width: '23rem',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '31rem'
-    }
+      width: '31rem',
+    },
   },
   titleSection: {
     paddingBottom: '1rem',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     color: 'green',
-    paddingTop: '2rem'
+    paddingTop: '2rem',
   },
   subheading: {
     color: theme.palette.secondary.main,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   caption: {
     textAlign: 'center',
     // paddingLeft: '20%',
     // paddingRight: '20%',
-    paddingBottom: '2rem'
+    paddingBottom: '2rem',
     // textAlign: 'justify'
   },
   captionGrid: {
     marginRight: '3.5rem',
     marginLeft: '3.5rem',
     textAlign: 'center',
-    paddingBottom: '2rem'
+    paddingBottom: '2rem',
   },
   img: {
     maxWidth: '100%',
-    height: 'auto'
+    height: 'auto',
   },
   subtitle1: {
     textAlign: 'center',
     paddingTop: '2.5rem',
     backgroundColor: 'white',
     color: theme.palette.secondary.main,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 }));
 
 function HardwareInfo() {
