@@ -110,6 +110,17 @@ const CITIES_LOCATION = {
     center: '-6.7846,39.2669',
     twitterHandle: '#DarEsSalaam',
   },
+  africa: {
+    slug: 'africa',
+    latitude: '6.4552',
+    longitude: '3.4198',
+    name: 'Africa',
+    country: 'Nigeria',
+    label: 'Africa',
+    zoom: '12',
+    center: '6.4552,3.4198',
+    twitterHandle: '@followlasg',
+  },
 };
 
 // const COUNTRIES_LOCATION = {
