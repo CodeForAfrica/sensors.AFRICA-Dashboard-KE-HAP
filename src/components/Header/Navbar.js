@@ -3,6 +3,7 @@ import React from 'react';
 import { AppBar, Grid, MenuItem, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'components/Link';
+import Logo from 'components/Logo';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -45,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     transition: 'all .5s ease-in-out',
     paddingTop: '20px',
   },
+  img: {
+    height: '8rem',
+    maxWidth: '100%',
+  },
 }));
 
 function Navbar(props) {
@@ -68,7 +73,9 @@ function Navbar(props) {
                 justify="center"
                 classes={{ root: classes.titleContainer }}
               >
-                Sensors Dashboard
+                <Link href="/">
+                  <Logo badge="landing" classes={{ img: classes.img }} />
+                </Link>
               </Grid>
               <Grid
                 item
