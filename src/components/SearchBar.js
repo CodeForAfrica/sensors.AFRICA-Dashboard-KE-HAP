@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: '5rem',
     paddingLeft: '2rem',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '3rem',
