@@ -5,7 +5,14 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
-import { VictoryChart, VictoryTheme, VictoryLine, VictoryAxis } from 'victory';
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryLine,
+  VictoryAxis,
+  VictoryLegend,
+} from 'victory';
+import getRandomColor from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function QualityStatsGraph({ data, width }) {
+function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
   const classes = useStyles();
   let chartWidth = window.innerWidth;
   let labelAngle = 45;
@@ -36,6 +43,16 @@ function QualityStatsGraph({ data, width }) {
     }
   }
   const chartHeight = chartWidth * (6 / 16) + 20;
+  let dataArray;
+  if (Array.isArray(dataProps)) {
+    dataArray = [dataProps];
+  } else if (dataProps.isMultiChart) {
+    dataArray = dataProps.data.array;
+  } else {
+    return null;
+  }
+  const colors = dataArray.map(() => getRandomColor());
+  const legend = dataArray.map((data) => ({ name: data.name }));
 
   return (
     <Grid
@@ -54,6 +71,7 @@ function QualityStatsGraph({ data, width }) {
             width={chartWidth}
           >
             <VictoryAxis
+              label={xLabel}
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
@@ -66,6 +84,11 @@ function QualityStatsGraph({ data, width }) {
                 ticks: {
                   // padding: 20
                 },
+                axisLabel: {
+                  padding: 30,
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                },
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
@@ -74,6 +97,7 @@ function QualityStatsGraph({ data, width }) {
               }}
             />
             <VictoryAxis
+              label={yLabel}
               dependentAxis
               style={{
                 axis: {
@@ -91,14 +115,28 @@ function QualityStatsGraph({ data, width }) {
               }}
               fixLabelOverlap
             />
-            <VictoryLine
-              data={data}
-              x="date"
-              y="averagePM"
-              style={{
-                data: { stroke: '#1a995b' },
-              }}
+            <VictoryLegend
+              x={125}
+              y={10}
+              title="Legend"
+              centerTitle
+              orientation="horizontal"
+              gutter={20}
+              colorScale={colors}
+              style={{ border: { stroke: 'black' }, title: { fontSize: 15 } }}
+              data={legend}
             />
+            {dataArray.map((data, i) => (
+              <VictoryLine
+                data={data}
+                name="sdsd"
+                x="date"
+                y="averagePM"
+                style={{
+                  data: { stroke: colors[i] },
+                }}
+              />
+            ))}
           </VictoryChart>
         </div>
       </Grid>
@@ -107,8 +145,18 @@ function QualityStatsGraph({ data, width }) {
 }
 
 QualityStatsGraph.propTypes = {
-  data: PropTypes.shape({}).isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.arrayOf(PropTypes.shape({})),
+  ]).isRequired,
   width: PropTypes.string.isRequired,
+  xLabel: PropTypes.string,
+  yLabel: PropTypes.string,
+};
+
+QualityStatsGraph.defaultProps = {
+  xLabel: 'Date',
+  yLabel: 'Quality',
 };
 
 export default withWidth()(QualityStatsGraph);

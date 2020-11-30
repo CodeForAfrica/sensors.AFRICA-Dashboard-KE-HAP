@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
 function AirGraph({ data }) {
-  return <QualityStatsGraph data={data} />;
+  return <QualityStatsGraph xLabel="Date" data={data} />;
 }
 
 AirGraph.propTypes = {
