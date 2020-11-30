@@ -33,10 +33,10 @@ const useStyles = makeStyles({
     width: '100%',
     color: 'black',
     textAlign: 'center',
-    scrollMarginTop: '12.5rem',
+    scrollMarginTop: '12.9rem',
   },
   topMargin: {
-    marginTop: '12.5rem',
+    marginTop: '11.8rem',
   },
 });
 
@@ -114,7 +114,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
         <Grid item lg={12} id="contacts" className={classes.section}>
           Contacts
         </Grid>
-        <Grid item xs={12}>
+        <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
         </Grid>
         <Grid item xs={12}>
