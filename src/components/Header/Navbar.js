@@ -4,6 +4,7 @@ import { AppBar, Grid, MenuItem, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'components/Link';
 import Logo from 'components/Logo';
+import SearchBar from 'components/SearchBar';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar(props) {
+function Navbar({ handleSearch, ...props }) {
   const classes = useStyles(props);
 
   return (
@@ -79,35 +80,41 @@ function Navbar(props) {
               </Grid>
               <Grid
                 item
+                container
                 lg={12}
-                justify="center"
+                justify="space-between"
                 classes={{ root: classes.navBarRoot }}
               >
-                <MenuItem className={classes.navBarText}>
-                  <Link href="/" className={classes.navLink}>
-                    HOME
-                  </Link>
-                </MenuItem>
-                <MenuItem className={classes.navBarText}>
-                  <Link href="#map" className={classes.navLink}>
-                    MAP
-                  </Link>
-                </MenuItem>
-                <MenuItem className={classes.navBarText}>
-                  <Link href="#resources" className={classes.navLink}>
-                    RESOURCES
-                  </Link>
-                </MenuItem>
-                <MenuItem className={classes.navBarText}>
-                  <Link href="#partners" className={classes.navLink}>
-                    PARTNERS
-                  </Link>
-                </MenuItem>
-                <MenuItem className={classes.navBarText}>
-                  <Link href="#contacts" className={classes.navLink}>
-                    CONTACT
-                  </Link>
-                </MenuItem>
+                <Grid item lg={9} classes={{ root: classes.navBarRoot }}>
+                  <MenuItem className={classes.navBarText}>
+                    <Link href="/" className={classes.navLink}>
+                      HOME
+                    </Link>
+                  </MenuItem>
+                  <MenuItem className={classes.navBarText}>
+                    <a href="#map" className={classes.navLink}>
+                      MAP
+                    </a>
+                  </MenuItem>
+                  <MenuItem className={classes.navBarText}>
+                    <a href="#resources" className={classes.navLink}>
+                      RESOURCES
+                    </a>
+                  </MenuItem>
+                  <MenuItem className={classes.navBarText}>
+                    <a href="#partners" className={classes.navLink}>
+                      PARTNERS
+                    </a>
+                  </MenuItem>
+                  <MenuItem className={classes.navBarText}>
+                    <a href="#contacts" className={classes.navLink}>
+                      CONTACT
+                    </a>
+                  </MenuItem>
+                </Grid>
+                <Grid item lg={3}>
+                  <SearchBar handleSearch={handleSearch} />
+                </Grid>
               </Grid>
             </Grid>
           </Toolbar>
