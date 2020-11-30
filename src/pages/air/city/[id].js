@@ -217,7 +217,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
       </Grid>
       <Grid item xs={12}>
         {cityP2WeeklyStats.length && (
-          <QualityStatsGraph data={cityP2WeeklyStats} />
+          <QualityStatsGraph xLabel="Date" data={cityP2WeeklyStats} />
         )}
       </Grid>
       <Grid item xs={12}>
