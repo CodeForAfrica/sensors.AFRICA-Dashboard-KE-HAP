@@ -8,7 +8,7 @@ import SocialMedia from 'components/SocialMedia';
 
 import codeforafrica from 'assets/images/logos/cfafrica_white.png';
 import innovateafrica from 'assets/images/logos/innovateafrica_white.png';
-import Email from 'components/Login';
+import Email from 'components/Email';
 
 const useStyles = makeStyles((theme) => ({
   root: {
