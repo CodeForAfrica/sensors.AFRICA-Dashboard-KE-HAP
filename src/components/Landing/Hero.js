@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Link from 'components/Link';
-import Button from 'components//Link/Button';
 import Logo from 'components/Logo';
-
 import bglanding from 'assets/images/background/bglanding.jpg';
+import Login from 'components/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${bglanding})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    height: '100vh',
     [theme.breakpoints.up('md')]: {
       height: '100vh',
     },
@@ -24,18 +24,20 @@ const useStyles = makeStyles((theme) => ({
     height: '8rem',
     maxWidth: '100%',
   },
-  formStyles: {
-    backgroundColor: '#2FB56B',
-    height: '30vh',
-    borderRadius: '5px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+  subtitle: {
+    marginTop: '1rem',
+    marginBottom: '1.5rem',
+    color: 'white',
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '17px', // add this to themes responsive?
+    },
   },
-  loginButton: {
-    marginTop: '40px',
-    borderRadius: '5px',
+  form: {
+    textAlign: 'center',
+    '& .MuiFormLabel-root.Mui-focused': {
+      color: '#FFFFFF',
+    },
   },
 }));
 
@@ -50,23 +52,12 @@ function Hero() {
       </Grid>
 
       <Grid item xs={6}>
-        <form className={classes.formStyles}>
-          <Grid>
-            <TextField required label="Username" />
-          </Grid>
-          <Grid>
-            <TextField required label="Password" type="password" />
-          </Grid>
-          <Grid>
-            <Button
-              variant="contained"
-              href="/dashboard"
-              classes={{ root: classes.loginButton }}
-            >
-              LOGIN
-            </Button>
-          </Grid>
-        </form>
+        <Typography variant="subtitle1" className={classes.subtitle}>
+          Enter details to login:
+        </Typography>
+        <Grid item lg={12} className={classes.form}>
+          <Login />
+        </Grid>
       </Grid>
     </Grid>
   );

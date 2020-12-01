@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
 import bglanding from 'assets/images/background/bglanding.jpg';
-import Email from './Email';
+import Email from './Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
