@@ -17,11 +17,14 @@ import getRandomColor from '../../utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    maxWidth: '100%',
+    display: 'block',
   },
   chartContainer: {
     textAlign: 'center',
     marginBottom: '3rem',
     width: '100%',
+    maxWidth: '100%',
     [theme.breakpoints.up('md')]: {
       width: '59.625rem',
     },
@@ -39,7 +42,7 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
     chartWidth = 59.625 * 16;
     labelAngle = 0;
     if (isWidthUp('lg', width)) {
-      chartWidth = 79.5 * 16;
+      chartWidth = 79.5 * 8;
     }
   }
   const chartHeight = chartWidth * (6 / 16) + 20;
