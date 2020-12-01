@@ -3,7 +3,7 @@ import React from 'react';
 import { AppBar, Grid, MenuItem, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'components/Link';
-import Logo from 'components/Logo';
+import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navLink: {
     textDecoration: 'none',
-    color: '#2FB56B',
+    color: '#FFFFFF',
     '&:hover': {
       textDecoration: 'none',
     },
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
   },
   appBar: {
-    backgroundColor: '#2e2e2e',
+    backgroundColor: '#2FB56B',
     boxShadow: 'none',
   },
   navBarRoot: {
@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   img: {
     height: '8rem',
     maxWidth: '100%',
+  },
+  searchBar: {
+    padding: '20px 0',
   },
 }));
 
@@ -67,17 +70,10 @@ function Navbar({ handleSearch, ...props }) {
         {/* Position sticky is not universally supported so the attribute reverts to static when unavailable */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters>
+            <div item className={classes.logoGrid}>
+              <IconLogo />
+            </div>
             <Grid container>
-              <Grid
-                item
-                lg={12}
-                justify="center"
-                classes={{ root: classes.titleContainer }}
-              >
-                <Link href="/">
-                  <Logo badge="landing" classes={{ img: classes.img }} />
-                </Link>
-              </Grid>
               <Grid
                 item
                 container
@@ -112,7 +108,7 @@ function Navbar({ handleSearch, ...props }) {
                     </a>
                   </MenuItem>
                 </Grid>
-                <Grid item lg={3}>
+                <Grid item lg={3} classes={{ root: classes.searchBar }}>
                   <SearchBar handleSearch={handleSearch} />
                 </Grid>
               </Grid>
