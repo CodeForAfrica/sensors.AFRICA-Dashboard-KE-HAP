@@ -18,7 +18,7 @@ import NotFound from 'pages/404';
 
 const DEFAULT_CITY = 'africa';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
 
@@ -34,11 +34,17 @@ const useStyles = makeStyles({
     color: 'black',
     textAlign: 'center',
     scrollMarginTop: '5.9rem',
+    [theme.breakpoints.down('xs')]: {
+      scrollMarginTop: '8.9rem',
+    },
   },
   topMargin: {
     marginTop: '4.9rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '8.9rem',
+    },
   },
-});
+}));
 
 const DASHBOARD_PATHNAME = '/dashboard';
 

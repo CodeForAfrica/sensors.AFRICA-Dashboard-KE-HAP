@@ -39,21 +39,24 @@ const useStyles = makeStyles((theme) => ({
       color: '#FFFFFF',
     },
   },
+  iconGrid: {
+    height: '0px',
+  },
 }));
 
 function Hero() {
   const classes = useStyles();
   return (
     <Grid container className={classes.root} justify="center">
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.iconGrid}>
         <Link href="/">
           <Logo badge="landing" classes={{ img: classes.img }} />
         </Link>
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={7}>
         <Typography variant="subtitle1" className={classes.subtitle}>
-          Enter details to login:
+          Enter login details:
         </Typography>
         <Grid item lg={12} className={classes.form}>
           <Login />

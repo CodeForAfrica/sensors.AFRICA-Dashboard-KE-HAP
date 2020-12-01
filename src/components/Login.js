@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
 } from '@material-ui/core';
+import Link from 'components/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       width: '200px',
     },
+    '& .MuiLink-underlineHover': {
+      '&:hover': {
+        textDecoration: 'none',
+      },
+    },
   },
   footerInput: {
     // Moved to `App.css` due to difficult of setting input `text-align` to `center`
@@ -54,7 +60,10 @@ const useStyles = makeStyles((theme) => ({
     width: '400px',
     marginBottom: '10px',
     [theme.breakpoints.down('sm')]: {
-      width: '200px',
+      width: '300px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '250px',
     },
   },
   inputLabel: {
@@ -112,18 +121,20 @@ function Login(props) {
           </FormControl>
 
           <div className={classes.buttonContainer}>
-            <Button
-              value="Subscribe"
-              type="submit"
-              name="submit"
-              id="mc-embedded-subscribe-form"
-              variant="contained"
-              className={classes.footerButton}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LOGIN
-            </Button>
+            <Link href="/dashboard/africa">
+              <Button
+                value="Subscribe"
+                type="submit"
+                name="submit"
+                id="mc-embedded-subscribe-form"
+                variant="contained"
+                className={classes.footerButton}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LOGIN
+              </Button>
+            </Link>
           </div>
         </form>
       </Grid>

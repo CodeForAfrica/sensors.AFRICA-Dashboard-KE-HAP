@@ -12,7 +12,9 @@ const styles = (theme) => ({
     flexGrow: 1,
     paddingLeft: '2rem',
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: '3rem',
+      display: 'flex',
+      paddingLeft: '0 !important',
+      justifyContent: 'center',
     },
   },
   input: {
@@ -28,6 +30,9 @@ const styles = (theme) => ({
     backgroundColor: '#fff',
     paddingTop: theme.spacing(2),
     width: 300,
+    [theme.breakpoints.down('xs')]: {
+      width: '80vw',
+    },
   },
   chip: {
     margin: `${theme.spacing(0.5)}px ${theme.spacing.unit / 4}px`,
