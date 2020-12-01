@@ -3,7 +3,7 @@ import React from 'react';
 import { AppBar, Grid, MenuItem, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'components/Link';
-import Logo from 'components/Logo';
+import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +15,15 @@ const useStyles = makeStyles((theme) => ({
       color: '#f3f33',
     },
     fontFamily: 'Anton',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      fontSize: '12px',
+      overflow: 'visible',
+      paddingRight: 0,
+    },
   },
   navLink: {
     textDecoration: 'none',
-    color: '#2FB56B',
+    color: '#FFFFFF',
     '&:hover': {
       textDecoration: 'none',
     },
@@ -28,18 +33,31 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '8%',
       paddingLeft: '8%',
     },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      padding: '0 20px',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      padding: '0 20px',
+    },
   },
   root: {
     flexGrow: 1,
     maxWidth: '100%',
   },
   appBar: {
-    backgroundColor: '#2e2e2e',
+    backgroundColor: '#2FB56B',
     boxShadow: 'none',
   },
   navBarRoot: {
     display: 'flex',
     padding: '20px 0',
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+      order: 2,
+      width: '100%',
+      justifyContent: 'center',
+    },
   },
   titleContainer: {
     display: 'flex',
@@ -50,6 +68,17 @@ const useStyles = makeStyles((theme) => ({
   img: {
     height: '8rem',
     maxWidth: '100%',
+  },
+  searchBar: {
+    padding: '20px 0',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
+  searchBarRoot: {
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '2rem',
+    },
   },
 }));
 
@@ -67,17 +96,10 @@ function Navbar({ handleSearch, ...props }) {
         {/* Position sticky is not universally supported so the attribute reverts to static when unavailable */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters>
+            <div item className={classes.logoGrid}>
+              <IconLogo />
+            </div>
             <Grid container>
-              <Grid
-                item
-                lg={12}
-                justify="center"
-                classes={{ root: classes.titleContainer }}
-              >
-                <Link href="/">
-                  <Logo badge="landing" classes={{ img: classes.img }} />
-                </Link>
-              </Grid>
               <Grid
                 item
                 container
@@ -86,34 +108,37 @@ function Navbar({ handleSearch, ...props }) {
                 classes={{ root: classes.navBarRoot }}
               >
                 <Grid item lg={9} classes={{ root: classes.navBarRoot }}>
-                  <MenuItem className={classes.navBarText}>
+                  <MenuItem classes={{ root: classes.navBarText }}>
                     <Link href="/" className={classes.navLink}>
                       HOME
                     </Link>
                   </MenuItem>
-                  <MenuItem className={classes.navBarText}>
+                  <MenuItem classes={{ root: classes.navBarText }}>
                     <a href="#map" className={classes.navLink}>
                       MAP
                     </a>
                   </MenuItem>
-                  <MenuItem className={classes.navBarText}>
+                  <MenuItem classes={{ root: classes.navBarText }}>
                     <a href="#resources" className={classes.navLink}>
                       RESOURCES
                     </a>
                   </MenuItem>
-                  <MenuItem className={classes.navBarText}>
+                  <MenuItem classes={{ root: classes.navBarText }}>
                     <a href="#partners" className={classes.navLink}>
                       PARTNERS
                     </a>
                   </MenuItem>
-                  <MenuItem className={classes.navBarText}>
+                  <MenuItem classes={{ root: classes.navBarText }}>
                     <a href="#contacts" className={classes.navLink}>
                       CONTACT
                     </a>
                   </MenuItem>
                 </Grid>
-                <Grid item lg={3}>
-                  <SearchBar handleSearch={handleSearch} />
+                <Grid item lg={3} classes={{ root: classes.searchBar }}>
+                  <SearchBar
+                    handleSearch={handleSearch}
+                    classes={{ root: classes.searchBarRoot }}
+                  />
                 </Grid>
               </Grid>
             </Grid>

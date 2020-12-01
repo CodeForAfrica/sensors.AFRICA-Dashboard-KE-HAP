@@ -18,7 +18,7 @@ import NotFound from 'pages/404';
 
 const DEFAULT_CITY = 'africa';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
 
@@ -33,12 +33,18 @@ const useStyles = makeStyles({
     width: '100%',
     color: 'black',
     textAlign: 'center',
-    scrollMarginTop: '12.9rem',
+    scrollMarginTop: '5.9rem',
+    [theme.breakpoints.down('xs')]: {
+      scrollMarginTop: '8.9rem',
+    },
   },
   topMargin: {
-    marginTop: '11.8rem',
+    marginTop: '4.9rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '8.9rem',
+    },
   },
-});
+}));
 
 const DASHBOARD_PATHNAME = '/dashboard';
 
@@ -105,19 +111,13 @@ function City({ city: citySlug, data, errorCode, ...props }) {
             longitude={CITIES_LOCATION[city].longitude}
           />
         </Grid>
-        <Grid item container lg={12} id="grapgh" className={classes.section}>
+        <Grid item container lg={12} id="graph" className={classes.section}>
           <QualityStatsGraph data={cityP2WeeklyStats} />
-        </Grid>
-        <Grid item lg={12} id="resources" className={classes.section}>
-          Resources
-        </Grid>
-        <Grid item lg={12} id="contacts" className={classes.section}>
-          Contacts
         </Grid>
         <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
         </Grid>
-        <Grid item xs={12}>
+        <Grid id="contacts" item xs={12}>
           <Footer />
         </Grid>
       </Grid>
