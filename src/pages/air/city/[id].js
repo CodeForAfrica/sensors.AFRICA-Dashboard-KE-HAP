@@ -11,7 +11,6 @@ import API, {
   getFormattedHumidityStats,
   getFormattedP2Stats,
   getFormattedTemperatureStats,
-  getFormattedWeeklyP2Stats,
 } from 'api';
 
 import DocumentHead from 'components/DocumentHead';
@@ -25,6 +24,7 @@ import PollutionStats from 'components/City/PollutionStats';
 import QualityStats from 'components/City/SensorsQualityStats';
 import HostSensorsButton from 'components/City/HostSensors/HostSensorButtons';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
+import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
 import NotFound from 'pages/404';
 import config from '../../../config';
 
@@ -111,14 +111,12 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
   const [city, setCity] = useState(citySlug);
-  const { air, weeklyP2 } = data;
+  const { air } = data;
   const [cityHumidityStats, setCityHumidityStats] = useState(
     getFormattedHumidityStats(air)
   );
   const [cityP2Stats, setCityP2Stats] = useState(getFormattedP2Stats(air));
-  const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
-    getFormattedWeeklyP2Stats(weeklyP2)
-  );
+
   const [cityTemperatureStats, setCityTemperatureStats] = useState(
     getFormattedTemperatureStats(air)
   );
@@ -148,13 +146,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
           setCityP2Stats(getFormattedP2Stats(json));
           setCityTemperatureStats(getFormattedTemperatureStats(json));
         })
-        .then(() =>
-          API.getWeeklyP2Data(city)
-            .then((res) => res.json())
-            .then((json) =>
-              setCityP2WeeklyStats(getFormattedWeeklyP2Stats(json))
-            )
-        )
+        .then(() => API.getWeeklyP2Data(city).then((res) => res.json()))
         .then(() => setIsLoading(false));
     }
   }, [isLoading]);
@@ -215,13 +207,19 @@ function City({ city: citySlug, data, errorCode, ...props }) {
           cityTemperatureStats={cityTemperatureStats}
         />
       </Grid>
-      <Grid item xs={12}>
-        {cityP2WeeklyStats.length && (
-          <QualityStatsGraph xLabel="Date" data={config.airData} />
-        )}
+
+      <Grid item xs={12} lg={4}>
+        <QualityStatsGraph yLabel="PM2.5" xLabel="Date" data={config.airData} />
       </Grid>
-      <Grid item xs={12}>
-        <QualityStatsGraph xLabel="Date" data={config.multiAirData} />
+      <Grid item xs={12} lg={4}>
+        <QualityStatsGraph
+          yLabel="PM10"
+          xLabel="Date"
+          data={config.multiAirData}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <CityHazardComparisonChart xLabel="City" data={config.multiAirData} />
       </Grid>
       <Grid item xs={12}>
         <CallToAction />
