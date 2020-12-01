@@ -43,17 +43,20 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
     }
   }
   const chartHeight = chartWidth * (6 / 16) + 20;
-  let dataArray;
-  if (Array.isArray(dataProps)) {
-    dataArray = [dataProps];
-  } else if (dataProps.isMultiChart) {
-    dataArray = dataProps.data.array;
-  } else {
+
+  let dataArray = [];
+  if (!dataProps) {
     return null;
   }
+  if (dataProps[0]?.data) {
+    dataArray = dataProps;
+    console.log('1', dataArray);
+  } else if (dataProps?.data) {
+    dataArray = [dataProps];
+  }
+
   const colors = dataArray.map(() => getRandomColor());
   const legend = dataArray.map((data) => ({ name: data.name }));
-
   return (
     <Grid
       container
@@ -77,17 +80,17 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
                   stroke: 'rgba(0,0,0,0.1)',
                   strokeWidth: 1,
                 },
+                axisLabel: {
+                  padding: 30,
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                },
                 grid: {
                   stroke: 'rgba(0,0,0,0.1)',
                   strokeDasharray: '',
                 },
                 ticks: {
                   // padding: 20
-                },
-                axisLabel: {
-                  padding: 30,
-                  fontSize: 18,
-                  fontWeight: 'bold',
                 },
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
@@ -103,6 +106,11 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
                   strokeWidth: 1,
+                },
+                axisLabel: {
+                  padding: 30,
+                  fontSize: 18,
+                  fontWeight: 'bold',
                 },
                 grid: {
                   stroke: 'rgba(0,0,0,0.1)',
@@ -128,7 +136,7 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
             />
             {dataArray.map((data, i) => (
               <VictoryLine
-                data={data}
+                data={data.data}
                 name="sdsd"
                 x="date"
                 y="averagePM"

@@ -25,8 +25,8 @@ import PollutionStats from 'components/City/PollutionStats';
 import QualityStats from 'components/City/SensorsQualityStats';
 import HostSensorsButton from 'components/City/HostSensors/HostSensorButtons';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
-
 import NotFound from 'pages/404';
+import config from '../../../config';
 
 const DEFAULT_CITY = 'nairobi';
 const CITIES_POLLUTION_STATS = {
@@ -217,8 +217,11 @@ function City({ city: citySlug, data, errorCode, ...props }) {
       </Grid>
       <Grid item xs={12}>
         {cityP2WeeklyStats.length && (
-          <QualityStatsGraph xLabel="Date" data={cityP2WeeklyStats} />
+          <QualityStatsGraph xLabel="Date" data={config.airData} />
         )}
+      </Grid>
+      <Grid item xs={12}>
+        <QualityStatsGraph xLabel="Date" data={config.multiAirData} />
       </Grid>
       <Grid item xs={12}>
         <CallToAction />
