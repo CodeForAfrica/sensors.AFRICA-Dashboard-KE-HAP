@@ -7,8 +7,6 @@ import { Grid, MenuItem, Typography, MenuList } from '@material-ui/core';
 import Link from 'components/Link';
 import Modal from '@material-ui/core/Modal';
 
-import { URLS } from 'components/DocumentHead/PageHeads';
-
 import MenuButton from 'components/Hambuger/MenuButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,47 +63,15 @@ function HambugerMenu({ handleToggle, menuOpen }) {
           disableAutoFocus
         >
           <MenuList className={classes.menuList}>
-            <Link href={URLS.AIR.ABOUT} className={classes.link}>
+            <Link href="#map" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
-                  ABOUT
+                  MAP
                 </Typography>
               </MenuItem>
             </Link>
 
-            <Link href={URLS.AIR.JOIN} className={classes.link}>
-              <MenuItem className={classes.menuListItem}>
-                <Typography className={classes.typography} variant="subtitle1">
-                  CONTACT
-                </Typography>
-              </MenuItem>
-            </Link>
-
-            <Link href={URLS.AIR.DATA} className={classes.link}>
-              <MenuItem className={classes.menuListItem}>
-                <Typography className={classes.typography} variant="subtitle1">
-                  DATA
-                </Typography>
-              </MenuItem>
-            </Link>
-
-            <Link href={URLS.AIR.HOW_SENSORS_WORK} className={classes.link}>
-              <MenuItem className={classes.menuListItem}>
-                <Typography className={classes.typography} variant="subtitle1">
-                  HARDWARE
-                </Typography>
-              </MenuItem>
-            </Link>
-
-            <Link href={URLS.AIR.JOIN} className={classes.link}>
-              <MenuItem className={classes.menuListItem}>
-                <Typography className={classes.typography} variant="subtitle1">
-                  JOIN
-                </Typography>
-              </MenuItem>
-            </Link>
-
-            <Link href={URLS.AIR.IMPACT} className={classes.link}>
+            <Link href="#resources" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
                   RESOURCES
@@ -113,18 +79,21 @@ function HambugerMenu({ handleToggle, menuOpen }) {
               </MenuItem>
             </Link>
 
-            <a
-              href="https://medium.com/@sensors.AFRICA"
-              className={classes.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="#partners" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
-                  STORIES
+                  PARTNERS
                 </Typography>
               </MenuItem>
-            </a>
+            </Link>
+
+            <Link href="#contacts" className={classes.link}>
+              <MenuItem className={classes.menuListItem}>
+                <Typography className={classes.typography} variant="subtitle1">
+                  CONTACT
+                </Typography>
+              </MenuItem>
+            </Link>
           </MenuList>
         </Modal>
       </Grid>

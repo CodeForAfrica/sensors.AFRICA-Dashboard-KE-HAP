@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { AppBar, Grid, MenuItem, Toolbar } from '@material-ui/core';
+import { AppBar, Grid, MenuItem, Toolbar, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from 'components/Link';
 import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
+import MenuBar from 'components/Header/MenuBar';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -21,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: 0,
     },
   },
+  logoGrid: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      marginTop: '10px',
+    },
+  },
   navLink: {
     textDecoration: 'none',
     color: '#FFFFFF',
@@ -35,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      padding: '0 20px',
+      padding: '0 5px',
     },
     [theme.breakpoints.between('sm', 'md')]: {
       padding: '0 20px',
@@ -51,12 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarRoot: {
     display: 'flex',
-    padding: '20px 0',
     [theme.breakpoints.down('xs')]: {
-      padding: 0,
-      order: 2,
-      width: '100%',
-      justifyContent: 'center',
+      padding: '10px 0',
     },
   },
   titleContainer: {
@@ -70,9 +74,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
   },
   searchBar: {
-    padding: '20px 0',
+    padding: '10px 0',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
+      order: 2,
+      padding: 0,
+      marginTop: '20px',
     },
   },
   searchBarRoot: {
@@ -107,39 +114,40 @@ function Navbar({ handleSearch, ...props }) {
                 justify="space-between"
                 classes={{ root: classes.navBarRoot }}
               >
-                <Grid item lg={9} classes={{ root: classes.navBarRoot }}>
-                  <MenuItem classes={{ root: classes.navBarText }}>
-                    <Link href="/" className={classes.navLink}>
-                      HOME
-                    </Link>
-                  </MenuItem>
-                  <MenuItem classes={{ root: classes.navBarText }}>
-                    <a href="#map" className={classes.navLink}>
-                      MAP
-                    </a>
-                  </MenuItem>
-                  <MenuItem classes={{ root: classes.navBarText }}>
-                    <a href="#resources" className={classes.navLink}>
-                      RESOURCES
-                    </a>
-                  </MenuItem>
-                  <MenuItem classes={{ root: classes.navBarText }}>
-                    <a href="#partners" className={classes.navLink}>
-                      PARTNERS
-                    </a>
-                  </MenuItem>
-                  <MenuItem classes={{ root: classes.navBarText }}>
-                    <a href="#contacts" className={classes.navLink}>
-                      CONTACT
-                    </a>
-                  </MenuItem>
-                </Grid>
+                <Hidden only={['xs']}>
+                  <Grid item lg={9} classes={{ root: classes.navBarRoot }}>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <a href="#map" className={classes.navLink}>
+                        MAP
+                      </a>
+                    </MenuItem>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <a href="#resources" className={classes.navLink}>
+                        RESOURCES
+                      </a>
+                    </MenuItem>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <a href="#partners" className={classes.navLink}>
+                        PARTNERS
+                      </a>
+                    </MenuItem>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <a href="#contacts" className={classes.navLink}>
+                        CONTACT
+                      </a>
+                    </MenuItem>
+                  </Grid>
+                </Hidden>
                 <Grid item lg={3} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
+                    placeholder="Search for your city ..."
                     classes={{ root: classes.searchBarRoot }}
                   />
                 </Grid>
+                <Hidden only={['sm', 'md', 'lg', 'xl']}>
+                  <MenuBar />
+                </Hidden>
               </Grid>
             </Grid>
           </Toolbar>
