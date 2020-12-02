@@ -127,14 +127,13 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
               fixLabelOverlap
             />
             <VictoryLegend
-              x={125}
-              y={10}
-              title="Legend"
+              x={40}
+              y={chartHeight - 20}
               centerTitle
               orientation="horizontal"
               gutter={20}
               colorScale={colors}
-              style={{ border: { stroke: 'black' }, title: { fontSize: 15 } }}
+              style={{ title: { fontSize: 15 } }}
               data={legend}
             />
             {dataArray.map((data, i) => (
