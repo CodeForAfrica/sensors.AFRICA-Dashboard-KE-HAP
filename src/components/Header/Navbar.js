@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      padding: '0 20px',
+      padding: '0 5px',
     },
     [theme.breakpoints.between('sm', 'md')]: {
       padding: '0 20px',
@@ -59,12 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarRoot: {
     display: 'flex',
-    padding: '20px 0',
     [theme.breakpoints.down('xs')]: {
-      // padding: 0,
-      // order: 2,
-      // width: '100%',
-      // justifyContent: 'center',
+      padding: '10px 0',
     },
   },
   titleContainer: {
@@ -78,12 +74,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
   },
   searchBar: {
-    padding: '20px 0',
-    // width: '100%',
-    // order: 2,
+    padding: '10px 0',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       order: 2,
+      padding: 0,
+      marginTop: '20px',
     },
   },
   searchBarRoot: {
@@ -145,6 +141,7 @@ function Navbar({ handleSearch, ...props }) {
                 <Grid item lg={3} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
+                    placeholder="Search for your city ..."
                     classes={{ root: classes.searchBarRoot }}
                   />
                 </Grid>

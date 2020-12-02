@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme) => ({
       color: '#FFFFFF',
     },
   },
-  iconGrid: {
-    height: '0px',
-  },
 }));
 
 function Hero() {

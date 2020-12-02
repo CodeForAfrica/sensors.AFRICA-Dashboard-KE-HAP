@@ -36,11 +36,8 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     paddingTop: '1rem',
     width: '400px',
-    [theme.breakpoints.down('sm')]: {
-      width: '300px',
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '250px',
+    [theme.breakpoints.between('xs', 'xs')]: {
+      width: '95vw',
     },
     '& .MuiLink-underlineHover': {
       '&:hover': {
@@ -62,11 +59,8 @@ const useStyles = makeStyles((theme) => ({
   formControlStyles: {
     width: '400px',
     marginBottom: '10px',
-    [theme.breakpoints.down('sm')]: {
-      width: '300px',
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '250px',
+    [theme.breakpoints.between('xs', 'xs')]: {
+      width: '95vw',
     },
   },
   inputLabel: {
