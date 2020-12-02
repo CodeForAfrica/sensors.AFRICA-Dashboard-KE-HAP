@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Link from 'components/Link';
@@ -55,9 +55,6 @@ function Hero() {
       </Grid>
 
       <Grid item xs={7}>
-        <Typography variant="subtitle1" className={classes.subtitle}>
-          Enter login details:
-        </Typography>
         <Grid item lg={12} className={classes.form}>
           <Login />
         </Grid>

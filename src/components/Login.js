@@ -35,9 +35,12 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     paddingTop: '1rem',
-    width: '300px',
+    width: '400px',
     [theme.breakpoints.down('sm')]: {
-      width: '200px',
+      width: '300px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '250px',
     },
     '& .MuiLink-underlineHover': {
       '&:hover': {

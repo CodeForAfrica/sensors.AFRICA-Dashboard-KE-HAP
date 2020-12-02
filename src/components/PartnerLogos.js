@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '2rem',
   },
   img: {
-    maxWidth: '100%',
+    maxWidth: '90%',
     height: '100px',
     filter: 'grayscale(100%)',
   },
