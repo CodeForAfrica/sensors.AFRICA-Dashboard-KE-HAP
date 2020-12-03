@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import Router from 'next/router';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client';
 
 import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
@@ -44,6 +44,15 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '4.3rem',
     },
   },
+  loading: {
+    textAlign: 'center',
+  },
+  loadingContainer: {
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
 const DASHBOARD_PATHNAME = '/dashboard';
@@ -52,20 +61,20 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   const { weeklyP2 } = data;
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
-  const [session,loadingSession] = useSession();
+  const [session, loadingSession] = useSession();
   const [city, setCity] = useState(citySlug);
   const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
     getFormattedWeeklyP2Stats(weeklyP2)
   );
 
   useEffect(() => {
-    if(loadingSession){
-      return null
+    if (loadingSession) {
+      return null;
     }
-  if (!session) {
-    Router.push('/')
-  }
-  },[session,loadingSession]);
+    if (!session) {
+      Router.push('/');
+    }
+  }, [session, loadingSession]);
 
   // if !data, 404
   if (!CITIES_LOCATION[city] || errorCode >= 400) {
@@ -100,37 +109,45 @@ function City({ city: citySlug, data, errorCode, ...props }) {
 
   return (
     <>
-      <Navbar handleSearch={handleSearch} />
-      {/* <AboutHeader/> */}
-      {/* GERTRUDE: Temporary placement of what should be components */}
-      <Grid
-        className={classes.root}
-        justify="center"
-        alignItems="center"
-        container
-      >
-        <Grid
-          item
-          lg={12}
-          id="map"
-          className={`${classes.section} ${classes.topMargin}`}
-        >
-          <SensorMap
-            zoom={CITIES_LOCATION[city].zoom}
-            latitude={CITIES_LOCATION[city].latitude}
-            longitude={CITIES_LOCATION[city].longitude}
-          />
+      {session ? (
+        <div>
+          <Navbar handleSearch={handleSearch} />
+          <Grid
+            className={classes.root}
+            justify="center"
+            alignItems="center"
+            container
+          >
+            <Grid
+              item
+              lg={12}
+              id="map"
+              className={`${classes.section} ${classes.topMargin}`}
+            >
+              <SensorMap
+                zoom={CITIES_LOCATION[city].zoom}
+                latitude={CITIES_LOCATION[city].latitude}
+                longitude={CITIES_LOCATION[city].longitude}
+              />
+            </Grid>
+            <Grid item container lg={12} id="graph" className={classes.section}>
+              <QualityStatsGraph data={cityP2WeeklyStats} />
+            </Grid>
+            <Grid item id="partners" className={classes.section} xs={12}>
+              <PartnerLogos />
+            </Grid>
+            <Grid id="contacts" className={classes.section} item xs={12}>
+              <Footer />
+            </Grid>
+          </Grid>
+        </div>
+      ) : (
+        <Grid classes={{ root: classes.loadingContainer }}>
+          <Typography variant="h2" classes={{ root: classes.loading }}>
+            Loading..
+          </Typography>
         </Grid>
-        <Grid item container lg={12} id="graph" className={classes.section}>
-          <QualityStatsGraph data={cityP2WeeklyStats} />
-        </Grid>
-        <Grid item id="partners" className={classes.section} xs={12}>
-          <PartnerLogos />
-        </Grid>
-        <Grid id="contacts" className={classes.section} item xs={12}>
-          <Footer />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 }
