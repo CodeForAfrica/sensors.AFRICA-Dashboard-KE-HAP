@@ -5,6 +5,7 @@ import Router from 'next/router';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSession } from 'next-auth/client'
 
 import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
@@ -15,7 +16,6 @@ import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
 import NotFound from 'pages/404';
-
 const DEFAULT_CITY = 'africa';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,10 +52,20 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   const { weeklyP2 } = data;
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
+  const [session,loadingSession] = useSession();
   const [city, setCity] = useState(citySlug);
   const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
     getFormattedWeeklyP2Stats(weeklyP2)
   );
+
+  useEffect(() => {
+    if(loadingSession){
+      return null
+    }
+  if (!session) {
+    Router.push('/')
+  }
+  },[session,loadingSession]);
 
   // if !data, 404
   if (!CITIES_LOCATION[city] || errorCode >= 400) {
