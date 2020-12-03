@@ -117,11 +117,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
         <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
         </Grid>
-<<<<<<< HEAD
         <Grid id="contacts" className={classes.section} item xs={12}>
-=======
-        <Grid id="contacts" item xs={12}>
->>>>>>> Merge branch 'feature/navigation' of https://github.com/CodeForAfrica/WB-sensors-Dashboard into feature/navigation
           <Footer />
         </Grid>
       </Grid>
