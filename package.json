@@ -1,91 +1,92 @@
 {
-  "name": "sensors.africa",
-  "description": "sensors.AFRICA",
-  "version": "0.4.5",
-  "private": true,
-  "main": "index.js",
-  "homepage": "https://sensors.africa/",
-  "repository": "https://github.com/CodeForAfrica/sensors.AFRICA.git",
-  "author": "Code For Africa",
-  "license": "GNU GPLv3",
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-brands-svg-icons": "^5.15.1",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/react-fontawesome": "^0.1.12",
-    "@material-ui/core": "^4.11.0",
-    "classnames": "^2.2.6",
-    "isomorphic-unfetch": "^3.1.0",
-    "next": "^10.0.1",
-    "next-images": "^1.6.2",
-    "next-seo": "^4.15.0",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-feather": "^2.0.8",
-    "react-helmet": "^6.1.0",
-    "react-select": "^3.1.0",
-    "react-share": "^4.3.1",
-    "tabletop": "^1.6.3",
-    "victory": "^35.3.3",
-    "webpack": "^5.4.0"
-  },
-  "scripts": {
-    "dev": "next",
-    "dev:now": "now dev",
-    "start": "next start",
-    "build": "next build",
-    "deploy": "now --prod",
-    "lint": "yarn eslint --fix --ignore-path './.gitignore' --ext '.js,.json,.md' './'",
-    "lint-staged": "yarn eslint --fix --ignore-path './.gitignore' --ext '.js,.json,.md'"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "babel-eslint": "^10.1.0",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "eslint": "^7.12.1",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-import-resolver-babel-module": "^5.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-json": "^2.1.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-markdown": "^1.0.2",
-    "eslint-plugin-module-resolver": "^1.0.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^4.3.0",
-    "lint": "^0.7.0",
-    "lint-staged": "^10.5.1",
-    "now": "^17.0.4",
-    "prettier": "^2.1.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,json,scss,md}": [
-      "yarn lint-staged"
-    ]
-  }
+	"name": "wbsensors",
+	"description": "WB-Sensors Dashboard",
+	"version": "0.4.5",
+	"private": true,
+	"main": "index.js",
+	"homepage": "https://codeforafrica.github.io/WB-sensors-Dashboard/",
+	"repository": "https://github.com/CodeForAfrica/WB-sensors-Dashboard.git",
+	"author": "Code For Africa",
+	"license": "GNU GPLv3",
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^5.15.1",
+		"@fortawesome/fontawesome-svg-core": "^1.2.32",
+		"@fortawesome/free-brands-svg-icons": "^5.15.1",
+		"@fortawesome/free-solid-svg-icons": "^5.15.1",
+		"@fortawesome/react-fontawesome": "^0.1.12",
+		"@material-ui/core": "^4.11.0",
+		"classnames": "^2.2.6",
+		"isomorphic-unfetch": "^3.1.0",
+		"next": "^10.0.1",
+		"next-images": "^1.6.2",
+		"next-seo": "^4.15.0",
+		"prop-types": "^15.7.2",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-feather": "^2.0.8",
+		"react-helmet": "^6.1.0",
+		"react-select": "^3.1.0",
+		"react-share": "^4.3.1",
+		"tabletop": "^1.6.3",
+		"victory": "^35.3.3",
+		"webpack": "^5.4.0"
+	},
+	"scripts": {
+		"build": "next build",
+		"dev": "yarn dev:next",
+		"dev:next": "next dev",
+		"export": "yarn run build && next export",
+		"format": "yarn prettier --write --ignore-path './.gitignore' \"**/*.+(json|md|yml)\" './'",
+		"format-staged": "prettier --write",
+		"lint": "yarn eslint --fix --ignore-path './.gitignore' './'",
+		"lint-staged": "yarn eslint --fix --ext '.js,.json,.md,.yml'",
+		"start": "next start"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.3",
+		"babel-eslint": "^10.1.0",
+		"babel-plugin-module-resolver": "^4.0.0",
+		"babel-plugin-syntax-dynamic-import": "^6.18.0",
+		"eslint": "^7.12.1",
+		"eslint-config-airbnb": "^18.2.0",
+		"eslint-config-prettier": "^6.15.0",
+		"eslint-import-resolver-babel-module": "^5.2.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-json": "^2.1.2",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-markdown": "^1.0.2",
+		"eslint-plugin-module-resolver": "^1.0.0",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-react": "^7.21.5",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"husky": "^4.3.0",
+		"lint": "^0.7.0",
+		"lint-staged": "^10.5.1",
+		"prettier": "^2.1.2"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,json,scss,md}": [
+			"yarn lint-staged"
+		]
+	}
 }
