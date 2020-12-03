@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '2rem',
   },
   img: {
-    maxWidth: '100%',
+    maxWidth: '90%',
     height: '100px',
     filter: 'grayscale(100%)',
   },
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 function PartnerLogos() {
   const classes = useStyles();
   return (
-    <Grid container className={classes.root}>
+    <Grid container className={classes.root} id="partners">
       <Grid
         container
         xs={12}

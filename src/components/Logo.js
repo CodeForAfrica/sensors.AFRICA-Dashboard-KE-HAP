@@ -42,7 +42,7 @@ function Logo({ badge, active }) {
   const imgClassName = classNames(classes.logo, classes.img);
   return (
     <Badge
-      badgeContent="beta"
+      badgeContent=""
       classes={{ badge: classes[`${badge}${activeStatus}Badge`] }}
     >
       <img

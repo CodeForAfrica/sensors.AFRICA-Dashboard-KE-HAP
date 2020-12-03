@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Link from 'components/Link';
 import Logo from 'components/Logo';
-import TestQuality from 'components/Landing/TestQuality';
-
 import bglanding from 'assets/images/background/bglanding.jpg';
+import Login from 'components/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,46 +15,46 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${bglanding})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    height: '100vh',
     [theme.breakpoints.up('md')]: {
       height: '100vh',
     },
   },
-  intro: {
-    color: 'white',
-    textAlign: 'center',
-    textTransform: 'none',
-    paddingTop: '1rem',
-    lineHeight: '3.5rem',
-  },
   img: {
     height: '8rem',
     maxWidth: '100%',
+  },
+  subtitle: {
+    marginTop: '1rem',
+    marginBottom: '1.5rem',
+    color: 'white',
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '17px', // add this to themes responsive?
+    },
+  },
+  form: {
+    textAlign: 'center',
+    '& .MuiFormLabel-root.Mui-focused': {
+      color: '#FFFFFF',
+    },
   },
 }));
 
 function Hero() {
   const classes = useStyles();
   return (
-    <Grid
-      container
-      className={classes.root}
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item xs={12}>
+    <Grid container className={classes.root} justify="center">
+      <Grid item xs={12} className={classes.iconGrid}>
         <Link href="/">
           <Logo badge="landing" classes={{ img: classes.img }} />
         </Link>
       </Grid>
 
-      <Grid item xs={6}>
-        <Typography variant="h4" className={classes.intro}>
-          We are here to give you actionable information about the quality of
-          your city&apos;s air, water, sound and radiation levels.
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <TestQuality />
+      <Grid item xs={7}>
+        <Grid item lg={12} className={classes.form}>
+          <Login />
+        </Grid>
       </Grid>
     </Grid>
   );

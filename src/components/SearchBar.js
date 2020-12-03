@@ -10,10 +10,11 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: '5rem',
     paddingLeft: '2rem',
     [theme.breakpoints.down('sm')]: {
-      paddingLeft: '3rem',
+      display: 'flex',
+      paddingLeft: '0 !important',
+      justifyContent: 'center',
     },
   },
   input: {
@@ -28,7 +29,10 @@ const styles = (theme) => ({
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingTop: theme.spacing(2),
-    width: 300,
+    width: 280,
+    [theme.breakpoints.down('xs')]: {
+      width: '80vw',
+    },
   },
   chip: {
     margin: `${theme.spacing(0.5)}px ${theme.spacing.unit / 4}px`,

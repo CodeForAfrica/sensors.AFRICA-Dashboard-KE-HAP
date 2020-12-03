@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import IframeComponent from 'components/SensorMap/IframeComponent';
@@ -34,14 +34,6 @@ function Map({ zoom, latitude, longitude }) {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <Typography variant="h5" className={classes.headline}>
-          SENSORS IN YOUR AREA
-          <Typography variant="caption" className={classes.caption}>
-            * Click a sensor to view latest readings.
-          </Typography>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
         <IframeComponent
           title="Map section"
           src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
@@ -55,7 +47,7 @@ function Map({ zoom, latitude, longitude }) {
   );
 }
 
-function AfricaMap({ classes }) {
+export function AfricaMap({ classes }) {
   return (
     <Grid
       container
@@ -63,14 +55,6 @@ function AfricaMap({ classes }) {
       justify="center"
       alignItems="center"
     >
-      <Grid item xs={12}>
-        <Typography variant="h5" className={classes.headline}>
-          SENSORS IN AFRICA
-          <Typography variant="caption" className={classes.caption}>
-            * Click a sensor to view latest readings.
-          </Typography>
-        </Typography>
-      </Grid>
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
