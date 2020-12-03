@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Hero() {
+function Hero(props) {
   const classes = useStyles();
   return (
     <Grid container className={classes.root} justify="center">
@@ -53,7 +53,7 @@ function Hero() {
 
       <Grid item xs={7}>
         <Grid item lg={12} className={classes.form}>
-          <Login />
+          <Login {...props} />
         </Grid>
       </Grid>
     </Grid>
