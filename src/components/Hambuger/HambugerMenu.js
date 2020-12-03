@@ -94,6 +94,13 @@ function HambugerMenu({ handleToggle, menuOpen }) {
                 </Typography>
               </MenuItem>
             </Link>
+            <Link href="#contacts" className={classes.link}>
+              <MenuItem className={classes.menuListItem}>
+                <Typography className={classes.typography} variant="subtitle1">
+                  SIGN OUT
+                </Typography>
+              </MenuItem>
+            </Link>
           </MenuList>
         </Modal>
       </Grid>
