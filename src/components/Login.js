@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import {
-  Button,
-  Grid,
-  Input,
-  FormControl,
-  InputLabel,
-} from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Link from 'components/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import { signIn } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     background: 'none',
   },
-  footerButton: {
+  loginButton: {
+    marginBottom: '1rem',
     width: '100%',
     color: 'white',
     '&:hover': {
@@ -71,11 +67,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login(props) {
+function Login({ providers, ...props }) {
   const classes = useStyles(props);
-  const [value, setValue] = useState('');
-  const handleChange = (e) => setValue(e.target.value);
-
   return (
     <Grid
       container
@@ -85,53 +78,24 @@ function Login(props) {
     >
       <Grid item xs={12}>
         <form noValidate className={classes.formStyles}>
-          <FormControl classes={{ root: classes.formControlStyles }}>
-            <InputLabel classes={{ root: classes.inputLabel }} htmlFor="email">
-              Email address:{' '}
-            </InputLabel>
-            <Input
-              id="email"
-              type="email"
-              name="MERGE0"
-              value={value}
-              placeholder="you@gmail.com"
-              onChange={handleChange}
-              className="Email-input"
-            />
-          </FormControl>
-
-          <FormControl classes={{ root: classes.formControlStyles }}>
-            <InputLabel
-              classes={{ root: classes.inputLabel }}
-              htmlFor="password"
-            >
-              Password:
-            </InputLabel>
-            <Input
-              id="password"
-              type="password"
-              name="MERGE0"
-              value={value}
-              onChange={handleChange}
-              className="Email-input"
-            />
-          </FormControl>
-
           <div className={classes.buttonContainer}>
-            <Link href="/dashboard/africa">
-              <Button
-                value="Subscribe"
-                type="submit"
-                name="submit"
-                id="mc-embedded-subscribe-form"
-                variant="contained"
-                className={classes.footerButton}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LOGIN
-              </Button>
-            </Link>
+            {Object.values(providers).map((provider) => (
+              <Link href="/dashboard/africa" key={provider.name}>
+                <Button
+                  value="Subscribe"
+                  type="submit"
+                  name="submit"
+                  id="mc-embedded-subscribe-form"
+                  variant="contained"
+                  className={classes.loginButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => signIn(provider.id)}
+                >
+                  Sign in with {provider.name}
+                </Button>
+              </Link>
+            ))}
           </div>
         </form>
       </Grid>
