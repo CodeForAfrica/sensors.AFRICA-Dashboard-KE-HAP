@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
 import MenuBar from 'components/Header/MenuBar';
+import { signOut } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -99,22 +100,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1rem',
     marginLeft: '10px',
     width: '100px',
-    color: 'white',
-    '&:hover': {
-      color: theme.palette.secondary.main,
-    },
-    backgroundColor: '#2FB56B',
+    color: theme.palette.secondary.main,
     fontWeight: 800,
-    fontSize: '12px',
+    fontSize: '.8rem',
     height: '3rem',
     [theme.breakpoints.up('lg')]: {
-      fontSize: '12px',
-      height: '3rem',
       paddingLeft: '2rem',
       paddingRight: '2rem',
-      '& .MuiButton-label': {
-        width: '700px',
-      },
     },
   },
   fa: {
@@ -152,7 +144,7 @@ function Navbar({ handleSearch, ...props }) {
                 justify="space-between"
                 classes={{ root: classes.navBarRoot }}
               >
-                <Hidden only={['xs']}>
+                <Hidden only={['sm', 'xs']}>
                   <Grid item lg={7} classes={{ root: classes.navBarRoot }}>
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <a href="#map" className={classes.navLink}>
@@ -182,16 +174,17 @@ function Navbar({ handleSearch, ...props }) {
                     placeholder="Search for your city"
                     classes={{ root: classes.searchBarRoot }}
                   />
-                  <Hidden only={['xs']}>
+                  <Hidden only={['sm', 'xs']}>
                     <Button
-                      variant="contained"
+                      variant="text"
+                      onClick={signOut}
                       classes={{ root: classes.signOutButton }}
                     >
-                      sign out
+                      Logout
                     </Button>
                   </Hidden>
                 </Grid>
-                <Hidden only={['sm', 'md', 'lg', 'xl']}>
+                <Hidden only={['md', 'lg', 'xl']}>
                   <MenuBar />
                 </Hidden>
               </Grid>
