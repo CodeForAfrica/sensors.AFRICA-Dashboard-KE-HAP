@@ -29,7 +29,6 @@ const options = {
         return Promise.resolve(true);
       }
       return Promise.resolve(false);
-      // return Promise.reject('/path/to/redirect')        // Redirect to a URL
     },
   },
 
