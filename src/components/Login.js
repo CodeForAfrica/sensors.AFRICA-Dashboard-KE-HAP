@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Button, Grid } from '@material-ui/core';
-import Link from 'components/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { signIn } from 'next-auth/client';
 
@@ -80,21 +79,19 @@ function Login({ providers, ...props }) {
         <form noValidate className={classes.formStyles}>
           <div className={classes.buttonContainer}>
             {Object.values(providers).map((provider) => (
-              <Link href="/dashboard/africa" key={provider.name}>
-                <Button
-                  value="Subscribe"
-                  type="submit"
-                  name="submit"
-                  id="mc-embedded-subscribe-form"
-                  variant="contained"
-                  className={classes.loginButton}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => signIn(provider.id)}
-                >
-                  Sign in with {provider.name}
-                </Button>
-              </Link>
+              <Button
+                key={provider.name}
+                value="Subscribe"
+                name="submit"
+                id="mc-embedded-subscribe-form"
+                variant="contained"
+                className={classes.loginButton}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => signIn(provider.id)}
+              >
+                Sign in with {provider.name}
+              </Button>
             ))}
           </div>
         </form>
