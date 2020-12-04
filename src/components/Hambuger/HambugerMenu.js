@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, MenuItem, Typography, MenuList } from '@material-ui/core';
 import Link from 'components/Link';
 import Modal from '@material-ui/core/Modal';
+import { signOut } from 'next-auth/client';
 
 import MenuButton from 'components/Hambuger/MenuButton';
 
@@ -94,6 +95,16 @@ function HambugerMenu({ handleToggle, menuOpen }) {
                 </Typography>
               </MenuItem>
             </Link>
+
+            <MenuItem className={classes.menuListItem}>
+              <Typography
+                className={classes.typography}
+                variant="subtitle1"
+                onClick={signOut}
+              >
+                SIGN OUT
+              </Typography>
+            </MenuItem>
           </MenuList>
         </Modal>
       </Grid>

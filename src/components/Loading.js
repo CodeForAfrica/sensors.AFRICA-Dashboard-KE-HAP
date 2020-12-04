@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from 'components/Link';
 import Logo from 'components/Logo';
 import bglanding from 'assets/images/background/bglanding.jpg';
-import Login from 'components/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,24 +23,9 @@ const useStyles = makeStyles((theme) => ({
     height: '8rem',
     maxWidth: '100%',
   },
-  subtitle: {
-    marginTop: '1rem',
-    marginBottom: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '17px', // add this to themes responsive?
-    },
-  },
-  form: {
-    textAlign: 'center',
-    '& .MuiFormLabel-root.Mui-focused': {
-      color: '#FFFFFF',
-    },
-  },
 }));
 
-function Hero(props) {
+function Loading() {
   const classes = useStyles();
   return (
     <Grid container className={classes.root} justify="center">
@@ -50,14 +34,8 @@ function Hero(props) {
           <Logo badge="landing" classes={{ img: classes.img }} />
         </Link>
       </Grid>
-
-      <Grid item xs={7}>
-        <Grid item lg={12} className={classes.form}>
-          <Login {...props} />
-        </Grid>
-      </Grid>
     </Grid>
   );
 }
 
-export default Hero;
+export default Loading;

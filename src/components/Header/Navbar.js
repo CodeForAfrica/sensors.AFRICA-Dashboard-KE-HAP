@@ -1,10 +1,18 @@
 import React from 'react';
 
-import { AppBar, Grid, MenuItem, Toolbar, Hidden } from '@material-ui/core';
+import {
+  AppBar,
+  Grid,
+  MenuItem,
+  Toolbar,
+  Hidden,
+  Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
 import MenuBar from 'components/Header/MenuBar';
+import { signOut } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -75,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBar: {
     padding: '10px 0',
+    display: 'flex',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       order: 2,
@@ -85,6 +94,26 @@ const useStyles = makeStyles((theme) => ({
   searchBarRoot: {
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '2rem',
+    },
+  },
+  signOutButton: {
+    marginLeft: '10px',
+    width: '100px',
+    color: theme.palette.secondary.main,
+    fontWeight: 800,
+    fontSize: '.8rem',
+    height: '3rem',
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: '2rem',
+      paddingRight: '2rem',
+    },
+  },
+  fa: {
+    transition: 'all .5s ease-in-out',
+    padding: theme.spacing(0.5),
+    '&:hover': {
+      transform: 'scale(1.3)',
+      color: '#f3f3f3',
     },
   },
 }));
@@ -115,7 +144,7 @@ function Navbar({ handleSearch, ...props }) {
                 classes={{ root: classes.navBarRoot }}
               >
                 <Hidden only={['xs']}>
-                  <Grid item lg={9} classes={{ root: classes.navBarRoot }}>
+                  <Grid item lg={7} classes={{ root: classes.navBarRoot }}>
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <a href="#map" className={classes.navLink}>
                         MAP
@@ -138,12 +167,21 @@ function Navbar({ handleSearch, ...props }) {
                     </MenuItem>
                   </Grid>
                 </Hidden>
-                <Grid item lg={3} classes={{ root: classes.searchBar }}>
+                <Grid item lg={5} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
-                    placeholder="Search for your city ..."
+                    placeholder="Search for your city"
                     classes={{ root: classes.searchBarRoot }}
                   />
+                  <Hidden only={['xs']}>
+                    <Button
+                      variant="text"
+                      onClick={signOut}
+                      classes={{ root: classes.signOutButton }}
+                    >
+                      Logout
+                    </Button>
+                  </Hidden>
                 </Grid>
                 <Hidden only={['sm', 'md', 'lg', 'xl']}>
                   <MenuBar />

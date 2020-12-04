@@ -33,6 +33,9 @@ const styles = (theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '80vw',
     },
+    [theme.breakpoints.between('sm', 'sm')]: {
+      width: 180,
+    },
   },
   chip: {
     margin: `${theme.spacing(0.5)}px ${theme.spacing.unit / 4}px`,

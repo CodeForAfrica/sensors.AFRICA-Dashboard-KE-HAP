@@ -3,19 +3,23 @@ import PropTypes from 'prop-types';
 
 import Router from 'next/router';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSession } from 'next-auth/client';
 
 import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
+import Loading from 'components/Loading';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
+import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
+
+import config from '../../config';
 
 import NotFound from 'pages/404';
-
 const DEFAULT_CITY = 'africa';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     backgroundColor: '#fff',
+  },
+  graphContainer: {
+    maxWidth: '82rem',
+    width: '100%',
+    color: 'black',
+    textAlign: 'center',
+    scrollMarginTop: '5.9rem',
+    [theme.breakpoints.down('xs')]: {
+      scrollMarginTop: '8.9rem',
+    },
   },
   section: {
     width: '100%',
@@ -44,6 +58,15 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '4.3rem',
     },
   },
+  loading: {
+    textAlign: 'center',
+  },
+  loadingContainer: {
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 
 const DASHBOARD_PATHNAME = '/dashboard';
@@ -52,10 +75,17 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   const { weeklyP2 } = data;
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
+  const [session] = useSession();
   const [city, setCity] = useState(citySlug);
   const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
     getFormattedWeeklyP2Stats(weeklyP2)
   );
+
+  useEffect(() => {
+    if (!session) {
+      Router.push('/');
+    }
+  }, [session]);
 
   // if !data, 404
   if (!CITIES_LOCATION[city] || errorCode >= 400) {
@@ -111,8 +141,35 @@ function City({ city: citySlug, data, errorCode, ...props }) {
             longitude={CITIES_LOCATION[city].longitude}
           />
         </Grid>
-        <Grid item container lg={12} id="graph" className={classes.section}>
-          <QualityStatsGraph data={cityP2WeeklyStats} />
+        <Grid
+          item
+          container
+          lg={12}
+          id="graph"
+          className={classes.graphContainer}
+        >
+          <Grid item xs={12} lg={6}>
+            <Typography> Air Quality in Kenya</Typography>
+
+            <QualityStatsGraph
+              yLabel="PM2.5"
+              xLabel="Date"
+              data={config.airData}
+            />
+            <Typography> Air Quality in Africa</Typography>
+            <QualityStatsGraph
+              yLabel="PM10"
+              xLabel="Date"
+              data={config.multiAirData}
+            />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Typography> Most Hazardrous Countries in Africa</Typography>
+            <CityHazardComparisonChart
+              xLabel="City"
+              data={config.multiAirData}
+            />
+          </Grid>
         </Grid>
         <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
