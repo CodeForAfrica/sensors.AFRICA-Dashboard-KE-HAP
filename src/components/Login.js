@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { signIn } from 'next-auth/client';
+import { useSession, signIn } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ providers, ...props }) {
   const classes = useStyles(props);
+  const [session, loading] = useSession();
   return (
     <Grid
       container
@@ -78,21 +79,22 @@ function Login({ providers, ...props }) {
       <Grid item xs={12}>
         <form noValidate className={classes.formStyles}>
           <div className={classes.buttonContainer}>
-            {Object.values(providers).map((provider) => (
-              <Button
-                key={provider.name}
-                value="Subscribe"
-                name="submit"
-                id="mc-embedded-subscribe-form"
-                variant="contained"
-                className={classes.loginButton}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => signIn(provider.id)}
-              >
-                Sign in with {provider.name}
-              </Button>
-            ))}
+            {!(loading || session) &&
+              Object.values(providers).map((provider) => (
+                <Button
+                  key={provider.name}
+                  value="Subscribe"
+                  name="submit"
+                  id="mc-embedded-subscribe-form"
+                  variant="contained"
+                  className={classes.loginButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => signIn(provider.id)}
+                >
+                  Sign in with {provider.name}
+                </Button>
+              ))}
           </div>
         </form>
       </Grid>
