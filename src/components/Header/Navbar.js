@@ -97,7 +97,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   signOutButton: {
-    marginBottom: '1rem',
     marginLeft: '10px',
     width: '100px',
     color: theme.palette.secondary.main,
@@ -144,7 +143,7 @@ function Navbar({ handleSearch, ...props }) {
                 justify="space-between"
                 classes={{ root: classes.navBarRoot }}
               >
-                <Hidden only={['sm', 'xs']}>
+                <Hidden only={['xs']}>
                   <Grid item lg={7} classes={{ root: classes.navBarRoot }}>
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <a href="#map" className={classes.navLink}>
@@ -174,7 +173,7 @@ function Navbar({ handleSearch, ...props }) {
                     placeholder="Search for your city"
                     classes={{ root: classes.searchBarRoot }}
                   />
-                  <Hidden only={['sm', 'xs']}>
+                  <Hidden only={['xs']}>
                     <Button
                       variant="text"
                       onClick={signOut}
@@ -184,7 +183,7 @@ function Navbar({ handleSearch, ...props }) {
                     </Button>
                   </Hidden>
                 </Grid>
-                <Hidden only={['md', 'lg', 'xl']}>
+                <Hidden only={['sm', 'md', 'lg', 'xl']}>
                   <MenuBar />
                 </Hidden>
               </Grid>
