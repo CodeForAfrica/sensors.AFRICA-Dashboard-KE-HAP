@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Router from 'next/router';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
@@ -12,6 +12,7 @@ import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
+import Loading from 'components/Loading';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
@@ -61,20 +62,17 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   const { weeklyP2 } = data;
   const classes = useStyles(props);
   const [isLoading, setIsLoading] = useState(false);
-  const [session, loadingSession] = useSession();
+  const [session] = useSession();
   const [city, setCity] = useState(citySlug);
   const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
     getFormattedWeeklyP2Stats(weeklyP2)
   );
 
   useEffect(() => {
-    if (loadingSession) {
-      return null;
-    }
     if (!session) {
       Router.push('/');
     }
-  }, [session, loadingSession]);
+  }, [session]);
 
   // if !data, 404
   if (!CITIES_LOCATION[city] || errorCode >= 400) {
@@ -142,11 +140,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
           </Grid>
         </div>
       ) : (
-        <Grid classes={{ root: classes.loadingContainer }}>
-          <Typography variant="h2" classes={{ root: classes.loading }}>
-            Loading..
-          </Typography>
-        </Grid>
+       <Loading></Loading>
       )}
     </>
   );
