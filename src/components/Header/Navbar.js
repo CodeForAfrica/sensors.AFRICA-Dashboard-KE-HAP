@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { AppBar, Grid, MenuItem, Toolbar, Hidden } from '@material-ui/core';
+import {
+  AppBar,
+  Grid,
+  MenuItem,
+  Toolbar,
+  Hidden,
+  Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
 import SearchBar from 'components/SearchBar';
