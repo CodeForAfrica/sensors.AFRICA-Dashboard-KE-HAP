@@ -15,6 +15,9 @@ import Footer from 'components/Footer';
 import Loading from 'components/Loading';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
+import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
+
+import config from '../../config';
 
 import NotFound from 'pages/404';
 const DEFAULT_CITY = 'africa';
@@ -29,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     backgroundColor: '#fff',
+  },
+  graphContainer: {
+    maxWidth: '82rem',
+    width: '100%',
+    color: 'black',
+    textAlign: 'center',
+    scrollMarginTop: '5.9rem',
+    [theme.breakpoints.down('xs')]: {
+      scrollMarginTop: '8.9rem',
+    },
   },
   section: {
     width: '100%',
@@ -107,41 +120,64 @@ function City({ city: citySlug, data, errorCode, ...props }) {
 
   return (
     <>
-      {session ? (
-        <div>
-          <Navbar handleSearch={handleSearch} />
-          <Grid
-            className={classes.root}
-            justify="center"
-            alignItems="center"
-            container
-          >
-            <Grid
-              item
-              lg={12}
-              id="map"
-              className={`${classes.section} ${classes.topMargin}`}
-            >
-              <SensorMap
-                zoom={CITIES_LOCATION[city].zoom}
-                latitude={CITIES_LOCATION[city].latitude}
-                longitude={CITIES_LOCATION[city].longitude}
-              />
-            </Grid>
-            <Grid item container lg={12} id="graph" className={classes.section}>
-              <QualityStatsGraph data={cityP2WeeklyStats} />
-            </Grid>
-            <Grid item id="partners" className={classes.section} xs={12}>
-              <PartnerLogos />
-            </Grid>
-            <Grid id="contacts" className={classes.section} item xs={12}>
-              <Footer />
-            </Grid>
+      <Navbar handleSearch={handleSearch} />
+      {/* <AboutHeader/> */}
+      {/* GERTRUDE: Temporary placement of what should be components */}
+      <Grid
+        className={classes.root}
+        justify="center"
+        alignItems="center"
+        container
+      >
+        <Grid
+          item
+          lg={12}
+          id="map"
+          className={`${classes.section} ${classes.topMargin}`}
+        >
+          <SensorMap
+            zoom={CITIES_LOCATION[city].zoom}
+            latitude={CITIES_LOCATION[city].latitude}
+            longitude={CITIES_LOCATION[city].longitude}
+          />
+        </Grid>
+        <Grid
+          item
+          container
+          lg={12}
+          id="graph"
+          className={classes.graphContainer}
+        >
+          <Grid item xs={12} lg={6}>
+            <Typography> Air Quality in Kenya</Typography>
+
+            <QualityStatsGraph
+              yLabel="PM2.5"
+              xLabel="Date"
+              data={config.airData}
+            />
+            <Typography> Air Quality in Africa</Typography>
+            <QualityStatsGraph
+              yLabel="PM10"
+              xLabel="Date"
+              data={config.multiAirData}
+            />
           </Grid>
-        </div>
-      ) : (
-       <Loading></Loading>
-      )}
+          <Grid item xs={12} lg={6}>
+            <Typography> Most Hazardrous Countries in Africa</Typography>
+            <CityHazardComparisonChart
+              xLabel="City"
+              data={config.multiAirData}
+            />
+          </Grid>
+        </Grid>
+        <Grid item id="partners" className={classes.section} xs={12}>
+          <PartnerLogos />
+        </Grid>
+        <Grid id="contacts" className={classes.section} item xs={12}>
+          <Footer />
+        </Grid>
+      </Grid>
     </>
   );
 }
