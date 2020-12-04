@@ -29,7 +29,7 @@ const styles = (theme) => ({
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingTop: theme.spacing(2),
-    width: 300,
+    width: 280,
     [theme.breakpoints.down('xs')]: {
       width: '80vw',
     },

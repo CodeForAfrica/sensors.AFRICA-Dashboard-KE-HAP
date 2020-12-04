@@ -46,15 +46,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     color: 'black',
     textAlign: 'center',
-    scrollMarginTop: '5.9rem',
+    scrollMarginTop: '3.2rem',
     [theme.breakpoints.down('xs')]: {
-      scrollMarginTop: '8.9rem',
+      scrollMarginTop: '6.3rem',
     },
   },
   topMargin: {
-    marginTop: '4.9rem',
+    marginTop: '1.2rem',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '8.9rem',
+      marginTop: '4.3rem',
     },
   },
 }));
@@ -157,7 +157,7 @@ function City({ city: citySlug, data, errorCode, ...props }) {
         <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
         </Grid>
-        <Grid id="contacts" item xs={12}>
+        <Grid id="contacts" className={classes.section} item xs={12}>
           <Footer />
         </Grid>
       </Grid>
