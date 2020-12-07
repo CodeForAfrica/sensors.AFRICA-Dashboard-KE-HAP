@@ -310,8 +310,6 @@ class SearchBar extends React.Component {
     const { classes, options, placeholder } = this.props;
     const { single } = this.state;
 
-    console.log('OPTIONS', options);
-
     return (
       <div className={classes.root}>
         <Select
