@@ -15,6 +15,7 @@ import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
+import AQIndex from 'components/AQIndex';
 
 import config from '../../config';
 
@@ -120,8 +121,6 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   return (
     <>
       <Navbar handleSearch={handleSearch} />
-      {/* <AboutHeader/> */}
-      {/* GERTRUDE: Temporary placement of what should be components */}
       <Grid
         className={classes.root}
         justify="center"
@@ -168,6 +167,9 @@ function City({ city: citySlug, data, errorCode, ...props }) {
               xLabel="City"
               data={config.multiAirData}
             />
+          </Grid>
+          <Grid>
+            <AQIndex />
           </Grid>
         </Grid>
         <Grid item id="partners" className={classes.section} xs={12}>
