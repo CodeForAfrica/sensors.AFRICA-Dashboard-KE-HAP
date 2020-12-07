@@ -285,9 +285,9 @@ const components = {
 };
 
 const DEFAULT_OPTIONS = [
-  { value: 'nairobi', label: 'Nairobi, Kenya' },
-  { value: 'lagos', label: 'Lagos, Nigeria' },
-  { value: 'dar-es-salaam', label: 'Dar-es-Salaam, Tanzania' },
+  { value: 'nairobi', label: 'Kenya' },
+  { value: 'lagos', label: 'Nigeria' },
+  { value: 'dar-es-salaam', label: 'Tanzania' },
 ];
 
 class SearchBar extends React.Component {
@@ -309,6 +309,8 @@ class SearchBar extends React.Component {
   render() {
     const { classes, options, placeholder } = this.props;
     const { single } = this.state;
+
+    console.log('OPTIONS', options);
 
     return (
       <div className={classes.root}>

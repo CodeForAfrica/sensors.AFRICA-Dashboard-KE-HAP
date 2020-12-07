@@ -9,10 +9,11 @@ import { useSession } from 'next-auth/client';
 
 import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
+console.log('API', API, 'CITIES LOCATION', CITIES_LOCATION);
+
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
-import Loading from 'components/Loading';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
