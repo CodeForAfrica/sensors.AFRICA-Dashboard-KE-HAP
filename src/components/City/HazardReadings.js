@@ -9,6 +9,13 @@ const useStyles = makeStyles(() => ({
   hazardContainer: {
     marginTop: '100px',
   },
+  textStyle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  title: {
+    marginBottom: '4rem',
+  },
 }));
 
 function HazardReading() {
@@ -16,10 +23,13 @@ function HazardReading() {
   return (
     <>
       <Grid>
-        <Typography> Most Hazardous Readings in Africa</Typography>
+        <Typography className={classes.title}>
+          {' '}
+          Most Hazardous Readings in Africa
+        </Typography>
         <Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               1. South Africa - 250{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
@@ -27,7 +37,7 @@ function HazardReading() {
             </Typography>
           </Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               2. Nigeria - 159{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
@@ -35,7 +45,7 @@ function HazardReading() {
             </Typography>
           </Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               3. Kenya - 155{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'purple' }} />
@@ -46,10 +56,13 @@ function HazardReading() {
       </Grid>
 
       <Grid className={classes.hazardContainer}>
-        <Typography> Least Hazardous Readings in Africa</Typography>
+        <Typography className={classes.title}>
+          {' '}
+          Least Hazardous Readings in Africa
+        </Typography>
         <Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               1. Togo - 49{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
@@ -57,7 +70,7 @@ function HazardReading() {
             </Typography>
           </Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               2. Tanzania - 45{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
@@ -65,7 +78,7 @@ function HazardReading() {
             </Typography>
           </Grid>
           <Grid className={classes.country}>
-            <Typography className={classes.textStyle}>
+            <Typography variant="body2" className={classes.textStyle}>
               3.Ghana - 55{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'yellow' }} />

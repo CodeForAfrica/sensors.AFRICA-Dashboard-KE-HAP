@@ -6,6 +6,7 @@ import Select from 'react-select';
 
 import { MenuItem, Paper, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { COUNTRIES_LOCATION } from 'api';
 
 const styles = (theme) => ({
   root: {
@@ -284,12 +285,6 @@ const components = {
   DropdownIndicator: null,
 };
 
-const DEFAULT_OPTIONS = [
-  { value: 'nairobi', label: 'Kenya' },
-  { value: 'lagos', label: 'Nigeria' },
-  { value: 'dar-es-salaam', label: 'Tanzania' },
-];
-
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -333,7 +328,10 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   handleSearch: null,
-  options: DEFAULT_OPTIONS,
+  options: Object.values(COUNTRIES_LOCATION).map((country) => ({
+    value: country.slug,
+    label: country.label,
+  })),
   placeholder: '',
 };
 
