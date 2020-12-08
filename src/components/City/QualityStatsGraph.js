@@ -53,7 +53,6 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
   }
   if (dataProps[0]?.data) {
     dataArray = dataProps;
-    console.log('1', dataArray);
   } else if (dataProps?.data) {
     dataArray = [dataProps];
   }
