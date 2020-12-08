@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   country: {
     margin: '10px 0',
   },
@@ -20,7 +20,7 @@ function HazardReading() {
         <Grid>
           <Grid className={classes.country}>
             <Typography className={classes.textStyle}>
-              1. Kenya - 155{' '}
+              1. South Africa - 250{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
               </svg>
@@ -36,7 +36,7 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography className={classes.textStyle}>
-              3. South Africa - 250{' '}
+              3. Kenya - 155{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'purple' }} />
               </svg>
