@@ -39,8 +39,13 @@ const config = {
   airData: { name: 'Kenya', data: airData() },
   multiAirData: [
     { name: 'Kenya', data: airData() },
-    { name: 'Accra', data: airData() },
-    { name: 'Lagos', data: airData() },
+    { name: 'South Africa', data: airData() },
+    { name: 'Nigeria', data: airData() },
+  ],
+  leastAirData: [
+    { name: 'Ghana', data: airData() },
+    { name: 'Tanzania', data: airData() },
+    { name: 'Togo', data: airData() },
   ],
 };
 

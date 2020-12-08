@@ -14,8 +14,9 @@ import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
-import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
-import AQIndex from 'components/AQIndex';
+// import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
+import HazardReading from 'src/components/City/HazardReadings';
+import AQIndex from 'src/components/City/AQIndex';
 
 import config from '../../config';
 
@@ -66,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  hazardContainer: {
+    flexDirection: 'column',
   },
 }));
 
@@ -161,14 +165,34 @@ function City({ city: citySlug, data, errorCode, ...props }) {
               data={config.multiAirData}
             />
           </Grid>
-          <Grid item xs={12} lg={6}>
-            <Typography> Most Hazardrous Countries in Africa</Typography>
+          {/* GERTRUDE: This is a bar graph visualizing least/most hazardous */}
+          {/* <Grid item xs={12} lg={6}>
+            <Typography> Most Hazardous Readings in Africa</Typography>
             <CityHazardComparisonChart
-              xLabel="City"
+              xLabel="Country"
               data={config.multiAirData}
             />
+
+            <Typography> Least Hazardous Readings in Africa</Typography>
+            <CityHazardComparisonChart
+              xLabel="Country"
+              data={config.leastAirData}
+            />
+          </Grid> */}
+
+          <Grid
+            container
+            justify="center"
+            alignItems="center"
+            item
+            xs={12}
+            lg={6}
+            className={classes.hazardContainer}
+          >
+            <HazardReading />
           </Grid>
-          <Grid>
+
+          <Grid item lg={12} justify="center">
             <AQIndex />
           </Grid>
         </Grid>

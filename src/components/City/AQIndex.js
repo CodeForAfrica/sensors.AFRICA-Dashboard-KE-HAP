@@ -19,7 +19,7 @@ function AQIndex() {
   return (
     <Grid>
       <Typography variant="h6">AQI Index</Typography>
-      <Grid container>
+      <Grid container lg={12} justify="center">
         <Grid className={classes.marginStyle}>
           <svg width="10" height="10">
             <rect width="10" height="10" style={{ fill: 'green' }} />
