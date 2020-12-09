@@ -3,12 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
-  root: {},
+  root: {
+    marginTop: '2.5rem',
+  },
   marginStyle: {
-    margin: '10px 5px',
+    margin: '0.625rem 0.313rem',
   },
   textStyle: {
-    marginLeft: '5px',
+    marginLeft: '0.313rem',
     display: 'inline',
   },
 }));
@@ -17,7 +19,7 @@ function AQIndex() {
   const classes = useStyles();
 
   return (
-    <Grid>
+    <Grid className={classes.root}>
       <Typography variant="h6">AQI Index</Typography>
       <Grid container lg={12} justify="center">
         <Grid className={classes.marginStyle}>

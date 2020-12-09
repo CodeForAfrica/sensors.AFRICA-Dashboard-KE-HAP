@@ -123,6 +123,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         </Grid>
         <Grid
           item
+          justify="center"
           container
           lg={12}
           id="graph"

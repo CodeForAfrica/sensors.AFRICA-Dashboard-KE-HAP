@@ -20,16 +20,20 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     display: 'block',
   },
+
   chartContainer: {
     textAlign: 'center',
     marginBottom: '3rem',
-    width: '100%',
+    marginLeft: '3.125rem',
     maxWidth: '100%',
     [theme.breakpoints.up('md')]: {
       width: '59.625rem',
     },
     [theme.breakpoints.up('lg')]: {
       width: '79.5rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '0.625rem',
     },
   },
 }));
