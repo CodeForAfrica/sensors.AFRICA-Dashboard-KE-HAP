@@ -2,9 +2,12 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   country: {
-    margin: '10px 0',
+    margin: '0.625rem 0',
+    [theme.breakpoints.down('xs')]: {
+      margin: '0.625rem',
+    },
   },
   hazardContainer: {
     marginTop: '100px',
@@ -79,7 +82,7 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              3.Ghana - 55{' '}
+              3. Ghana - 55{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'yellow' }} />
               </svg>
