@@ -329,10 +329,12 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   handleSearch: null,
-  options: Object.values(COUNTRIES_LOCATION).map((country) => ({
-    value: country.slug,
-    label: country.label,
-  })),
+  options: Object.values(COUNTRIES_LOCATION)
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .map((country) => ({
+      value: country.slug,
+      label: country.label,
+    })),
   placeholder: '',
 };
 
