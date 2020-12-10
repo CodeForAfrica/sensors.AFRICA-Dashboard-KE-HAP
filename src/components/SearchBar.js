@@ -10,9 +10,10 @@ import { COUNTRIES_LOCATION } from 'api';
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 0,
     paddingLeft: '2rem',
     [theme.breakpoints.down('sm')]: {
+      flexGrow: 1,
       display: 'flex',
       paddingLeft: '0 !important',
       justifyContent: 'center',
