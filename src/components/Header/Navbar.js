@@ -105,10 +105,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
     width: '100px',
     color: theme.palette.secondary.main,
+    fontFamily: 'Anton',
     fontWeight: 800,
     fontSize: '.8rem',
     height: '3rem',
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.2rem',
       paddingLeft: '2rem',
       paddingRight: '2rem',
     },
