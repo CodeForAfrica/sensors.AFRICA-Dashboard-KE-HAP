@@ -123,44 +123,66 @@ const CITIES_LOCATION = {
   },
 };
 
-// const COUNTRIES_LOCATION = {
-//   kenya: {
-//     slug: 'kenya',
-//     latitude: '0.17666667',
-//     longitude: '37.90832778',
-//     name: 'Kenya',
-//     label: 'Kenya',
-//     zoom: '12',
-//     center: '0.17666667,37.90832778',
-//   },
-//   uganda: {
-//     slug: 'uganda',
-//     latitude: '1.373333',
-//     longitude: '32.290275',
-//     name: 'Uganda',
-//     label: 'Uganda',
-//     zoom: '12',
-//     center: '1.373333,32.290275',
-//   },
-//   southafrica: {
-//     slug: 'southafrica',
-//     latitude: '30.559482',
-//     longitude: '22.937506',
-//     name: 'South Africa',
-//     label: 'South Africa',
-//     zoom: '12',
-//     center: '30.559482,22.937506',
-//   },
-//   nigeria: {
-//     slug: 'nigeria',
-//     latitude: '9.081999',
-//     longitude: '8.675277',
-//     name: 'Nigeria',
-//     label: 'Nigeria',
-//     zoom: '12',
-//     center: '9.081999,8.675277',
-//   },
-// };
+const COUNTRIES_LOCATION = {
+  kenya: {
+    slug: 'kenya',
+    latitude: '0.17666667',
+    longitude: '37.90832778',
+    name: 'Kenya',
+    label: 'Kenya',
+    zoom: '12',
+    center: '0.17666667,37.90832778',
+  },
+  uganda: {
+    slug: 'uganda',
+    latitude: '1.373333',
+    longitude: '32.290275',
+    name: 'Uganda',
+    label: 'Uganda',
+    zoom: '12',
+    center: '1.373333,32.290275',
+  },
+  tanzania: {
+    slug: 'tanzania',
+    latitude: '-6.7846',
+    longitude: '39.2669',
+    name: 'Dar es Salaam',
+    country: 'Tanzania',
+    label: 'Tanzania',
+    zoom: '12',
+    center: '-6.7846,39.2669',
+    twitterHandle: '#DarEsSalaam',
+  },
+  southafrica: {
+    slug: 'southafrica',
+    latitude: '30.559482',
+    longitude: '22.937506',
+    name: 'South Africa',
+    label: 'South Africa',
+    zoom: '12',
+    center: '30.559482,22.937506',
+  },
+  nigeria: {
+    slug: 'nigeria',
+    latitude: '9.081999',
+    longitude: '8.675277',
+    name: 'Nigeria',
+    label: 'Nigeria',
+    zoom: '12',
+    center: '9.081999,8.675277',
+  },
+  africa: {
+    slug: 'africa',
+    latitude: '6.4552',
+    longitude: '3.4198',
+    name: 'Africa',
+    country: 'Nigeria',
+    label: 'Africa',
+    zoom: '12',
+    center: '6.4552,3.4198',
+    twitterHandle: '@followlasg',
+  },
+};
 
 const API = {
   getAirData(city) {
@@ -178,6 +200,7 @@ const API = {
 
 export {
   CITIES_LOCATION,
+  COUNTRIES_LOCATION,
   getFormattedHumidityStats,
   getFormattedP2Stats,
   getFormattedTemperatureStats,

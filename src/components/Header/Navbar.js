@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     padding: '10px 0',
     display: 'flex',
+    justifyContent: 'flex-end',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       order: 2,
@@ -92,8 +93,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchBarRoot: {
+    flexGrow: 0,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '2rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexGrow: 1,
     },
   },
   signOutButton: {
@@ -170,7 +175,7 @@ function Navbar({ handleSearch, ...props }) {
                 <Grid item lg={5} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
-                    placeholder="Search for your city"
+                    placeholder="Search for country"
                     classes={{ root: classes.searchBarRoot }}
                   />
                   <Hidden only={['xs']}>

@@ -6,12 +6,14 @@ import Select from 'react-select';
 
 import { MenuItem, Paper, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { COUNTRIES_LOCATION } from 'api';
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 0,
     paddingLeft: '2rem',
     [theme.breakpoints.down('sm')]: {
+      flexGrow: 1,
       display: 'flex',
       paddingLeft: '0 !important',
       justifyContent: 'center',
@@ -284,12 +286,6 @@ const components = {
   DropdownIndicator: null,
 };
 
-const DEFAULT_OPTIONS = [
-  { value: 'nairobi', label: 'Nairobi, Kenya' },
-  { value: 'lagos', label: 'Lagos, Nigeria' },
-  { value: 'dar-es-salaam', label: 'Dar-es-Salaam, Tanzania' },
-];
-
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -333,7 +329,10 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   handleSearch: null,
-  options: DEFAULT_OPTIONS,
+  options: Object.values(COUNTRIES_LOCATION).map((country) => ({
+    value: country.slug,
+    label: country.label,
+  })),
   placeholder: '',
 };
 

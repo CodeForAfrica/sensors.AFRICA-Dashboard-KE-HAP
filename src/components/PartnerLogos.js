@@ -4,9 +4,6 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import worldbank from 'assets/images/partners/worldbankgroup.png';
-import liquidtelcom from 'assets/images/partners/liquidtelcom.png';
-import data4sdg from 'assets/images/partners/partnershipsdg.png';
-import germanCoopLogo from 'assets/images/partners/germanCoopLogo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,33 +73,6 @@ function PartnerLogos() {
         <Grid item xs={12} sm={6} md={3}>
           <div className={classes.worldBankLogo}>
             <img src={worldbank} alt="World Bank" className={classes.img} />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <div className={classes.liquidLogo}>
-            <img
-              src={liquidtelcom}
-              alt="Liquid Telcom"
-              className={classes.img}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <div className={classes.globalLogo}>
-            <img
-              src={data4sdg}
-              alt="Global Partnership for Sustainable Development Data"
-              className={classes.img}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <div className={classes.germanCoopLogo}>
-            <img
-              src={germanCoopLogo}
-              alt="German Cooperation"
-              className={classes.img}
-            />
           </div>
         </Grid>
       </Grid>

@@ -39,7 +39,7 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
       chartWidth = 79.5 * 8;
     }
   }
-  const chartHeight = chartWidth * (14 / 16) + 40;
+  const chartHeight = chartWidth * (6 / 16) + 20;
 
   let dataArray = [];
   if (!dataProps) {

@@ -15,7 +15,7 @@ function Home(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   return { props: { providers: await providers(context) } };
 }
 

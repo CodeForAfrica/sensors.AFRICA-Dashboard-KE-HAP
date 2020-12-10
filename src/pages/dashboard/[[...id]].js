@@ -7,20 +7,20 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { CITIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
+import API, { COUNTRIES_LOCATION } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
-import Loading from 'components/Loading';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
-import CityHazardComparisonChart from 'components/City/CityHazardComparisonChart';
-
-import config from '../../config';
+import HazardReading from 'components/City/HazardReadings';
+import AQIndex from 'components/City/AQIndex';
 
 import NotFound from 'pages/404';
-const DEFAULT_CITY = 'africa';
+import config from '../../config';
+
+const DEFAULT_COUNTRY = 'africa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,19 +67,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  hazardContainer: {
+    flexDirection: 'column',
+  },
 }));
 
 const DASHBOARD_PATHNAME = '/dashboard';
 
-function City({ city: citySlug, data, errorCode, ...props }) {
-  const { weeklyP2 } = data;
+function Country({ country: countrySlug, data, errorCode, ...props }) {
   const classes = useStyles(props);
-  const [isLoading, setIsLoading] = useState(false);
   const [session] = useSession();
-  const [city, setCity] = useState(citySlug);
-  const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
-    getFormattedWeeklyP2Stats(weeklyP2)
-  );
+  const [country, setCountry] = useState(countrySlug);
 
   useEffect(() => {
     if (!session) {
@@ -88,41 +86,23 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   }, [session]);
 
   // if !data, 404
-  if (!CITIES_LOCATION[city] || errorCode >= 400) {
+  if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
     return <NotFound />;
   }
 
-  useEffect(() => {
-    if (isLoading) {
-      API.getAirData(city)
-        .then((res) => res.json())
-        .then(() =>
-          API.getWeeklyP2Data(city)
-            .then((res) => res.json())
-            .then((json) =>
-              setCityP2WeeklyStats(getFormattedWeeklyP2Stats(json))
-            )
-        )
-        .then(() => setIsLoading(false));
-    }
-  }, [isLoading]);
-
   const handleSearch = (option) => {
-    const searchedCity = (option && option.value) || DEFAULT_CITY;
-    if (searchedCity !== city) {
-      setCity(searchedCity);
-      const cityUrl = `${DASHBOARD_PATHNAME}/[id]`;
-      const cityAs = `${DASHBOARD_PATHNAME}/${searchedCity}`;
-      Router.push(cityUrl, cityAs, { shallow: true });
-      setIsLoading(true);
+    const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
+    if (searchedCountry !== country) {
+      setCountry(searchedCountry);
+      const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
+      const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
+      Router.push(countryUrl, countryAs, { shallow: true });
     }
   };
 
   return (
     <>
       <Navbar handleSearch={handleSearch} />
-      {/* <AboutHeader/> */}
-      {/* GERTRUDE: Temporary placement of what should be components */}
       <Grid
         className={classes.root}
         justify="center"
@@ -136,13 +116,14 @@ function City({ city: citySlug, data, errorCode, ...props }) {
           className={`${classes.section} ${classes.topMargin}`}
         >
           <SensorMap
-            zoom={CITIES_LOCATION[city].zoom}
-            latitude={CITIES_LOCATION[city].latitude}
-            longitude={CITIES_LOCATION[city].longitude}
+            zoom={COUNTRIES_LOCATION[country].zoom}
+            latitude={COUNTRIES_LOCATION[country].latitude}
+            longitude={COUNTRIES_LOCATION[country].longitude}
           />
         </Grid>
         <Grid
           item
+          justify="center"
           container
           lg={12}
           id="graph"
@@ -163,12 +144,20 @@ function City({ city: citySlug, data, errorCode, ...props }) {
               data={config.multiAirData}
             />
           </Grid>
-          <Grid item xs={12} lg={6}>
-            <Typography> Most Hazardrous Countries in Africa</Typography>
-            <CityHazardComparisonChart
-              xLabel="City"
-              data={config.multiAirData}
-            />
+          <Grid
+            container
+            justify="center"
+            alignItems="center"
+            item
+            xs={12}
+            lg={6}
+            className={classes.hazardContainer}
+          >
+            <HazardReading />
+          </Grid>
+
+          <Grid item lg={12} justify="center">
+            <AQIndex />
           </Grid>
         </Grid>
         <Grid item id="partners" className={classes.section} xs={12}>
@@ -182,8 +171,8 @@ function City({ city: citySlug, data, errorCode, ...props }) {
   );
 }
 
-City.propTypes = {
-  city: PropTypes.string,
+Country.propTypes = {
+  country: PropTypes.string,
   data: PropTypes.shape({
     air: PropTypes.shape({}).isRequired,
     weeklyP2: PropTypes.shape({}).isRequired,
@@ -191,17 +180,28 @@ City.propTypes = {
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
 };
 
-City.defaultProps = {
-  city: undefined,
+Country.defaultProps = {
+  country: undefined,
   data: undefined,
   errorCode: false,
 };
 
-export async function getServerSideProps({ params: { id: cityProps } }) {
+export async function getStaticPaths() {
+  const fallback = false;
+  const defaultRoute = { params: { id: [] } };
+  const paths = Object.values(COUNTRIES_LOCATION).map((country) => ({
+    params: { id: [country.slug] },
+  }));
+  paths.push(defaultRoute);
+
+  return { fallback, paths };
+}
+
+export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
-  const city = cityProps || DEFAULT_CITY;
-  const airRes = await API.getAirData(city);
-  const weeklyP2Res = await API.getWeeklyP2Data(city);
+  const country = countryProps || DEFAULT_COUNTRY;
+  const airRes = await API.getAirData(country);
+  const weeklyP2Res = await API.getWeeklyP2Data(country);
   let errorCode = airRes.statusCode > 200 && airRes.statusCode;
 
   errorCode =
@@ -210,7 +210,7 @@ export async function getServerSideProps({ params: { id: cityProps } }) {
   const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
   const data = { air, weeklyP2 };
   // Pass data to the page via props
-  return { props: { errorCode, city, data } };
+  return { props: { errorCode, country, data } };
 }
 
-export default City;
+export default Country;
