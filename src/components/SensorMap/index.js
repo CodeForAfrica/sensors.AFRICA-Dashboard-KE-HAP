@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import IframeComponent from 'components/SensorMap/IframeComponent';
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Map({ zoom, latitude, longitude }) {
+function Map({ zoom, latitude, longitude, location }) {
   const classes = useStyles();
   return (
     <Grid
@@ -33,6 +33,14 @@ function Map({ zoom, latitude, longitude }) {
       justify="center"
       alignItems="center"
     >
+      <Grid item xs={12}>
+        <Typography variant="h5" className={classes.headline}>
+          SENSORS IN {location}
+          <Typography variant="caption" className={classes.caption}>
+            * Click a sensor to view latest readings.
+          </Typography>
+        </Typography>
+      </Grid>
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
@@ -73,5 +81,6 @@ Map.propTypes = {
   zoom: PropTypes.string.isRequired,
   latitude: PropTypes.string.isRequired,
   longitude: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
 };
 export default Map;
