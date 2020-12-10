@@ -93,8 +93,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchBarRoot: {
+    flexGrow: 0,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '2rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexGrow: 1,
     },
   },
   signOutButton: {

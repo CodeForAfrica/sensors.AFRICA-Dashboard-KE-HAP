@@ -14,7 +14,6 @@ import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
-// import CountryHazardComparisonChart from 'components/Country/City';
 import HazardReading from 'components/City/HazardReadings';
 import AQIndex from 'components/City/AQIndex';
 
@@ -124,6 +123,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         </Grid>
         <Grid
           item
+          justify="center"
           container
           lg={12}
           id="graph"
@@ -144,21 +144,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
               data={config.multiAirData}
             />
           </Grid>
-          {/* GERTRUDE: This is a bar graph visualizing least/most hazardous */}
-          {/* <Grid item xs={12} lg={6}>
-            <Typography> Most Hazardous Readings in Africa</Typography>
-            <CountryHazardComparisonChart
-              xLabel="Country"
-              data={config.multiAirData}
-            />
-
-            <Typography> Least Hazardous Readings in Africa</Typography>
-            <CountryHazardComparisonChart
-              xLabel="Country"
-              data={config.leastAirData}
-            />
-          </Grid> */}
-
           <Grid
             container
             justify="center"
