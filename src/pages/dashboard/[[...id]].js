@@ -7,7 +7,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION } from 'api';
+import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
@@ -79,11 +79,25 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const { weeklyP2 } = data;
+  const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
+    getFormattedWeeklyP2Stats(weeklyP2)
+  );
+
   useEffect(() => {
     if (!session) {
       Router.push('/');
     }
   }, [session]);
+
+  useEffect(() => {
+    const { city } = COUNTRIES_LOCATION[country];
+    API.getWeeklyP2Data(city)
+      .then((res) => res.json())
+      .then((json) => setCityP2WeeklyStats(getFormattedWeeklyP2Stats(json)))
+      .then(() => setIsLoading(false));
+  }, [isLoading]);
 
   // if !data, 404
   if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
@@ -94,6 +108,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
     const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
     if (searchedCountry !== country) {
       setCountry(searchedCountry);
+      setIsLoading(true);
       const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
       const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
       Router.push(countryUrl, countryAs, { shallow: true });
@@ -131,15 +146,19 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={classes.graphContainer}
         >
           <Grid item xs={12} lg={6}>
-            <Typography>
-              Air Quality in {COUNTRIES_LOCATION[country].label}
-            </Typography>
+            {cityP2WeeklyStats.length > 0 ? (
+              <div>
+                <Typography>
+                  Air Quality in {COUNTRIES_LOCATION[country].label}
+                </Typography>
 
-            <QualityStatsGraph
-              yLabel="PM2.5"
-              xLabel="Date"
-              data={config.airData}
-            />
+                <QualityStatsGraph
+                  yLabel="PM2.5"
+                  xLabel="Date"
+                  data={{ name: country, data: cityP2WeeklyStats }}
+                />
+              </div>
+            ) : null}
             <Typography> Air Quality in Africa</Typography>
             <QualityStatsGraph
               yLabel="PM10"
@@ -203,8 +222,9 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
   const country = countryProps || DEFAULT_COUNTRY;
-  const airRes = await API.getAirData(country);
-  const weeklyP2Res = await API.getWeeklyP2Data(country);
+  const { city } = COUNTRIES_LOCATION[country];
+  const airRes = await API.getAirData(city);
+  const weeklyP2Res = await API.getWeeklyP2Data(city);
   let errorCode = airRes.statusCode > 200 && airRes.statusCode;
 
   errorCode =
