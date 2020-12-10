@@ -53,9 +53,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   topMargin: {
-    marginTop: '1.2rem',
+    marginTop: '5rem',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '4.3rem',
+      marginTop: '8.1rem',
     },
   },
   loading: {
@@ -119,6 +119,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             zoom={COUNTRIES_LOCATION[country].zoom}
             latitude={COUNTRIES_LOCATION[country].latitude}
             longitude={COUNTRIES_LOCATION[country].longitude}
+            location={COUNTRIES_LOCATION[country].label}
           />
         </Grid>
         <Grid
@@ -130,7 +131,9 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={classes.graphContainer}
         >
           <Grid item xs={12} lg={6}>
-            <Typography> Air Quality in Kenya</Typography>
+            <Typography>
+              Air Quality in {COUNTRIES_LOCATION[country].label}
+            </Typography>
 
             <QualityStatsGraph
               yLabel="PM2.5"
