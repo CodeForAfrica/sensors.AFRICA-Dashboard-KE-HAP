@@ -168,7 +168,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           </Grid>
           <Grid
             container
-            justify="center"
             alignItems="center"
             item
             xs={12}
