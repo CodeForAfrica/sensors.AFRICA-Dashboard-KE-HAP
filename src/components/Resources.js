@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import { Button, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TwitterShareButton } from 'react-share';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -16,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingBottom: '3rem',
     },
+  },
+  section: {
+    marginTop: '100px',
   },
   supportCard: {
     height: '15rem',
@@ -110,76 +110,75 @@ function Support({ classNames }) {
   const classes = useStyles();
   const className = classNames ? `${classes.root} ${classNames}` : classes.root;
   return (
-    <Grid container justify="center" align="center" className={className}>
-      <Card className={classes.supportCard}>
-        <CardContent className={classes.cardContent}>
-          <Typography variant="h5">SUPPORT</Typography>
-          <Typography variant="h5">EXISTING SENSORS</Typography>
-          <Typography variant="h5">NETWORKS</Typography>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSdYwUWsyj5VQggCmpVh4O92VWt6NQ-J6kX-jN7uAa1FOELq0w/viewform"
-            className={classes.buttonLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.buttonOutlined}
+    <Grid className={classes.section} container justify="center" xs={12}>
+      <Grid item xs={12} justify="center">
+        <Typography variant="h3">RESOURCES</Typography>
+      </Grid>
+      <Grid container justify="center" align="center" className={className}>
+        <Card className={classes.supportCard}>
+          <CardContent className={classes.cardContent}>
+            <Typography variant="h5">HOW TO</Typography>
+            <Typography variant="h5">DEVELOP LOW COST</Typography>
+            <Typography variant="h5">SENSORS</Typography>
+            <a
+              href="https://docs.google.com/presentation/d/1lj6OEBh6QXx6qBs7FLwVb3ACno9wLPsg5-q63RK3XzM/edit?ts=5f97c561#slide=id.g9b79bcce2b_1_14"
+              className={classes.buttonLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Get started
-            </Button>
-          </a>
-        </CardContent>
-      </Card>
-      <Card className={classes.kickstartCard}>
-        <CardContent className={classes.cardContent}>
-          <Typography variant="h5">KICKSTART YOUR</Typography>
-          <Typography variant="h5">CITY&apos;S OWN</Typography>
-          <Typography variant="h5">SENSOR PROGRAM</Typography>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSdYwUWsyj5VQggCmpVh4O92VWt6NQ-J6kX-jN7uAa1FOELq0w/viewform"
-            className={classes.buttonLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
+                Get started
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+        <Card className={classes.kickstartCard}>
+          <CardContent className={classes.cardContent}>
+            <Typography variant="h5">WIRING</Typography>
+            <Typography variant="h5">LOW COST</Typography>
+            <Typography variant="h5">SENSORS</Typography>
+            <a
+              href="https://github.com/CodeForAfrica/sensors.AFRICA-AQ-sensors-software/tree/recent_luftdaten_master/airrohr-firmware"
+              className={classes.buttonLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              SIGN UP HERE
-            </Button>
-          </a>
-        </CardContent>
-      </Card>
-      <Card className={classes.cleanWaterCard}>
-        <CardContent className={classes.cardContent}>
-          <Typography variant="h5">LET YOUR CITY KNOW</Typography>
-          <Typography variant="h5">THAT CLEAN AIR</Typography>
-          <Typography variant="h5">MATTERS TO YOU</Typography>
-          <TwitterShareButton
-            url="https://sensors.AFRICA/air"
-            title="Did you know the #AirQuality in our city directly affects my health? Check our city’s pollution levels on"
-            via="sensorsAFRICA"
-            hashtags={['sensorsAFRICA']}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
+                GET INSTRUCTIONS
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+        <Card className={classes.cleanWaterCard}>
+          <CardContent className={classes.cardContent}>
+            <Typography variant="h5">AIR QUALITY SENSORS</Typography>
+            <Typography variant="h5">OPEN SOURCE</Typography>
+            <Typography variant="h5">FIRMWARE</Typography>
+            <a
+              href="https://github.com/CodeForAfrica/sensors.AFRICA-AQ-sensors-software/tree/recent_luftdaten_master"
+              className={classes.buttonLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <FontAwesomeIcon
-                className={classes.fa}
-                icon={['fab', 'twitter']}
-                size="2x"
-                fixedWidth
-              />{' '}
-              TWEET
-            </Button>
-          </TwitterShareButton>
-        </CardContent>
-      </Card>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
+                GITHUB REPO
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 }
