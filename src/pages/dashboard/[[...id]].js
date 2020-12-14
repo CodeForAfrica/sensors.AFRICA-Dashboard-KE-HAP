@@ -79,25 +79,15 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
-  const [isLoading, setIsLoading] = useState(false);
   const { weeklyP2 } = data;
-  const [cityP2WeeklyStats, setCityP2WeeklyStats] = useState(
-    getFormattedWeeklyP2Stats(weeklyP2)
-  );
+
+  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
 
   useEffect(() => {
     if (!session) {
       Router.push('/');
     }
   }, [session]);
-
-  useEffect(() => {
-    const { city } = COUNTRIES_LOCATION[country];
-    API.getWeeklyP2Data(city)
-      .then((res) => res.json())
-      .then((json) => setCityP2WeeklyStats(getFormattedWeeklyP2Stats(json)))
-      .then(() => setIsLoading(false));
-  }, [isLoading]);
 
   // if !data, 404
   if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
@@ -108,10 +98,9 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
     const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
     if (searchedCountry !== country) {
       setCountry(searchedCountry);
-      setIsLoading(true);
       const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
       const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
-      Router.push(countryUrl, countryAs, { shallow: true });
+      Router.push(countryUrl, countryAs);
     }
   };
 
@@ -146,16 +135,15 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={classes.graphContainer}
         >
           <Grid item xs={12} lg={6}>
-            {cityP2WeeklyStats.length > 0 ? (
+            {weeklyData.length > 0 ? (
               <div>
                 <Typography>
                   Air Quality in {COUNTRIES_LOCATION[country].label}
                 </Typography>
-
                 <QualityStatsGraph
                   yLabel="PM2.5"
                   xLabel="Date"
-                  data={{ name: country, data: cityP2WeeklyStats }}
+                  data={{ name: country, data: weeklyData }}
                 />
               </div>
             ) : null}
@@ -213,8 +201,8 @@ export async function getStaticPaths() {
   const paths = Object.values(COUNTRIES_LOCATION).map((country) => ({
     params: { id: [country.slug] },
   }));
-  paths.push(defaultRoute);
 
+  paths.push(defaultRoute);
   return { fallback, paths };
 }
 
@@ -231,6 +219,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const air = (!errorCode && (await airRes.json())) || {};
   const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
   const data = { air, weeklyP2 };
+
   // Pass data to the page via props
   return { props: { errorCode, country, data } };
 }
