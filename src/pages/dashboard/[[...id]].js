@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Router from 'next/router';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
@@ -65,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  hazardContainer: {
-    flexDirection: 'column',
   },
 }));
 
@@ -132,10 +129,10 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           <Grid
             container
             alignItems="center"
+            justify="space-evenly"
             item
             xs={12}
-            lg={6}
-            className={classes.hazardContainer}
+            lg={12}
           >
             <HazardReading />
           </Grid>
