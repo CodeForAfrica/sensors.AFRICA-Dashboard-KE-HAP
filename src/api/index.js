@@ -126,6 +126,7 @@ const CITIES_LOCATION = {
 const COUNTRIES_LOCATION = {
   kenya: {
     slug: 'kenya',
+    city: 'nairobi',
     latitude: '0.17666667',
     longitude: '37.90832778',
     name: 'Kenya',
@@ -135,6 +136,7 @@ const COUNTRIES_LOCATION = {
   },
   uganda: {
     slug: 'uganda',
+    city: 'kampala',
     latitude: '1.373333',
     longitude: '32.290275',
     name: 'Uganda',
@@ -164,6 +166,7 @@ const COUNTRIES_LOCATION = {
   },
   nigeria: {
     slug: 'nigeria',
+    city: 'lagos',
     latitude: '9.081999',
     longitude: '8.675277',
     name: 'Nigeria',

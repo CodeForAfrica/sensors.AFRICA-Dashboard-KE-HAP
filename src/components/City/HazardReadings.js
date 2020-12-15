@@ -4,13 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   country: {
-    margin: '0.625rem 0',
+    margin: '3.125rem 0',
     [theme.breakpoints.down('xs')]: {
+      margin: '0.625rem',
+    },
+    [theme.breakpoints.down('md')]: {
       margin: '0.625rem',
     },
   },
   hazardContainer: {
-    marginTop: '100px',
+    marginTop: '2.313rem',
   },
   textStyle: {
     display: 'flex',

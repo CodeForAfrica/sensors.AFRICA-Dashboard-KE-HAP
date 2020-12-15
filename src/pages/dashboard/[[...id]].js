@@ -7,7 +7,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION } from 'api';
+import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
@@ -80,6 +80,8 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
+  const { weeklyData } = data;
+
   useEffect(() => {
     if (!session) {
       Router.push('/');
@@ -97,7 +99,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
       setCountry(searchedCountry);
       const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
       const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
-      Router.push(countryUrl, countryAs, { shallow: true });
+      Router.push(countryUrl, countryAs);
     }
   };
 
@@ -132,15 +134,18 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={classes.graphContainer}
         >
           <Grid item xs={12} lg={6}>
-            <Typography>
-              Air Quality in {COUNTRIES_LOCATION[country].label}
-            </Typography>
-
-            <QualityStatsGraph
-              yLabel="PM2.5"
-              xLabel="Date"
-              data={config.airData}
-            />
+            {weeklyData.length > 0 ? (
+              <div>
+                <Typography>
+                  Air Quality in {COUNTRIES_LOCATION[country].label}
+                </Typography>
+                <QualityStatsGraph
+                  yLabel="PM2.5"
+                  xLabel="Date"
+                  data={{ name: country, data: weeklyData }}
+                />
+              </div>
+            ) : null}
             <Typography> Air Quality in Africa</Typography>
             <QualityStatsGraph
               yLabel="PM10"
@@ -150,7 +155,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           </Grid>
           <Grid
             container
-            justify="center"
             alignItems="center"
             item
             xs={12}
@@ -199,23 +203,27 @@ export async function getStaticPaths() {
   const paths = Object.values(COUNTRIES_LOCATION).map((country) => ({
     params: { id: [country.slug] },
   }));
-  paths.push(defaultRoute);
 
+  paths.push(defaultRoute);
   return { fallback, paths };
 }
 
 export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
   const country = countryProps || DEFAULT_COUNTRY;
-  const airRes = await API.getAirData(country);
-  const weeklyP2Res = await API.getWeeklyP2Data(country);
+  const { city } = COUNTRIES_LOCATION[country];
+  const airRes = await API.getAirData(city);
+  const weeklyP2Res = await API.getWeeklyP2Data(city);
   let errorCode = airRes.statusCode > 200 && airRes.statusCode;
 
   errorCode =
     !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
   const air = (!errorCode && (await airRes.json())) || {};
   const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
-  const data = { air, weeklyP2 };
+
+  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
+  const data = { air, weeklyData };
+
   // Pass data to the page via props
   return { props: { errorCode, country, data } };
 }

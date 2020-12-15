@@ -7,6 +7,7 @@ import {
   Toolbar,
   Hidden,
   Button,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
@@ -16,7 +17,7 @@ import { signOut } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
-    color: '#2FB56B',
+    color: '#FFFFFF',
     transition: 'all .5s ease-in-out',
     '&:hover': {
       transform: 'scale(1.1)',
@@ -184,9 +185,13 @@ function Navbar({ handleSearch, ...props }) {
                     <Button
                       variant="text"
                       onClick={signOut}
-                      classes={{ root: classes.signOutButton }}
+                      classes={{
+                        root: classes.signOutButton,
+                      }}
                     >
-                      Logout
+                      <Typography className={classes.navBarText}>
+                        Logout
+                      </Typography>
                     </Button>
                   </Hidden>
                 </Grid>
