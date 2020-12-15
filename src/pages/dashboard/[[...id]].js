@@ -16,6 +16,7 @@ import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 import HazardReading from 'components/City/HazardReadings';
 import AQIndex from 'components/City/AQIndex';
+import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
 import config from '../../config';
@@ -162,6 +163,9 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           <Grid item lg={12} justify="center">
             <AQIndex />
           </Grid>
+        </Grid>
+        <Grid item id="resources" className={classes.section} xs={12}>
+          <Resources />
         </Grid>
         <Grid item id="partners" className={classes.section} xs={12}>
           <PartnerLogos />
