@@ -13,13 +13,11 @@ import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
-import QualityStatsGraph from 'components/City/QualityStatsGraph';
 import HazardReading from 'components/City/HazardReadings';
 import AQIndex from 'components/City/AQIndex';
 import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
-import config from '../../config';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -80,8 +78,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
-  const { weeklyData } = data;
-
   useEffect(() => {
     if (!session) {
       Router.push('/');
@@ -133,26 +129,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           id="graph"
           className={classes.graphContainer}
         >
-          <Grid item xs={12} lg={6}>
-            {weeklyData.length > 0 ? (
-              <div>
-                <Typography>
-                  Air Quality in {COUNTRIES_LOCATION[country].label}
-                </Typography>
-                <QualityStatsGraph
-                  yLabel="PM2.5"
-                  xLabel="Date"
-                  data={{ name: country, data: weeklyData }}
-                />
-              </div>
-            ) : null}
-            <Typography> Air Quality in Africa</Typography>
-            <QualityStatsGraph
-              yLabel="PM10"
-              xLabel="Date"
-              data={config.multiAirData}
-            />
-          </Grid>
           <Grid
             container
             alignItems="center"
