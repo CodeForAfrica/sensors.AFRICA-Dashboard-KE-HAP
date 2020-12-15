@@ -22,10 +22,9 @@ const options = {
      * @return {boolean}         Return `true` (or a modified JWT) to allow sign in
      *                           Return `false` to deny access
      */
-    signIn: async () => {
+    signIn: async ({ user }) => {
       // check useremail against db/env to see if they are allowed to login
-      const isAllowedToSignIn = true;
-      if (isAllowedToSignIn) {
+      if (process.env.ALLOWED_EMAILS.includes(user.email)) {
         return Promise.resolve(true);
       }
       return Promise.resolve(false);
