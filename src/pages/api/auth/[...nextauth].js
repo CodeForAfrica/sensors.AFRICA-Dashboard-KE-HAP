@@ -24,7 +24,6 @@ const options = {
      */
     signIn: async (user) => {
       // check useremail against db/env to see if they are allowed to login
-      console.log(user);
       if (process.env.ALLOWED_EMAILS.includes(user.email)) {
         return Promise.resolve(true);
       }
