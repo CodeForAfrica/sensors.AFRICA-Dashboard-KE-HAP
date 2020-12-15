@@ -13,7 +13,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   hazardContainer: {
-    marginTop: '2.313rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '2.5rem',
+    },
   },
   textStyle: {
     display: 'flex',
