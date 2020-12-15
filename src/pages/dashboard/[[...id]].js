@@ -79,9 +79,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
-  const { weeklyP2 } = data;
-
-  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
+  const { weeklyData } = data;
 
   useEffect(() => {
     if (!session) {
@@ -218,7 +216,9 @@ export async function getStaticProps({ params: { id: countryProps } }) {
     !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
   const air = (!errorCode && (await airRes.json())) || {};
   const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
-  const data = { air, weeklyP2 };
+
+  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
+  const data = { air, weeklyData };
 
   // Pass data to the page via props
   return { props: { errorCode, country, data } };
