@@ -19,7 +19,7 @@ import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
 
-const DEFAULT_COUNTRY = 'africa';
+const DEFAULT_COUNTRY = 'kenya';
 
 const useStyles = makeStyles((theme) => ({
   root: {
