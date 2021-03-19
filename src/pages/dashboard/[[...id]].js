@@ -60,6 +60,19 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     textAlign: 'center',
   },
+  mapSection: {
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '8%',
+      paddingLeft: '8%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      padding: '0 5px',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      padding: '0 20px',
+    },
+  },
   loadingContainer: {
     display: 'flex',
     height: '100vh',
@@ -105,18 +118,20 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         alignItems="center"
         container
       >
-        <Grid
-          item
-          lg={12}
-          id="map"
-          className={`${classes.section} ${classes.topMargin}`}
-        >
-          <SensorMap
-            zoom={COUNTRIES_LOCATION[country].zoom}
-            latitude={COUNTRIES_LOCATION[country].latitude}
-            longitude={COUNTRIES_LOCATION[country].longitude}
-            location={COUNTRIES_LOCATION[country].label}
-          />
+        <Grid container direction="row" className={classes.mapSection}>
+          <Grid
+            item
+            xs={10}
+            id="map"
+            className={`${classes.section} ${classes.topMargin}`}
+          >
+            <SensorMap
+              zoom={COUNTRIES_LOCATION[country].zoom}
+              latitude={COUNTRIES_LOCATION[country].latitude}
+              longitude={COUNTRIES_LOCATION[country].longitude}
+              location={COUNTRIES_LOCATION[country].label}
+            />
+          </Grid>
         </Grid>
         <Grid
           item
