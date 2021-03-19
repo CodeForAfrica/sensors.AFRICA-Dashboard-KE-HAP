@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import IframeComponent from 'components/SensorMap/IframeComponent';
@@ -26,34 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Map({ zoom, latitude, longitude, location }) {
+function Map({ zoom, latitude, longitude }) {
   const classes = useStyles();
   return (
-    <Grid
-      container
-      className={classes.root}
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item xs={12}>
-        <Typography variant="h5" className={classes.headline}>
-          SENSORS IN {location}
-          <Typography variant="caption" className={classes.caption}>
-            * Click a sensor to view latest readings!.
-          </Typography>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <IframeComponent
-          title="Map section"
-          // src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
-          src={`${MAP_URL}/#${zoom}/${latitude}/${longitude}`}
-          height="500"
-          width="100%"
-          frameBorder="0"
-          scrolling="no"
-        />
-      </Grid>
+    <Grid item className={classes.root}>
+      <IframeComponent
+        title="Map section"
+        src={`${MAP_URL}/#${zoom}/${latitude}/${longitude}`}
+        height="500"
+        width="100%"
+        frameBorder="0"
+        scrolling="no"
+      />
     </Grid>
   );
 }
@@ -84,6 +68,5 @@ Map.propTypes = {
   zoom: PropTypes.string.isRequired,
   latitude: PropTypes.string.isRequired,
   longitude: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
 };
 export default Map;
