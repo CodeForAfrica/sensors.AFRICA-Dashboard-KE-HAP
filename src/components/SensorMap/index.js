@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import IframeComponent from 'components/SensorMap/IframeComponent';
 
+const MAP_URL = '//map.data4sdgs.sensors.africa';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,14 +39,15 @@ function Map({ zoom, latitude, longitude, location }) {
         <Typography variant="h5" className={classes.headline}>
           SENSORS IN {location}
           <Typography variant="caption" className={classes.caption}>
-            * Click a sensor to view latest readings.
+            * Click a sensor to view latest readings!.
           </Typography>
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
-          src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
+          // src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
+          src={`${MAP_URL}/#${zoom}/${latitude}/${longitude}`}
           height="500"
           width="100%"
           frameBorder="0"
