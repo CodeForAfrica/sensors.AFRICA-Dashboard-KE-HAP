@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
+import API, { COUNTRIES_LOCATION, COUNTIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
@@ -19,7 +19,7 @@ import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
 
-const DEFAULT_COUNTRY = 'kenya';
+const DEFAULT_COUNTY = 'kenya';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,12 +95,12 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   }, [session]);
 
   // if !data, 404
-  if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
+  if (!COUNTIES_LOCATION[country] || errorCode >= 400) {
     return <NotFound />;
   }
 
   const handleSearch = (option) => {
-    const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
+    const searchedCountry = (option && option.value) || DEFAULT_COUNTY;
     if (searchedCountry !== country) {
       setCountry(searchedCountry);
       const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
@@ -121,15 +121,15 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         <Grid container direction="row" className={classes.mapSection}>
           <Grid
             item
-            xs={10}
+            xs={12}
             id="map"
             className={`${classes.section} ${classes.topMargin}`}
           >
             <SensorMap
-              zoom={COUNTRIES_LOCATION[country].zoom}
-              latitude={COUNTRIES_LOCATION[country].latitude}
-              longitude={COUNTRIES_LOCATION[country].longitude}
-              location={COUNTRIES_LOCATION[country].label}
+              zoom={COUNTIES_LOCATION[country].zoom}
+              latitude={COUNTIES_LOCATION[country].latitude}
+              longitude={COUNTIES_LOCATION[country].longitude}
+              location={COUNTIES_LOCATION[country].label}
             />
           </Grid>
         </Grid>
@@ -171,7 +171,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
 }
 
 Country.propTypes = {
-  country: PropTypes.string,
+  country: PropTypes.shape({}).isRequired,
   data: PropTypes.shape({
     air: PropTypes.shape({}).isRequired,
     weeklyP2: PropTypes.shape({}).isRequired,
@@ -188,7 +188,7 @@ Country.defaultProps = {
 export async function getStaticPaths() {
   const fallback = false;
   const defaultRoute = { params: { id: [] } };
-  const paths = Object.values(COUNTRIES_LOCATION).map((country) => ({
+  const paths = Object.values(COUNTIES_LOCATION).map((country) => ({
     params: { id: [country.slug] },
   }));
 
@@ -198,8 +198,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
-  const country = countryProps || DEFAULT_COUNTRY;
-  const { city } = COUNTRIES_LOCATION[country];
+  const country = countryProps || DEFAULT_COUNTY;
+  const { city } = COUNTIES_LOCATION[country];
   const airRes = await API.getAirData(city);
   const weeklyP2Res = await API.getWeeklyP2Data(city);
   let errorCode = airRes.statusCode > 200 && airRes.statusCode;
