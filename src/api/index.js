@@ -261,7 +261,7 @@ const COUNTIES_LOCATION = {
   garissa: {
     slug: 'garissa',
     latitude: '-0.45275',
-    longitude: '49.64601',
+    longitude: '39.64601',
     name: 'Garissa',
     label: 'Garissa',
     country:"kenya",
@@ -400,13 +400,13 @@ const COUNTIES_LOCATION = {
   },
   muranga: {
     slug: 'muranga',
-    latitude: '-0.795704',
-    longitude: '337.132202',
+    latitude: '-0.749997',
+    longitude: '37.1166662',
     name: 'Muranga',
     label: 'Muranga',
     country:"kenya",
     zoom: '12',
-    center: '-0.795704,37.132202'
+    center: '-0.749997,37.1166662'
   },
   kiambu: {
     slug: 'kiambu',
@@ -479,11 +479,11 @@ const COUNTIES_LOCATION = {
     center: '0.67028,35.50806'
   },
   nandi: {
-    slug: 'kiambu',
+    slug: 'nandi',
     latitude: '0.20387',
     longitude: '35.105',
-    name: 'Kiambu',
-    label: 'Kiambu',
+    name: 'Nandi',
+    label: 'Nandi',
     country:"kenya",
     zoom: '9',
     center: '0.20387,35.105'
