@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION, COUNTIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
+import API, { COUNTIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import PartnerLogos from 'components/PartnerLogos';
@@ -19,7 +19,7 @@ import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
 
-const DEFAULT_COUNTY = 'kenya';
+const DEFAULT_COUNTY = 'nairobi';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,19 +60,6 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     textAlign: 'center',
   },
-  mapSection: {
-    [theme.breakpoints.up('md')]: {
-      paddingRight: '8%',
-      paddingLeft: '8%',
-    },
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-      padding: '0 5px',
-    },
-    [theme.breakpoints.between('sm', 'md')]: {
-      padding: '0 20px',
-    },
-  },
   loadingContainer: {
     display: 'flex',
     height: '100vh',
@@ -83,10 +70,10 @@ const useStyles = makeStyles((theme) => ({
 
 const DASHBOARD_PATHNAME = '/dashboard';
 
-function Country({ country: countrySlug, data, errorCode, ...props }) {
+function County({ county: countySlug, data, errorCode, ...props }) {
   const classes = useStyles(props);
   const [session] = useSession();
-  const [country, setCountry] = useState(countrySlug);
+  const [county, setCounty] = useState(countySlug);
 
   useEffect(() => {
     if (!session) {
@@ -95,17 +82,17 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   }, [session]);
 
   // if !data, 404
-  if (!COUNTIES_LOCATION[country] || errorCode >= 400) {
+  if (!COUNTIES_LOCATION[county] || errorCode >= 400) {
     return <NotFound />;
   }
 
   const handleSearch = (option) => {
-    const searchedCountry = (option && option.value) || DEFAULT_COUNTY;
-    if (searchedCountry !== country) {
-      setCountry(searchedCountry);
-      const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
-      const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
-      Router.push(countryUrl, countryAs);
+    const searchedCounty = (option && option.value) || DEFAULT_COUNTY;
+    if (searchedCounty !== county) {
+      setCounty(searchedCounty);
+      const countyUrl = `${DASHBOARD_PATHNAME}/[id]`;
+      const countyAs = `${DASHBOARD_PATHNAME}/${searchedCounty}`;
+      Router.push(countyUrl, countyAs);
     }
   };
 
@@ -118,7 +105,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         alignItems="center"
         container
       >
-        <Grid container direction="row" className={classes.mapSection}>
           <Grid
             item
             xs={12}
@@ -126,12 +112,11 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             className={`${classes.section} ${classes.topMargin}`}
           >
             <SensorMap
-              zoom={COUNTIES_LOCATION[country].zoom}
-              latitude={COUNTIES_LOCATION[country].latitude}
-              longitude={COUNTIES_LOCATION[country].longitude}
-              location={COUNTIES_LOCATION[country].label}
+              zoom={COUNTIES_LOCATION[county].zoom}
+              latitude={COUNTIES_LOCATION[county].latitude}
+              longitude={COUNTIES_LOCATION[county].longitude}
+              location={COUNTIES_LOCATION[county].label}
             />
-          </Grid>
         </Grid>
         <Grid
           item
@@ -170,8 +155,8 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   );
 }
 
-Country.propTypes = {
-  country: PropTypes.shape({}).isRequired,
+County.propTypes = {
+  county: PropTypes.shape({}).isRequired,
   data: PropTypes.shape({
     air: PropTypes.shape({}).isRequired,
     weeklyP2: PropTypes.shape({}).isRequired,
@@ -179,8 +164,7 @@ Country.propTypes = {
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
 };
 
-Country.defaultProps = {
-  country: undefined,
+County.defaultProps = {
   data: undefined,
   errorCode: false,
 };
@@ -188,18 +172,18 @@ Country.defaultProps = {
 export async function getStaticPaths() {
   const fallback = false;
   const defaultRoute = { params: { id: [] } };
-  const paths = Object.values(COUNTIES_LOCATION).map((country) => ({
-    params: { id: [country.slug] },
+  const paths = Object.values(COUNTIES_LOCATION).map((county) => ({
+    params: { id: [county.slug] },
   }));
 
   paths.push(defaultRoute);
   return { fallback, paths };
 }
 
-export async function getStaticProps({ params: { id: countryProps } }) {
+export async function getStaticProps({ params: { id: countyProps } }) {
   // Fetch data from external API
-  const country = countryProps || DEFAULT_COUNTY;
-  const { city } = COUNTIES_LOCATION[country];
+  const county = countyProps || DEFAULT_COUNTY;
+  const { city } = COUNTIES_LOCATION[county];
   const airRes = await API.getAirData(city);
   const weeklyP2Res = await API.getWeeklyP2Data(city);
   let errorCode = airRes.statusCode > 200 && airRes.statusCode;
@@ -213,7 +197,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const data = { air, weeklyData };
 
   // Pass data to the page via props
-  return { props: { errorCode, country, data } };
+  return { props: { errorCode, county, data } };
 }
 
-export default Country;
+export default County;

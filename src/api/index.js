@@ -188,15 +188,6 @@ const COUNTRIES_LOCATION = {
 };
 
 const COUNTIES_LOCATION = {
-  kenya: {
-    slug: 'kenya',
-    city: 'nairobi',
-    latitude: '0.17666667',
-    longitude: '37.90832778',
-    zoom: '6',
-    country:"kenya",
-    center: '0.17666667,37.90832778',
-  },
   nairobi: {
     slug: 'nairobi',
     latitude: '-1.2709',

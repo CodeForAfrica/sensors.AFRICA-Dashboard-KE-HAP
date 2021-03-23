@@ -47,6 +47,7 @@ const styles = (theme) => ({
   },
   singleValue: {
     fontSize: 16,
+    paddingLeft:'1rem'
   },
   placeholder: {
     position: 'absolute',
@@ -331,9 +332,9 @@ SearchBar.defaultProps = {
   handleSearch: null,
   options: Object.values(COUNTIES_LOCATION)
     .sort((a, b) => a.label.localeCompare(b.label))
-    .map((country) => ({
-      value: country.slug,
-      label: country.label,
+    .map((county) => ({
+      value: county.slug,
+      label: county.label,
     })),
   placeholder: '',
 };
