@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: '3rem',
     },
   },
-  section: {
-    marginTop: '100px',
-  },
   supportCard: {
     height: '15rem',
     width: '100%',
@@ -110,7 +107,7 @@ function Support({ classNames }) {
   const classes = useStyles();
   const className = classNames ? `${classes.root} ${classNames}` : classes.root;
   return (
-    <Grid className={classes.section} container justify="center" xs={12}>
+    <Grid container justify="center" xs={12}>
       <Grid item xs={12} justify="center">
         <Typography variant="h3">RESOURCES</Typography>
       </Grid>

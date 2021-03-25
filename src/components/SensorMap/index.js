@@ -11,9 +11,8 @@ const MAP_URL = '//map.data4sdgs.sensors.africa';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    height: 610,
+    height: 600,
     width: '100%',
-    marginBottom: '3rem',
     backgroundColor: 'white',
   },
   headline: {
@@ -41,29 +40,6 @@ function Map({ zoom, latitude, longitude }) {
     </Grid>
   );
 }
-
-export function AfricaMap({ classes }) {
-  return (
-    <Grid
-      container
-      className={classes.root}
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item xs={12}>
-        <IframeComponent
-          title="Map section"
-          src="//wb.map.sensors.africa/#4/-10.79/20.87"
-          height="600"
-          width="100%"
-          frameBorder="0"
-          scrolling="no"
-        />
-      </Grid>
-    </Grid>
-  );
-}
-
 Map.propTypes = {
   zoom: PropTypes.string.isRequired,
   latitude: PropTypes.string.isRequired,

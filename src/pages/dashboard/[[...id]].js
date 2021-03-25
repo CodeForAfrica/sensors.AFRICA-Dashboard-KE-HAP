@@ -10,11 +10,8 @@ import { useSession } from 'next-auth/client';
 import API, { COUNTIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
-import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
-import HazardReading from 'components/City/HazardReadings';
-import AQIndex from 'components/City/AQIndex';
 import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
@@ -105,47 +102,21 @@ function County({ county: countySlug, data, errorCode, ...props }) {
         alignItems="center"
         container
       >
-          <Grid
-            item
-            xs={12}
-            id="map"
-            className={`${classes.section} ${classes.topMargin}`}
-          >
-            <SensorMap
-              zoom={COUNTIES_LOCATION[county].zoom}
-              latitude={COUNTIES_LOCATION[county].latitude}
-              longitude={COUNTIES_LOCATION[county].longitude}
-              location={COUNTIES_LOCATION[county].label}
-            />
-        </Grid>
         <Grid
           item
-          justify="center"
-          container
-          lg={12}
-          id="graph"
-          className={classes.graphContainer}
+          xs={12}
+          id="map"
+          className={`${classes.section} ${classes.topMargin}`}
         >
-          <Grid
-            container
-            alignItems="center"
-            justify="space-evenly"
-            item
-            xs={12}
-            lg={12}
-          >
-            <HazardReading />
-          </Grid>
-
-          <Grid item lg={12} justify="center">
-            <AQIndex />
-          </Grid>
+          <SensorMap
+            zoom={COUNTIES_LOCATION[county].zoom}
+            latitude={COUNTIES_LOCATION[county].latitude}
+            longitude={COUNTIES_LOCATION[county].longitude}
+            location={COUNTIES_LOCATION[county].label}
+          />
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
-        </Grid>
-        <Grid item id="partners" className={classes.section} xs={12}>
-          <PartnerLogos />
         </Grid>
         <Grid id="contacts" className={classes.section} item xs={12}>
           <Footer />

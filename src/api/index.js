@@ -123,70 +123,6 @@ const CITIES_LOCATION = {
   },
 };
 
-const COUNTRIES_LOCATION = {
-  kenya: {
-    slug: 'kenya',
-    city: 'nairobi',
-    latitude: '0.17666667',
-    longitude: '37.90832778',
-    name: 'Kenya',
-    label: 'Kenya',
-    zoom: '6',
-    center: '0.17666667,37.90832778',
-  },
-  uganda: {
-    slug: 'uganda',
-    city: 'kampala',
-    latitude: '1.373333',
-    longitude: '32.290275',
-    name: 'Uganda',
-    label: 'Uganda',
-    zoom: '6',
-    center: '1.373333,32.290275',
-  },
-  tanzania: {
-    slug: 'tanzania',
-    latitude: '-6.200',
-    longitude: '34.629',
-    name: 'Dar es Salaam',
-    country: 'Tanzania',
-    label: 'Tanzania',
-    zoom: '6',
-    center: '-6.7846,39.2669',
-    twitterHandle: '#DarEsSalaam',
-  },
-  'south-africa': {
-    slug: 'south-africa',
-    latitude: '-30.559482',
-    longitude: '22.937506',
-    name: 'South Africa',
-    label: 'South Africa',
-    zoom: '6',
-    center: '-30.559482,22.937506',
-  },
-  nigeria: {
-    slug: 'nigeria',
-    city: 'lagos',
-    latitude: '9.081999',
-    longitude: '8.675277',
-    name: 'Nigeria',
-    label: 'Nigeria',
-    zoom: '6',
-    center: '9.081999,8.675277',
-  },
-  africa: {
-    slug: 'africa',
-    latitude: '8.7832',
-    longitude: '34.5085',
-    name: 'Africa',
-    country: 'africa',
-    label: 'Africa',
-    zoom: '3',
-    center: '8.7832,34.5085',
-    twitterHandle: '@followlasg',
-  }
-};
-
 const COUNTIES_LOCATION = {
   nairobi: {
     slug: 'nairobi',
@@ -194,9 +130,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.8169',
     name: 'Nairobi',
     label: 'Nairobi',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.2709,36.8169'
+    center: '-1.2709,36.8169',
   },
   kwale: {
     slug: 'kwale',
@@ -204,9 +140,9 @@ const COUNTIES_LOCATION = {
     longitude: '39.66359',
     name: 'Kwale',
     label: 'Kwale',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-4.05466,39.66359'
+    center: '-4.05466,39.66359',
   },
   mombasa: {
     slug: 'mombasa',
@@ -214,9 +150,9 @@ const COUNTIES_LOCATION = {
     longitude: '39.66359',
     name: 'Mombasa',
     label: 'Mombasa',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.2709,39.66359'
+    center: '-1.2709,39.66359',
   },
   kilifi: {
     slug: 'kilifi',
@@ -224,19 +160,19 @@ const COUNTIES_LOCATION = {
     longitude: '39.84992',
     name: 'Kilifi',
     label: 'Kilifi',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-3.63045,39.84992'
+    center: '-3.63045,39.84992',
   },
-  "tana-river": {
+  'tana-river': {
     slug: 'tana-river',
     latitude: '-1.48256',
     longitude: '40.03341',
     name: 'Tana River',
     label: 'Tana River',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '--1.48256,40.03341'
+    center: '--1.48256,40.03341',
   },
   lamu: {
     slug: 'lamu',
@@ -244,19 +180,19 @@ const COUNTIES_LOCATION = {
     longitude: '40.90201',
     name: 'Lamu',
     label: 'Lamu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-2.27169,40.90201'
+    center: '-2.27169,40.90201',
   },
-  "taita-taveta": {
+  'taita-taveta': {
     slug: 'taita-taveta',
     latitude: '-3.39605',
     longitude: '38.55609',
     name: 'Taita Taveta',
     label: 'Taita Taveta',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-3.39605,38.55609'
+    center: '-3.39605,38.55609',
   },
   garissa: {
     slug: 'garissa',
@@ -264,9 +200,9 @@ const COUNTIES_LOCATION = {
     longitude: '39.64601',
     name: 'Garissa',
     label: 'Garissa',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.45275,39.64601'
+    center: '-0.45275,39.64601',
   },
   wajir: {
     slug: 'wajir',
@@ -274,9 +210,9 @@ const COUNTIES_LOCATION = {
     longitude: '40.05732',
     name: 'Wajir',
     label: 'Wajir',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '1.7471,40.05732'
+    center: '1.7471,40.05732',
   },
   mandera: {
     slug: 'mandera',
@@ -284,9 +220,9 @@ const COUNTIES_LOCATION = {
     longitude: '41.85688',
     name: 'Mandera',
     label: 'Mandera',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '3.93726,41.85688'
+    center: '3.93726,41.85688',
   },
   marsabit: {
     slug: 'marsabit',
@@ -294,9 +230,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.99086',
     name: 'Marsabit',
     label: 'Marsabit',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '2.33468,37.99086'
+    center: '2.33468,37.99086',
   },
   isiolo: {
     slug: 'isiolo',
@@ -304,9 +240,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.58218',
     name: 'Isiolo',
     label: 'Isiolo',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '0.35462,37.58218'
+    center: '0.35462,37.58218',
   },
   meru: {
     slug: 'meru',
@@ -314,19 +250,19 @@ const COUNTIES_LOCATION = {
     longitude: '37.65587',
     name: 'Meru',
     label: 'Meru',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '0.04626,37.65587'
+    center: '0.04626,37.65587',
   },
-  "tharaka-nithi": {
+  'tharaka-nithi': {
     slug: 'tharaka-nithi',
     latitude: '-0.33316',
     longitude: '37.64587',
     name: 'Tharaka nithi',
     label: 'Tharaka nithi',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.33316,37.64587'
+    center: '-0.33316,37.64587',
   },
   embu: {
     slug: 'embu',
@@ -334,9 +270,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.45743',
     name: 'Embu',
     label: 'Embu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.53987,37.45743'
+    center: '-0.53987,37.45743',
   },
   kitui: {
     slug: 'kitui',
@@ -344,9 +280,9 @@ const COUNTIES_LOCATION = {
     longitude: '38.01055',
     name: 'Kitui',
     label: 'Kitui',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.36696,38.01055'
+    center: '-1.36696,38.01055',
   },
   machakos: {
     slug: 'machakos',
@@ -354,9 +290,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.26521',
     name: 'Machakos',
     label: 'Machakos',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.52233,37.26521'
+    center: '-1.52233,37.26521',
   },
   makueni: {
     slug: 'makueni',
@@ -364,9 +300,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.62882',
     name: 'Makueni',
     label: 'Makueni',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.78079,37.62882'
+    center: '-1.78079,37.62882',
   },
   nyandarua: {
     slug: 'nyandarua',
@@ -374,9 +310,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.37917',
     name: 'Nyandarua',
     label: 'Nyandarua',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.27088,36.37917'
+    center: '-0.27088,36.37917',
   },
   nyeri: {
     slug: 'nyeri',
@@ -384,9 +320,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.94759',
     name: 'Nyeri',
     label: 'Nyeri',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.42013,36.94759'
+    center: '-0.42013,36.94759',
   },
   kirinyaga: {
     slug: 'kirinyaga',
@@ -394,9 +330,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.28031',
     name: 'Kirinyaga',
     label: 'Kirinyaga',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.49887,37.28031'
+    center: '-0.49887,37.28031',
   },
   muranga: {
     slug: 'muranga',
@@ -404,9 +340,9 @@ const COUNTIES_LOCATION = {
     longitude: '37.1166662',
     name: 'Muranga',
     label: 'Muranga',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-0.749997,37.1166662'
+    center: '-0.749997,37.1166662',
   },
   kiambu: {
     slug: 'kiambu',
@@ -414,9 +350,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.83556',
     name: 'Kiambu',
     label: 'Kiambu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '12',
-    center: '-1.17139,36.83556'
+    center: '-1.17139,36.83556',
   },
   turkana: {
     slug: 'turkana',
@@ -424,19 +360,19 @@ const COUNTIES_LOCATION = {
     longitude: '35.59642',
     name: 'Turkana',
     label: 'Turkana',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '3.11988,35.59642'
+    center: '3.11988,35.59642',
   },
-  "west-pokot": {
+  'west-pokot': {
     slug: 'west-pokot',
     latitude: '1.23889',
     longitude: '35.11194',
     name: 'West Pokot',
     label: 'West Pokot',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '1.23889,35.11194'
+    center: '1.23889,35.11194',
   },
   samburu: {
     slug: 'samburu',
@@ -444,39 +380,39 @@ const COUNTIES_LOCATION = {
     longitude: '36.69806',
     name: 'Samburu',
     label: 'Samburu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '1.09667,36.69806'
+    center: '1.09667,36.69806',
   },
-  "trans-nzoia": {
+  'trans-nzoia': {
     slug: 'trans-nzoia',
     latitude: '1.01572',
     longitude: '35.00622',
     name: 'Trans Nzoia',
     label: 'Trans Nzoia',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '1.01572,35.00622'
+    center: '1.01572,35.00622',
   },
-  "uasin-gishu": {
+  'uasin-gishu': {
     slug: 'uasin-gishu',
     latitude: '0.52036',
     longitude: '35.26993',
     name: 'Uasin Gishu',
     label: 'Uasin Gishu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.52036,35.26993'
+    center: '0.52036,35.26993',
   },
-  "elgeyo-marakwet": {
+  'elgeyo-marakwet': {
     slug: 'elgeyo-marakwet',
     latitude: '0.67028',
     longitude: '35.50806',
     name: 'Elgeyo-Marakwet',
     label: 'Elgeyo-Marakwet',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.67028,35.50806'
+    center: '0.67028,35.50806',
   },
   nandi: {
     slug: 'nandi',
@@ -484,9 +420,9 @@ const COUNTIES_LOCATION = {
     longitude: '35.105',
     name: 'Nandi',
     label: 'Nandi',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.20387,35.105'
+    center: '0.20387,35.105',
   },
   baringo: {
     slug: 'baringo',
@@ -494,9 +430,9 @@ const COUNTIES_LOCATION = {
     longitude: '35.74303',
     name: 'Baringo',
     label: 'Baringo',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.49194,35.74303'
+    center: '0.49194,35.74303',
   },
   laikipia: {
     slug: 'laikipia',
@@ -504,9 +440,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.53806',
     name: 'Laikipia',
     label: 'Laikipia',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.2725,36.53806'
+    center: '0.2725,36.53806',
   },
   nakuru: {
     slug: 'nakuru',
@@ -514,9 +450,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.07225',
     name: 'Nakuru',
     label: 'Nakuru',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.30719,36.07225'
+    center: '-0.30719,36.07225',
   },
   narok: {
     slug: 'narok',
@@ -524,9 +460,9 @@ const COUNTIES_LOCATION = {
     longitude: '35.87111',
     name: 'Narok',
     label: 'Narok',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-1.08083,35.87111'
+    center: '-1.08083,35.87111',
   },
   kajiado: {
     slug: 'kajiado',
@@ -534,9 +470,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.77683',
     name: 'Kajiado',
     label: 'Kajiado',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-1.85238,36.77683'
+    center: '-1.85238,36.77683',
   },
   kericho: {
     slug: 'kericho',
@@ -544,9 +480,9 @@ const COUNTIES_LOCATION = {
     longitude: '35.28314',
     name: 'Kericho',
     label: 'Kericho',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.36774,35.28314'
+    center: '-0.36774,35.28314',
   },
   bomet: {
     slug: 'bomet',
@@ -554,9 +490,9 @@ const COUNTIES_LOCATION = {
     longitude: '35.339139',
     name: 'Bomet',
     label: 'Bomet',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.785561,35.339139'
+    center: '-0.785561,35.339139',
   },
   kakamega: {
     slug: 'kakamega',
@@ -564,7 +500,7 @@ const COUNTIES_LOCATION = {
     longitude: '34.75229',
     name: 'Kakamega',
     label: 'Kakamega',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
     center: '0.28422,34.75229',
   },
@@ -574,9 +510,9 @@ const COUNTIES_LOCATION = {
     longitude: '34.729877',
     name: 'Vihiga',
     label: 'Vihiga',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.092104,34.729877'
+    center: '0.092104,34.729877',
   },
   bungoma: {
     slug: 'bungoma',
@@ -584,7 +520,7 @@ const COUNTIES_LOCATION = {
     longitude: '34.56055',
     name: 'Bungoma',
     label: 'Bungoma',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
     center: '0.5635,34.56055',
   },
@@ -594,9 +530,9 @@ const COUNTIES_LOCATION = {
     longitude: '34.11169',
     name: 'Busia',
     label: 'Busia',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.46005,34.11169'
+    center: '0.46005,34.11169',
   },
   siaya: {
     slug: 'siaya',
@@ -604,9 +540,9 @@ const COUNTIES_LOCATION = {
     longitude: '34.28806',
     name: 'Siaya',
     label: 'Siaya',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.0607,34.28806'
+    center: '0.0607,34.28806',
   },
   kisumu: {
     slug: 'kisumu',
@@ -614,19 +550,19 @@ const COUNTIES_LOCATION = {
     longitude: '34.76171',
     name: 'Kisumu',
     label: 'Kisumu',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.10221,34.76171'
+    center: '-0.10221,34.76171',
   },
-  "homa-bay": {
+  'homa-bay': {
     slug: 'homa-bay',
     latitude: '-0.52731',
     longitude: '34.45714',
     name: 'Homa Bay',
     label: 'Homa Bay',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.52731,34.45714'
+    center: '-0.52731,34.45714',
   },
   migori: {
     slug: 'migori',
@@ -634,9 +570,9 @@ const COUNTIES_LOCATION = {
     longitude: '36.07225',
     name: 'Migori',
     label: 'Migori',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-1.06343,34.47313'
+    center: '-1.06343,34.47313',
   },
   kisii: {
     slug: 'kisii',
@@ -644,9 +580,9 @@ const COUNTIES_LOCATION = {
     longitude: '34.07146',
     name: 'Kisii',
     label: 'Kisii',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '0.31354,34.07146'
+    center: '0.31354,34.07146',
   },
   nyamira: {
     slug: 'nyamira',
@@ -654,9 +590,9 @@ const COUNTIES_LOCATION = {
     longitude: '34.93583',
     name: 'Nyamira',
     label: 'Nyamira',
-    country:"kenya",
+    country: 'kenya',
     zoom: '9',
-    center: '-0.56333,34.93583'
+    center: '-0.56333,34.93583',
   },
 };
 
@@ -677,10 +613,10 @@ const API = {
 export {
   CITIES_LOCATION,
   COUNTIES_LOCATION,
-  COUNTRIES_LOCATION,
   getFormattedHumidityStats,
   getFormattedP2Stats,
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
 };
+
 export default API;
