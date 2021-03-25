@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 import { MenuItem, Paper, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { COUNTRIES_LOCATION } from 'api';
+import { COUNTIES_LOCATION, COUNTRIES_LOCATION } from 'api';
 
 const styles = (theme) => ({
   root: {
@@ -47,6 +47,7 @@ const styles = (theme) => ({
   },
   singleValue: {
     fontSize: 16,
+    paddingLeft:'1rem'
   },
   placeholder: {
     position: 'absolute',
@@ -329,11 +330,11 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   handleSearch: null,
-  options: Object.values(COUNTRIES_LOCATION)
+  options: Object.values(COUNTIES_LOCATION)
     .sort((a, b) => a.label.localeCompare(b.label))
-    .map((country) => ({
-      value: country.slug,
-      label: country.label,
+    .map((county) => ({
+      value: county.slug,
+      label: county.label,
     })),
   placeholder: '',
 };
