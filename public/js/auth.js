@@ -1,6 +1,7 @@
 (async function () {
-    if (!localStorage.getItem("nextauth.message")?.clientId) {
+const res = await fetch('/api/auth/session');
+const data =  res.ok ? await res.json() : {};
+  if (!data.user) {
         document.location.href="/";
       };
-// Todo verify Token via API
 })();
