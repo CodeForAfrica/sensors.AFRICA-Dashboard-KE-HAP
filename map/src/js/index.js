@@ -655,7 +655,7 @@ The values are refreshed every 5 minutes in order to fit with the measurement fr
 
   //	REVOIR ORDRE DANS FONCTION READY
   function retrieveData() {
-    api.getData('/api/nodes').then(function (result) {
+    api.getData('/api/data').then(function (result) {
       hmhexaPM_aktuell = result.airQualityValues;
       hmhexaPM_AQI = result.sensorTypes;
       hmhexa_t_h_p = result.tempAndHumidityValues;
