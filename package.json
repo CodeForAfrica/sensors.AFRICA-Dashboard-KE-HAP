@@ -33,13 +33,15 @@
     "webpack": "^5.4.0"
   },
   "scripts": {
-    "predev":"cd map && yarn build",
+    "predev":"yarn build:map",
     "dev": "next",
+    "dev:map":"cd map && yarn start",
+    "build:map":"cd map && yarn build",
     "postinstall": "cd map && yarn",
     "dev:now": "now dev",
     "start": "next start",
     "build": "next build",
-    "postbuild":"cd map && yarn build",
+    "postbuild":"yarn build:map",
     "deploy": "now --prod",
     "lint": "yarn eslint --fix --ignore-path './.gitignore' --ext '.js,.json,.md' './'",
     "lint-staged": "yarn eslint --fix --ignore-path './.gitignore' --ext '.js,.json,.md'"

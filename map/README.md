@@ -1,7 +1,7 @@
-# Sensor.Community Map
-visualize recent sensor data on a world map for [Sensor.Community](https://sensor.community).
+# Data4SDGs AQ Map
+visualize sensor data on map of africa for [Data4SDGs](https://data4sds.sensors.africa).
  
-👉 [Live Version](https://maps.sensor.community/).
+👉 [Live Version](https://map.data4sdgs.sensors.africa/).
 
 # Map application
 The implementation makes use of various frameworks and is on [ECMA 6](https://developer.mozilla.org/de/docs/Web/JavaScript) language level. 
@@ -32,7 +32,9 @@ npm start
 ```
 
 ### Publish
-build all files needed to run on a webserver, files will be compiled into `dist/`):
+Deployment to production happens automatically on merge to Master.
+
+To deploy manually, build all files needed to run on a webserver, files will be compiled into `dist/`):
 
 ```
 npm run build
