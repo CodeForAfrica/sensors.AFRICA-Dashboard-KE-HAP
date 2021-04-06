@@ -598,7 +598,7 @@ const COUNTIES_LOCATION = {
 
 const headers = new Headers();
 
-headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
+headers.append('Authorization', `token ${process.env.KE_HAP}`);
 
 async function fetchAllNodes(url, options = { headers }, times = 0) {
   const response = await fetch(url, options);
