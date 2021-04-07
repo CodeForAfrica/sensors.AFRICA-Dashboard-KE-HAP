@@ -18,6 +18,7 @@ const d3 = Object.assign({}, d3_Selection, d3_Hexbin);
 
 import api from './feinstaub-api';
 import * as config from './config.js';
+import events from './events.js';
 
 import '../css/style.css';
 import * as places from './places.js';
