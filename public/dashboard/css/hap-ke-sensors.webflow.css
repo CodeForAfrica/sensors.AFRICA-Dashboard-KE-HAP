@@ -684,7 +684,7 @@
 
 .contry-section {
   overflow: hidden;
-  max-width: 1200px;
+  max-width: 1100px;
   margin-top: 10px;
   padding-right: 0px;
   padding-bottom: 10px;
@@ -1282,7 +1282,9 @@
   color: #fff;
   font-size: 16px;
   line-height: 30px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .nav-link-3 {

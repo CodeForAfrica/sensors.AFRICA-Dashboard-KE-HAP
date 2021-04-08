@@ -1,5 +1,5 @@
 <!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Wed Apr 07 2021 16:27:46 GMT+0000 (Coordinated Universal Time)  -->
+<!--  Last Published: Thu Apr 08 2021 08:44:39 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="605b9ed9540cf7e0f77740c6" data-wf-site="605b9ed9540cf72fa87740c5">
 <head>
   <meta charset="utf-8">
@@ -29,9 +29,9 @@
         <div class="select-form w-form">
           <form id="wf-form-select-form" name="wf-form-select-form" data-name="select form" class="select"><select id="field" name="field" class="select-field-3 w-select">
               <option value="">Select a County.....</option>
-              <option value="First">First Choice</option>
-              <option value="Second">Second Choice</option>
-              <option value="Third">Third Choice</option>
+              <option value="nairobi">Nairobi</option>
+              <option value="mombasa">Mombasa</option>
+              <option value="kilifi">Kilifi</option>
             </select></form>
           <div class="w-form-done">
             <div>Thank you! Your submission has been received!</div>
@@ -104,7 +104,7 @@
         <div class="chart-card-embed w-embed w-script"><canvas id="graph" width="400" height="400"></canvas>
           <script>
 const graph = document.getElementById("graph").getContext("2d");
-Chart.defaults.global.defaultFontSize = 18;
+Chart.defaults.global.defaultFontSize = 10;
 let massPopChart = new Chart(graph, {
   type: "pie", // bar, horizontalBar, pie, line, doughnut, radar, polarArea
   data: {
@@ -156,7 +156,7 @@ let massPopChart = new Chart(graph, {
         </div>
         <div class="chart-card-embed w-embed w-script"><canvas id="humour" width="400" height="400"></canvas>
           <script>
-Chart.defaults.global.defaultFontSize = 18;
+Chart.defaults.global.defaultFontSize = 10;
 var ctx = document.getElementById("humour").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'doughnut',
@@ -226,43 +226,53 @@ var myChart = new Chart(ctx, {
         </div>
         <div class="chart-card-embed w-embed w-script"><canvas id="myChart" width="400" height="200"></canvas>
           <script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Nairobi', 'Homa Bay', 'Siaya', 'Nakuru', 'Laikipia'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
+var lineChartData = {
+		labels: ["Monday", "Tuesday", "Wednessday", "Thursday", "Friday", "Saturday", "Sunday"],
+		datasets: [{
+				label: "PM1",
+				backgroundColor: "rgba(255,255,255,0)",
+				borderColor: "rgba(16,133,135,1)",
+				pointBorderColor: "#fff",
+				pointBackgroundColor: "rgba(16,133,135,1)",
+				data: ["128.940", "131.397", "132.235", "128.235", "125.636", "127.271", "100", "100"]
+		}, {
+				label: "PM 2.5",
+				backgroundColor: "rgba(255,255,255,0)",
+				borderColor: "rgba(82,185,159,1)",
+				pointBorderColor: "#fff",
+				pointBackgroundColor: "rgba(82,185,159,1)",
+				data: ["128.948", "130.369", "131.038", "125.867", "121.893", "119.656", "119.026"]
+		}, {
+				label: "PM 10",
+				backgroundColor: "rgba(255,255,255,0)",
+				borderColor: "rgba(242,175,62,1)",
+				pointBorderColor: "#fff",
+				pointBackgroundColor: "rgba(242,175,62,1)",
+				data: ["127.473", "128.983", "129.327", "123.416", "118.829", "116.843", "117.190"]
+		}, {
+				label: "Temperature",
+				backgroundColor: "rgba(255,255,255,0)",
+				borderColor: "rgba(236,83,62,1)",
+				pointBorderColor: "#fff",
+				pointBackgroundColor: "rgba(236,83,62,1)",
+				data: ["127.283", "125.147", "124.489", "116.783", "111.696", "110.563", "105.469", "104"]
+		},{
+				label: "Daily average",
+				backgroundColor: "rgba(255,255,255,0)",
+				borderColor: "#333",
+			borderDash:[5],
+				data: ["100.940", "120.397", "100.235", "140.235", "100.636", "120.271", "120", "50"]
+		}]
+}
+window.onload = function() {
+		var ctx = document.getElementById("myChart").getContext("2d");
+	var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: lineChartData,
+    options: {responsivenes:true}
 });
+Chart.defaults.global.defaultFontSize = 12;
+}
 </script>
         </div>
         <div class="chart-card-embed w-embed w-script"><canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
