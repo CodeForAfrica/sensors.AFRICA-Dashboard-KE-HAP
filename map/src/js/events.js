@@ -1,7 +1,7 @@
 window.addEventListener(
   'message',
   function (e) {
-    console.log('HAROOO');
+    console.log('Event Message Received');
   },
   false
 );
