@@ -16,7 +16,8 @@
   <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
   <script src="/js/auth.js" type="text/javascript"></script>
-
+	<script src="/js/counties.js" type="text/javascript"></script>
+  <script src="/js/events.js" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha256-t9UJPrESBeG2ojKTIcFLPGF7nHi2vEc7f5A2KpH/UBU=" crossorigin="anonymous"></script>
 </head>
 <body class="body">
@@ -29,7 +30,7 @@
         <a href="#" class="nav-link-4 w-nav-link">CONTACT</a>
         <a href="#" class="nav-link-5 w-nav-link">PARTNERS</a>
         <div class="select-form w-form">
-          <form id="wf-form-select-form" name="wf-form-select-form" data-name="select form" class="select"><select id="field" name="field" class="select-field-3 w-select">
+          <form id="wf-form-select-form" name="wf-form-select-form"   data-name="select form" class="select"><select onchange="zoomMap(this.value)" id="county-select" name="county-select" data-name="county-select"  class="select-field-3 w-select">
               <option value="">Select a County.....</option>
               <option value="nairobi">Nairobi</option>
               <option value="mombasa">Mombasa</option>
@@ -49,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="map-embed w-embed w-iframe"><iframe title="Map section" src="/map/index.html/#12/-1.2709/36.8169" height="500" width="100%" frameborder="0" scrolling="no"></iframe></div>
+  <div class="map-embed w-embed w-iframe"><iframe title="Map section" id="map-iframe" src="/map/index.html/#12/-1.2709/36.8169" height="500" width="100%" frameborder="0" scrolling="no"></iframe></div>
   <div class="county-info">
     <div class="country-container w-container">
       <div class="county-text-block">
