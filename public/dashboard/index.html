@@ -1,5 +1,5 @@
 <!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Thu Apr 08 2021 11:54:19 GMT+0000 (Coordinated Universal Time)  -->
+<!--  Last Published: Fri Apr 09 2021 12:36:18 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="605b9ed9540cf7e0f77740c6" data-wf-site="605b9ed9540cf72fa87740c5">
 <head>
   <meta charset="utf-8">
@@ -23,7 +23,7 @@
 <body class="body">
   <div data-collapse="medium" data-animation="over-right" data-duration="400" data-doc-height="1" role="banner" class="navbar w-nav">
     <div class="navbar-container w-container">
-      <a href="#" class="brand w-nav-brand"><img src="images/logoExperimental-7405e7b2e172f499f7f14fd60a08fb12.png" loading="lazy" height="60" alt="main logo" class="logo"></a>
+      <a href="#" class="brand w-nav-brand"><img src="images/logoExperimental-7405e7b2e172f499f7f14fd60a08fb12.png" loading="lazy" width="110" height="60" alt="main logo" class="logo"></a>
       <nav role="navigation" class="nav-menu w-nav-menu">
         <a href="#" class="nav-link-2 w-nav-link">RESOURCES</a>
         <a href="#" class="nav-link-3 w-nav-link">MAP</a>
@@ -104,8 +104,9 @@
   <div class="chart-embed">
     <div class="chart-container w-container">
       <div class="w-layout-grid chart-grid">
-        <div class="chart-card-embed w-embed w-script"><canvas id="graph" width="400" height="400"></canvas>
-          <script>
+        <div>
+          <div class="chart-card-embed w-embed w-script"><canvas id="graph" width="400" height="400"></canvas>
+            <script>
 const graph = document.getElementById("graph").getContext("2d");
 Chart.defaults.global.defaultFontSize = 10;
 let massPopChart = new Chart(graph, {
@@ -135,11 +136,6 @@ let massPopChart = new Chart(graph, {
     ],
   },
   options: {
-    title: {
-      display: true,
-      text: "Populations Francophones",
-      fontSize: 24,
-    },
     legend: {
       display: true,
     },
@@ -154,9 +150,13 @@ let massPopChart = new Chart(graph, {
   },
 });
 </script>
+          </div>
+          <div class="text-block-34">County Coverage</div>
+          <div class="text-block-36">The number of AQ nodes in each country monitored by this dashboard.<br></div>
         </div>
-        <div class="chart-card-embed w-embed w-script"><canvas id="humour" width="400" height="400"></canvas>
-          <script>
+        <div>
+          <div class="chart-card-embed w-embed w-script"><canvas id="humour" width="400" height="400"></canvas>
+            <script>
 Chart.defaults.global.defaultFontSize = 10;
 var ctx = document.getElementById("humour").getContext('2d');
 var myChart = new Chart(ctx, {
@@ -185,11 +185,6 @@ var myChart = new Chart(ctx, {
         segmentShowStroke: false,
         responsive: true,
         maintainAspectRatio: true,
-        title: {
-      display: true,
-      text: "Sensor Readings",
-      fontSize: 24,
-    },
     layout: {
       padding: {
         left: 100,
@@ -203,6 +198,8 @@ var myChart = new Chart(ctx, {
         tooltips: {
           filter: function (tooltipItem, data) {
               var label = data.labels[tooltipItem.index];
+              console.log(tooltipItem, data, label);
+			  //alert(label);
               if (label == "Yellow") {
                 return false;
               } else {
@@ -213,9 +210,13 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+          </div>
+          <div class="text-block-34">Sensor Coverage</div>
+          <div class="text-block-37">An indication of what AQ pollutants are being measured by the sensors monitored by this dashboard.<br></div>
         </div>
-        <div class="chart-card-embed w-embed w-script"><canvas id="myChart" width="400" height="200"></canvas>
-          <script>
+        <div>
+          <div class="chart-card-embed w-embed w-script"><canvas id="myChart" width="400" height="200"></canvas>
+            <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -245,9 +246,13 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+          </div>
+          <div class="text-block-34"><strong>Worst Nodes</strong><br></div>
+          <div class="text-block-37">The top five nodes that measured the highest (worst) levels of PM1, PM 2.5 and PM10 over the past four weeks.<br></div>
         </div>
-        <div class="chart-card-embed w-embed w-script"><canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
-          <script>
+        <div>
+          <div class="chart-card-embed w-embed w-script"><canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
+            <script>
 var acquisition = document.getElementById('acquisition');
 var acChart = new Chart(acquisition, {
     // The type of chart we want to create
@@ -319,6 +324,9 @@ var acChart = new Chart(acquisition, {
   }
 });
 </script>
+          </div>
+          <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
+          <div class="text-block-37">An overview of AQ trends over an average week, measuring daily PM1, PM2.5 and PM10 levels, over a four week period.<br></div>
         </div>
       </div>
     </div>
@@ -366,7 +374,6 @@ var acChart = new Chart(acquisition, {
         <div class="about">
           <h4 class="footer-heading">ABOUT sensors.AFRICA<br></h4>
           <p class="paragraph-2">sensors.AFRICA is a pan-African citizen science initiative that uses sensors to monitor air, water and sound pollution to give citizens actionable information about their cities<br></p>
-          <a href="#" class="button read-more-button w-button"><strong class="bold-text-2">READ MORE</strong></a>
         </div>
         <div class="funded-by">
           <h4 class="footer-heading">FUNDED BY</h4>
