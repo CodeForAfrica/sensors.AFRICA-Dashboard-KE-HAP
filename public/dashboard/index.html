@@ -203,8 +203,6 @@ var myChart = new Chart(ctx, {
         tooltips: {
           filter: function (tooltipItem, data) {
               var label = data.labels[tooltipItem.index];
-              console.log(tooltipItem, data, label);
-			  //alert(label);
               if (label == "Yellow") {
                 return false;
               } else {
