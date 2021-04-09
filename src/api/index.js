@@ -596,6 +596,22 @@ const COUNTIES_LOCATION = {
   },
 };
 
+const headers = new Headers();
+
+headers.append('Authorization', `token ${process.env.KE_HAP}`);
+
+async function fetchAllNodes(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: data };
+}
+
 const API = {
   getAirData(city) {
     return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
@@ -617,6 +633,7 @@ export {
   getFormattedP2Stats,
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
+  fetchAllNodes,
 };
 
 export default API;
