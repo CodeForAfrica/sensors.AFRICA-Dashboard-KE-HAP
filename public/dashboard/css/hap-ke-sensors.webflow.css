@@ -1245,7 +1245,7 @@
   display: -ms-flexbox;
   display: flex;
   margin-top: 30px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
@@ -1277,9 +1277,13 @@
 }
 
 .nav-link-2 {
-  padding: 10px 7px;
-  border-right: 1px none #fff;
-  font-family: Montserrat, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 16px 0px 7px;
+  border-style: none solid none none;
+  border-width: 1px;
+  border-color: #fff;
+  font-family: Anton, sans-serif;
   color: #fff;
   font-size: 16px;
   line-height: 30px;
@@ -1289,24 +1293,32 @@
 }
 
 .nav-link-3 {
-  padding: 10px 7px;
-  font-family: Montserrat, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 16px;
+  border-right: 1px solid #fff;
+  font-family: Anton, sans-serif;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
 }
 
 .nav-link-4 {
-  padding: 10px 7px;
-  font-family: Montserrat, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 16px;
+  border-right: 1px solid #fff;
+  font-family: Anton, sans-serif;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
 }
 
 .nav-link-5 {
-  padding: 10px 7px;
-  font-family: Montserrat, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 0px 16px 0px 14px;
+  font-family: Anton, sans-serif;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -1323,6 +1335,7 @@
 
 .navbar-container {
   max-width: 1100px;
+  font-family: Anton, sans-serif;
 }
 
 .resources-container {
