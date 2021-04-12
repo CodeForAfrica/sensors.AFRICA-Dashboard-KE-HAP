@@ -1,5 +1,5 @@
 <!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  -->
-<!--  Last Published: Fri Apr 09 2021 13:59:50 GMT+0000 (Coordinated Universal Time)  -->
+<!--  Last Published: Mon Apr 12 2021 12:15:12 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="605b9ed9540cf7e0f77740c6" data-wf-site="605b9ed9540cf72fa87740c5">
 <head>
   <meta charset="utf-8">
@@ -104,7 +104,8 @@
   <div class="chart-embed">
     <div class="chart-container w-container">
       <div class="w-layout-grid chart-grid">
-        <div>
+        <div class="div-block-6">
+          <div class="text-block-34">County Coverage</div>
           <div class="chart-card-embed w-embed w-script"><canvas id="graph" width="400" height="400"></canvas>
             <script>
 const graph = document.getElementById("graph").getContext("2d");
@@ -117,108 +118,137 @@ let massPopChart = new Chart(graph, {
       "Nairobi",
       "Turkana",
       "Narok",
-      "Bungoma",
     ],
     datasets: [
       {
         label: "Population en M ",
-        data: [6, 8, 3, 4, 4],
+        data: [6, 8, 3, 4],
         // backgroundColor: "blue",
         backgroundColor: [
-           '#00928B',
-                '#3DB498',
-                '#008080',
-                '#6FD5A1',
-                '#A5F5A7',
+          '#38a86b',
+               '#57C789',
+                "#85D6A9",
+                "#A3E0BF",
+                "#c0ead3",
         ],
+        borderColor: ["#38a86b", "#57C789", "#85D6A9", "#A3E0BF", "#c0ead3"],
         hoverBorderWidth: 3,
       },
     ],
   },
   options: {
+  animation: {
+    duration: 500,
+    easing: "easeOutQuart",
+    onComplete: function () {
+      var ctx = this.chart.ctx;
+      ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      this.data.datasets.forEach(function (dataset) {
+        for (var i = 0; i < dataset.data.length; i++) {
+          var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+              total = dataset._meta[Object.keys(dataset._meta)[0]].total,
+              mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius)/2,
+              start_angle = model.startAngle,
+              end_angle = model.endAngle,
+              mid_angle = start_angle + (end_angle - start_angle)/2;
+          var x = mid_radius * Math.cos(mid_angle);
+          var y = mid_radius * Math.sin(mid_angle);
+          ctx.fillStyle = '#fff';
+          var percent = String(Math.round(dataset.data[i]/total*100)) + "%";      
+            ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+            ctx.fillText(percent, model.x + x, model.y + y + 15);
+        }
+      });               
+    }
+  },
     legend: {
       display: true,
       position:'bottom',
       align:'start'
     },
     // start at 0
-   layout: {
-      padding: {
-        left: 100,
-        right: 100,
-        top: 50,
-      },
-    },
   },
 });
 </script>
           </div>
-          <div class="text-block-34">County Coverage</div>
           <div class="text-block-36">The number of AQ nodes in each country monitored by this dashboard.<br></div>
         </div>
-        <div>
-          <div class="chart-card-embed w-embed w-script"><canvas id="humour" width="400" height="400"></canvas>
+        <div class="div-block-7">
+          <div class="text-block-34">Sensor Coverage</div>
+          <div class="chart-card-embed w-embed w-script"><canvas id="sensorsChart" width="400" height="400"></canvas>
             <script>
+const sensorsChart = document.getElementById("sensorsChart").getContext("2d");
 Chart.defaults.global.defaultFontSize = 10;
-var ctx = document.getElementById("humour").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ["PM1", "PM2.5", "Water", "Heat", "Temp"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2],
-          backgroundColor: [
-                '#00928B',
-                '#3DB498',
-                '#008080',
-                '#6FD5A1',
-                '#A5F5A7',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        elements: {
-          arc: {
-            roundedCornersFor: 0
-          }
-        },
-        segmentShowStroke: false,
-        responsive: true,
-        maintainAspectRatio: true,
-    layout: {
-      padding: {
-        left: 100,
-        right: 100,
-        top: 50,
+let sensorsDougnutChart = new Chart(sensorsChart, {
+  type: "doughnut", // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+  data: {
+    labels: [
+      "PM1",
+      "PM2.5",
+      "PM10",
+      "Air",
+      "Temperature",
+    ],
+    datasets: [
+      {
+        label: " ",
+        data: [6, 8, 3, 4, 4],
+        // backgroundColor: "blue",
+        backgroundColor: [
+          '#38a86b',
+               '#57C789',
+                "#85D6A9",
+                "#A3E0BF",
+                "#c0ead3",
+        ],
+        borderColor: ["#38a86b", "#57C789", "#85D6A9", "#A3E0BF", "#c0ead3"],
+        hoverBorderWidth: 3,
       },
-    },
-        legend: {
-         display: true,
-          position:'bottom',
-          align:'start'
-        },
-        tooltips: {
-          filter: function (tooltipItem, data) {
-              var label = data.labels[tooltipItem.index];
-              console.log(tooltipItem, data, label);
-			  //alert(label);
-              if (label == "Yellow") {
-                return false;
-              } else {
-                return true;
-              }
-          },
+    ],
+  },
+  options: {
+  animation: {
+    duration: 500,
+    easing: "easeOutQuart",
+    onComplete: function () {
+      var ctx = this.chart.ctx;
+      ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      this.data.datasets.forEach(function (dataset) {
+        for (var i = 0; i < dataset.data.length; i++) {
+          var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+              total = dataset._meta[Object.keys(dataset._meta)[0]].total,
+              mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius)/2,
+              start_angle = model.startAngle,
+              end_angle = model.endAngle,
+              mid_angle = start_angle + (end_angle - start_angle)/2;
+          var x = mid_radius * Math.cos(mid_angle);
+          var y = mid_radius * Math.sin(mid_angle);
+          ctx.fillStyle = '#fff';
+          var percent = String(Math.round(dataset.data[i]/total*100)) + "%";      
+            ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+            ctx.fillText(percent, model.x + x, model.y + y + 15);
         }
+      });               
     }
+  },
+    legend: {
+      display: true,
+      position:'bottom',
+      align:'start'
+    },
+    // start at 0
+  },
 });
 </script>
           </div>
-          <div class="text-block-34">Sensor Coverage</div>
           <div class="text-block-37">An indication of what AQ pollutants are being measured by the sensors monitored by this dashboard.<br></div>
         </div>
-        <div>
+        <div class="div-block-8">
+          <div class="text-block-34"><strong>Worst Nodes</strong><br></div>
           <div class="chart-card-embed w-embed w-script"><canvas id="myChart" width="400" height="200"></canvas>
             <script>
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -230,16 +260,21 @@ var myChart = new Chart(ctx, {
             label: '# of Sensors',
             data: [12, 19, 3, 5, 2],
             backgroundColor: [
-                '#00928B',
-                '#3DB498',
-                '#008080',
-                '#6FD5A1',
-                '#A5F5A7',
+                '#2DB469',
+                '#2DB469',
+                '#2DB469',
+                '#2DB469',
+                '#2DB469',
             ],
             borderWidth: 1
         }]
     },
     options: {
+      legend: {
+      display: true,
+      position:'bottom',
+      align:'start'
+    },
         scales: {
             yAxes: [{
                 ticks: {
@@ -251,10 +286,10 @@ var myChart = new Chart(ctx, {
 });
 </script>
           </div>
-          <div class="text-block-34"><strong>Worst Nodes</strong><br></div>
           <div class="text-block-37">The top five nodes that measured the highest (worst) levels of PM1, PM 2.5 and PM10 over the past four weeks.<br></div>
         </div>
-        <div>
+        <div class="div-block-9">
+          <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
           <div class="chart-card-embed w-embed w-script"><canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
             <script>
 var acquisition = document.getElementById('acquisition');
@@ -267,10 +302,10 @@ var acChart = new Chart(acquisition, {
         datasets: [
         {
           label: "Nairobi",
-          backgroundColor: '#A5F5A7',
+          backgroundColor: '#9EE6BE',
           data: [78, 88, 68, 74, 50, 55, 25],
           lineTension: 0.3,
-          pointBackgroundColor: 'rgba(76, 132, 255,0)',
+          pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
           pointHoverRadius: 3,
           pointHitRadius: 30,
@@ -279,10 +314,10 @@ var acChart = new Chart(acquisition, {
         },
           {
           label: "Mpala",
-          backgroundColor: '#3DB498',
+          backgroundColor: '#4BD288',
           data: [88, 108, 78, 95, 65, 73, 42],
           lineTension: 0.3,
-          pointBackgroundColor: 'rgba(254, 196, 0,0)',
+          pointBackgroundColor: '#4BD288',
           pointHoverBackgroundColor: 'rgba(254, 196, 0,1)',
           pointHoverRadius: 3,
           pointHitRadius: 30,
@@ -291,10 +326,10 @@ var acChart = new Chart(acquisition, {
         },
           {
           label: "Elgeyo-Marakwet",
-          backgroundColor: '#008080',
+          backgroundColor: '#2DB469',
           data: [103, 125, 95, 110, 79, 92, 58],
           lineTension: 0.3,
-          pointBackgroundColor: 'rgba(41, 204, 151,0)',
+          pointBackgroundColor: '#2DB469',
           pointHoverBackgroundColor: 'rgba(41, 204, 151,1)',
           pointHoverRadius: 3,
           pointHitRadius: 30,
@@ -305,9 +340,11 @@ var acChart = new Chart(acquisition, {
     },
     // Configuration options go here
     options: {
-      legend: {
-          display: true
-       },
+     legend: {
+      display: true,
+      position:'bottom',
+      align:'start'
+    },
       scales: {
         xAxes: [{
           gridLines: {
@@ -329,7 +366,6 @@ var acChart = new Chart(acquisition, {
 });
 </script>
           </div>
-          <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
           <div class="text-block-37">An overview of AQ trends over an average week, measuring daily PM1, PM2.5 and PM10 levels, over a four week period.<br></div>
         </div>
       </div>

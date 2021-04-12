@@ -1374,6 +1374,7 @@
   font-family: Montserrat, sans-serif;
   font-size: 18px;
   font-weight: 700;
+  text-align: left;
 }
 
 .text-block-35 {
@@ -1382,10 +1383,32 @@
 
 .text-block-36 {
   line-height: 25px;
+  text-align: left;
 }
 
 .text-block-37 {
   line-height: 25px;
+  text-align: left;
+}
+
+.div-block-6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.div-block-7 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.div-block-8 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.div-block-9 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 991px) {
