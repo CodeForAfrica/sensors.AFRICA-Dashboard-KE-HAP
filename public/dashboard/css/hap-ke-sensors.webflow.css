@@ -1069,8 +1069,8 @@
   width: auto;
   max-width: none;
   min-width: auto;
-  padding-right: 8%;
-  padding-left: 8%;
+  padding-right: 0%;
+  padding-left: 0%;
   grid-column-gap: 16px;
   grid-row-gap: 10em;
   -ms-grid-rows: auto auto;
@@ -1371,6 +1371,7 @@
 }
 
 .text-block-34 {
+  margin-bottom: 16px;
   font-family: Montserrat, sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -1382,11 +1383,13 @@
 }
 
 .text-block-36 {
+  margin-top: 16px;
   line-height: 25px;
   text-align: left;
 }
 
 .text-block-37 {
+  margin-top: 16px;
   line-height: 25px;
   text-align: left;
 }
@@ -1554,8 +1557,7 @@
   }
 
   .select-form {
-    display: none;
-    padding-right: 40px;
+    padding-right: 20px;
     padding-left: 10px;
   }
 
