@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import IframeComponent from 'components/SensorMap/IframeComponent';
 
-const MAP_URL = '//map.data4sdgs.sensors.africa';
+const MAP_URL = '/map/index.html';
 
 const useStyles = makeStyles((theme) => ({
   root: {

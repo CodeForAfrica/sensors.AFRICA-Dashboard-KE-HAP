@@ -6,7 +6,7 @@ import Router from 'next/router';
 function Home(props) {
   const [session] = useSession();
   if (session) {
-    Router.push('/dashboard');
+    Router.push('/dashboard/index.html');
   }
   return (
     <>
