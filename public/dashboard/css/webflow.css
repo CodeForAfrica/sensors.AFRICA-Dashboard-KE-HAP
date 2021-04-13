@@ -42,6 +42,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+nav .w-nav-link.w--current {
+  color: white;
+}
 html {
   height: 100%;
 }
