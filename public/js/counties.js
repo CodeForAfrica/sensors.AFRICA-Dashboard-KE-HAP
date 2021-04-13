@@ -477,7 +477,7 @@ window.onload = function() {
     var width = $(window).width(); 
     if(width < 768 ){
       $(".menu-button").click();
-    }
+    }})
   Object.keys(countiesLocation).forEach(key => {
   const c = new Option(countiesLocation[key].label, key)
   countySelect.options.add(c);
