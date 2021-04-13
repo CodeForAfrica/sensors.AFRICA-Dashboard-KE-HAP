@@ -474,7 +474,10 @@ const countiesLocation = {
 window.onload = function() {
   const countySelect = document.getElementById("county-select");
   countySelect.addEventListener("change",()=>{
-    $(".menu-button").click()})
+    var width = $(window).width(); 
+    if(width < 768 ){
+      $(".menu-button").click();
+    }
   Object.keys(countiesLocation).forEach(key => {
   const c = new Option(countiesLocation[key].label, key)
   countySelect.options.add(c);
