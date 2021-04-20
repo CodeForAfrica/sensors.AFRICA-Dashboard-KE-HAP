@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-unfetch';
+import Papa from 'papaparse';
+import request from 'request';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
@@ -626,6 +628,43 @@ const API = {
   },
 };
 
+async function loadCountyCitiesMap() {
+  return new Promise((resolve, reject) => {
+    const options = {
+      header: true,
+      error(err) {
+        reject(err);
+      },
+    };
+    const dataStream = request.get(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0'
+    );
+    const parseStream = Papa.parse(Papa.NODE_STREAM_INPUT, options);
+    dataStream.pipe(parseStream);
+    const countyCityMap = [];
+    parseStream.on('data', (chunk) => {
+      countyCityMap.push(chunk);
+    });
+
+    parseStream.on('finish', () => {
+      resolve(countyCityMap);
+    });
+  });
+}
+
+async function getCounty(city) {
+  const countyCityMap = await loadCountyCitiesMap();
+  const citiesInfo =
+    countyCityMap &&
+    countyCityMap.find((row) =>
+      row.Cities.toLowerCase().includes(city.toLowerCase())
+    );
+  if (!citiesInfo) {
+    return 'County Unavailable';
+  }
+  return citiesInfo.County;
+}
+
 export {
   CITIES_LOCATION,
   COUNTIES_LOCATION,
@@ -634,6 +673,7 @@ export {
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
   fetchAllNodes,
+  getCounty,
 };
 
 export default API;
