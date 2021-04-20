@@ -1,4 +1,6 @@
 import fetch from 'isomorphic-unfetch';
+import Papa from 'papaparse';
+import request from 'request';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
@@ -625,6 +627,50 @@ const API = {
     );
   },
 };
+/**
+ * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
+ * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
+ * The Papa.LocalChunkSize, Papa.RemoteChunkSize , download, withCredentials, worker, step, and complete config options are unavailable.
+ * To register a callback with the stream to process data, use the data event like so: stream.on('data', callback) and to signal the end of stream, use the 'end' event like so: stream.on('end', callback).
+ * src - https://github.com/mholt/PapaParse/blob/master/README.md#papa-parse-for-node
+ * @returns {Promise} array of { County:String, Citie: String // Comma seperated}
+ */
+async function loadCountyCitiesMap() {
+  return new Promise((resolve, reject) => {
+    const options = {
+      header: true,
+      error(err) {
+        reject(err);
+      },
+    };
+    const dataStream = request.get(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0'
+    );
+    const parseStream = Papa.parse(Papa.NODE_STREAM_INPUT, options);
+    dataStream.pipe(parseStream);
+    const countyCityMap = [];
+    parseStream.on('data', (chunk) => {
+      countyCityMap.push(chunk);
+    });
+
+    parseStream.on('finish', () => {
+      resolve(countyCityMap);
+    });
+  });
+}
+
+async function getCounty(city) {
+  const countyCityMap = await loadCountyCitiesMap();
+  const citiesInfo =
+    countyCityMap &&
+    countyCityMap.find((row) =>
+      row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim())
+    );
+  if (!citiesInfo) {
+    return 'County Unavailable';
+  }
+  return citiesInfo.County;
+}
 
 export {
   CITIES_LOCATION,
@@ -634,6 +680,7 @@ export {
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
   fetchAllNodes,
+  getCounty,
 };
 
 export default API;
