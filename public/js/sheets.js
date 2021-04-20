@@ -29,7 +29,7 @@ async function init() {
 
 function getLocalItem(key) {
   const localItem =  JSON.parse(localStorage.getItem(key));
-  if(!localItem || !localItem.expiry || Date.now>localItem.expiry){
+  if(!localItem || !localItem.expiry || Date.now() > localItem.expiry){
       return null
   }
   return localItem.data;
