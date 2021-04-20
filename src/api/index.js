@@ -657,7 +657,7 @@ async function getCounty(city) {
   const citiesInfo =
     countyCityMap &&
     countyCityMap.find((row) =>
-      row.Cities.toLowerCase().includes(city.toLowerCase())
+      row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim())
     );
   if (!citiesInfo) {
     return 'County Unavailable';
