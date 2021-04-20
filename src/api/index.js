@@ -627,7 +627,14 @@ const API = {
     );
   },
 };
-
+/**
+ * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
+ * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
+ * The Papa.LocalChunkSize, Papa.RemoteChunkSize , download, withCredentials, worker, step, and complete config options are unavailable.
+ * To register a callback with the stream to process data, use the data event like so: stream.on('data', callback) and to signal the end of stream, use the 'end' event like so: stream.on('end', callback).
+ * src - https://github.com/mholt/PapaParse/blob/master/README.md#papa-parse-for-node
+ * @returns {Promise} array of { County:String, Citie: String // Comma seperated}
+ */
 async function loadCountyCitiesMap() {
   return new Promise((resolve, reject) => {
     const options = {

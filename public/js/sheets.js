@@ -43,7 +43,7 @@ function setLocalItem(key, item) {
   ); 
 }
 
-async function gethouseHold(county) {
+async function getHouseHoldCount(county) {
   let countyHouseholdMap = getLocalItem('countyHouseholdMap');
   if (!countyHouseholdMap) {
     await loadCountyHouseholdMap();
