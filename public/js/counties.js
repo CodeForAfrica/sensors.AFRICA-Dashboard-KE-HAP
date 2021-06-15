@@ -470,7 +470,7 @@ const countiesLocation = {
     center: '-0.56333,34.93583',
   },
 };
-
+ 
 window.onload = function() {
   const countySelect = document.getElementById("county-select");
   countySelect.addEventListener("change",()=>{
@@ -479,7 +479,12 @@ window.onload = function() {
       $(".menu-button").click();
     }})
   Object.keys(countiesLocation).forEach(key => {
-  const c = new Option(countiesLocation[key].label, key)
+  const c = new Option(countiesLocation[key].label, key);
   countySelect.options.add(c);
-});
-};
+    if(c.value.toLowerCase() === "nairobi" ){
+      c.disabled = false
+    } else {
+      c.disabled = true
+    } 
+  });
+}; 
