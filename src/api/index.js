@@ -605,21 +605,13 @@ headers.append('Authorization', `token ${process.env.KE_HAP}`);
 async function fetchAllNodes(url, options = { headers }, times = 0) {
   const response = await fetch(url, options);
   const resjson = await response.json();
-  const data = resjson.results?.filter(
-    (item) => item.location.city === 'Nairobi'
-  );
-  const resultData = data.reduce((filtered, o) => {
-    if (!filtered.some((obj) => obj.location.id === o.location.id)) {
-      filtered.push(o);
-    }
-    return filtered;
-  }, []);
+  const data = resjson.results;
   if (resjson.next) {
     const nextData = await fetchAllNodes(resjson.next, options, times + 1);
-    return { ...nextData, results: resultData.concat(nextData.results) };
+    return { ...nextData, results: data.concat(nextData.results) };
   }
 
-  return { ...resjson, results: resultData };
+  return { ...resjson, results: data };
 }
 
 const API = {
