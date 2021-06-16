@@ -471,15 +471,26 @@ const countiesLocation = {
   },
 };
 
-window.onload = function() {
-  const countySelect = document.getElementById("county-select");
-  countySelect.addEventListener("change",()=>{
-    var width = $(window).width(); 
-    if(width < 768 ){
-      $(".menu-button").click();
-    }})
-  Object.keys(countiesLocation).forEach(key => {
-  const c = new Option(countiesLocation[key].label, key)
-  countySelect.options.add(c);
-});
+window.onload = async () => {
+  const countySelect = document.getElementById('county-select');
+
+  countySelect.addEventListener('change', () => {
+    const width = $(window).width();
+    if (width < 768) {
+      $('.menu-button').click();
+    }
+  });
+  Object.keys(countiesLocation).forEach((key) => {
+    const c = new Option(countiesLocation[key].label, key);
+    countySelect.options.add(c);
+  });
+
+  // fetch data. Blocking JS
+  const data = await fetch('/api/data');
+  const results = await data.json();
+
+  // filter Nairobi. This will be used to populate the chart when counties are available
+  const nairobiCounty = results.results.filter(
+    (result) => result.location.city === 'Nairobi'
+  );
 };
