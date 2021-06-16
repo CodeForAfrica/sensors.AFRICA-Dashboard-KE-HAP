@@ -485,9 +485,11 @@ window.onload = async () => {
     countySelect.options.add(c);
   });
 
-  // fetch data. Blocking JS
+  // fetch data. Blocking JS? + quite slow
   const data = await fetch('/api/data');
   const results = await data.json();
+
+  countyGraphChange('Nairobi'); // default to Nairobi.
 
   // filter Nairobi. This will be used to populate the chart when counties are available
   const nairobiCounty = results.results.filter(
