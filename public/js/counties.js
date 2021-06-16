@@ -489,10 +489,14 @@ window.onload = async () => {
   const data = await fetch('/api/data');
   const results = await data.json();
 
-  countyGraphChange('Nairobi'); // default to Nairobi.
-
   // filter Nairobi. This will be used to populate the chart when counties are available
   const nairobiCounty = results.results.filter(
     (result) => result.location.city === 'Nairobi'
   );
+
+  // no of nodes in Nairobi and total nodes
+  const nairobiNodes = nairobiCounty.length;
+  const totalNodes = results.count;
+
+  countyGraphChange('Nairobi', nairobiNodes, totalNodes); // default to Nairobi.
 };

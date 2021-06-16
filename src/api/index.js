@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import Papa from 'papaparse';
 import request from 'request';
-import nodesData from './data';
+// import nodesData from './data';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
@@ -604,19 +604,18 @@ const headers = new Headers();
 headers.append('Authorization', `token ${process.env.KE_HAP}`);
 
 async function fetchAllNodes(url, options = { headers }, times = 0) {
-  console.log(options, times);
-  // const response = await fetch(url, options);
-  // const resjson = await response.json();
-  // const data = resjson.results;
-  // if (resjson.next) {
-  //   const nextData = await fetchAllNodes(resjson.next, options, times + 1);
-  //   return { ...nextData, results: data.concat(nextData.results) };
-  // }
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
 
-  // return { ...resjson, results: data };
+  return { ...resjson, results: data };
 
-  const data = nodesData;
-  return data;
+  // const data = nodesData;
+  // return data;
 }
 
 const API = {
@@ -665,7 +664,6 @@ async function loadCountyCitiesMap() {
 }
 
 async function getCounty(city) {
-  console.log('COUNTIES');
   const countyCityMap = await loadCountyCitiesMap();
   const citiesInfo =
     countyCityMap &&

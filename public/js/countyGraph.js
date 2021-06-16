@@ -1,15 +1,15 @@
 const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = (county) => {
+const countyGraphChange = (county, countyNodes, totalNodes) => {
   new Chart(graph, {
     type: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
     data: {
-      labels: [county],
+      labels: [county, 'Other'],
       datasets: [
         {
           label: 'Population en M ',
-          data: [1],
+          data: [countyNodes, totalNodes - countyNodes],
           // backgroundColor: "blue",
           backgroundColor: [
             '#38a86b',
