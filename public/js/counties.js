@@ -470,7 +470,7 @@ const countiesLocation = {
     center: '-0.56333,34.93583',
   },
 };
-
+ 
 window.onload = function() {
   const countySelect = document.getElementById("county-select");
   countySelect.addEventListener("change",()=>{
@@ -479,7 +479,11 @@ window.onload = function() {
       $(".menu-button").click();
     }})
   Object.keys(countiesLocation).forEach(key => {
-  const c = new Option(countiesLocation[key].label, key)
+  const c = new Option(countiesLocation[key].label, key);
+  // TODO(Brenda): We only have Nairobi data so we'll disable all other counties for now
+  if(c.value !== "nairobi" ){
+    c.disabled = true
+  }
   countySelect.options.add(c);
-});
-};
+  });
+}; 
