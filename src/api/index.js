@@ -606,12 +606,57 @@ async function fetchAllNodes(url, options = { headers }, times = 0) {
   const response = await fetch(url, options);
   const resjson = await response.json();
   const data = resjson.results;
+
   if (resjson.next) {
     const nextData = await fetchAllNodes(resjson.next, options, times + 1);
     return { ...nextData, results: data.concat(nextData.results) };
   }
 
   return { ...resjson, results: data };
+}
+
+async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  const nairobiData = data.filter(
+    (item) => item.location.city.toLowerCase() === 'nairobi'
+  );
+  function getSensorTypes(arr) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i] instanceof Array) {
+        return getSensorTypes(arr[i]);
+      }
+      return Object.fromEntries(
+        Object.entries(arr[i]).filter(([key]) => key === 'sensordatavalues')
+      );
+    }
+    return null;
+  }
+  const sensorTypeData = nairobiData.map((value) => {
+    const lat = Number(value.location.latitude);
+    const long = Number(value.location.longitude);
+    const { location } = value.location;
+    const sensorDatas = getSensorTypes(
+      value.sensors.map((item) => item.sensordatas)
+    );
+    return {
+      latitude: lat,
+      longitude: long,
+      location,
+      sensorDatas,
+    };
+  });
+  if (resjson.next) {
+    const nextData = await fetchGroupedBySensorType(
+      resjson.next,
+      options,
+      times + 1
+    );
+    return { ...nextData, results: sensorTypeData.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: sensorTypeData };
 }
 
 const API = {
@@ -680,6 +725,7 @@ export {
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
   fetchAllNodes,
+  fetchGroupedBySensorType,
   getCounty,
 };
 
