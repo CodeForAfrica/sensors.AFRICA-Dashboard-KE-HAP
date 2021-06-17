@@ -480,7 +480,6 @@ window.onload = function() {
     }})
   Object.keys(countiesLocation).forEach(key => {
   const c = new Option(countiesLocation[key].label, key);
-  countySelect.options.add(c);
     if(c.value.toLowerCase() === "nairobi" ){
       c.disabled = false
     } else {
