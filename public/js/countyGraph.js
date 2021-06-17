@@ -1,16 +1,15 @@
 const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = ({ results, count }) => {
-  const county = 'Nairobi';
+const countyGraphChange = (county) => {
   // filter Nairobi. This will be used to populate the chart when counties are available
-  const currentCounty = results.filter((result) => {
+  const currentCounty = results.results.filter((result) => {
     return result.location.city.includes(county);
   });
 
   // no of nodes in Nairobi and total nodes
   const countyNodes = currentCounty.length;
-  const totalNodes = count;
+  const totalNodes = results.count;
 
   new Chart(graph, {
     type: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea

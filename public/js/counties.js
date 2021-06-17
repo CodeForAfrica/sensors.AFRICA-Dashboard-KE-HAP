@@ -471,6 +471,8 @@ const countiesLocation = {
   },
 };
 
+let results;
+
 window.onload = async () => {
   const countySelect = document.getElementById('county-select');
   countySelect.addEventListener('change', () => {
@@ -490,7 +492,7 @@ window.onload = async () => {
 
   // fetch data. Blocking JS? + quite slow
   const data = await fetch('/api/data');
-  const results = await data.json();
+  results = await data.json();
 
-  countyGraphChange(results);
+  countyGraphChange('Nairobi');
 };
