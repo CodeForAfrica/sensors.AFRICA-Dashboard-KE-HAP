@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import Papa from 'papaparse';
 import request from 'request';
-// import nodesData from './data';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
