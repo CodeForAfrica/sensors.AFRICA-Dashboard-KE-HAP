@@ -613,9 +613,6 @@ async function fetchAllNodes(url, options = { headers }, times = 0) {
   }
 
   return { ...resjson, results: data };
-
-  // const data = nodesData;
-  // return data;
 }
 
 const API = {
