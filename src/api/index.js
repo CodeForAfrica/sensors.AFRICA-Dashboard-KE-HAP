@@ -634,19 +634,21 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     return null;
   }
   const sensorTypeData = nairobiData.map((value) => {
-    const lat = Number(value.location.latitude);
-    const long = Number(value.location.longitude);
-    const { location } = value.location;
     const sensorDatas = getSensorTypes(
       value.sensors.map((item) => item.sensordatas)
     );
-    return {
-      latitude: lat,
-      longitude: long,
-      location,
-      sensorDatas,
-    };
+    const sensorsValues = Object.keys(sensorDatas).map(function (key) {
+      return sensorDatas[key].map((item) => item);
+    });
+    const obj = {};
+    sensorsValues.forEach((sensor) => {
+      for (let i = 0; i < sensor.length; i += 1) {
+        obj[sensor[i].value_type] = sensor[i].value;
+      }
+    });
+    return obj;
   });
+  console.log(sensorTypeData);
   if (resjson.next) {
     const nextData = await fetchGroupedBySensorType(
       resjson.next,
