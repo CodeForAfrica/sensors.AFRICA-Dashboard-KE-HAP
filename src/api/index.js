@@ -648,17 +648,20 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     });
     return obj;
   });
-  console.log(sensorTypeData);
+  const currentSensorsTypes = [].concat.apply([], [sensorTypeData]);
   if (resjson.next) {
     const nextData = await fetchGroupedBySensorType(
       resjson.next,
       options,
       times + 1
     );
-    return { ...nextData, results: sensorTypeData.concat(nextData.results) };
+    return {
+      ...nextData,
+      results: currentSensorsTypes.concat(nextData.results),
+    };
   }
 
-  return { ...resjson, results: sensorTypeData };
+  return { ...resjson, results: currentSensorsTypes };
 }
 
 const API = {
