@@ -639,10 +639,10 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
   }
   const sensorTypeData = nairobiData.map((value) => {
     const sensorDatas = getAllSensorTypes(
-      value.sensors.map((item) => item.sensordatas)
+      value.sensors.map((sensor) => sensor.sensordatas)
     );
     const sensorsValues = Object.keys(sensorDatas).map(function (key) {
-      return sensorDatas[key].map((item) => item);
+      return sensorDatas[key].map((sensor) => sensor);
     });
     const obj = {};
     sensorsValues.forEach((sensor) => {
@@ -655,23 +655,23 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
   });
   function getSensorAverage(sensorType) {
     const P0 = sensorType
-      .filter((item) => item.sensor_type === 'P0')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type === 'P0')
+      .map((sensor) => Number(sensor.sensor_value));
     const P1 = sensorType
-      .filter((item) => item.sensor_type === 'P1')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type === 'P1')
+      .map((sensor) => Number(sensor.sensor_value));
     const P2 = sensorType
-      .filter((item) => item.sensor_type === 'P2')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type === 'P2')
+      .map((sensor) => Number(sensor.sensor_value));
     const temperature = sensorType
-      .filter((item) => item.sensor_type === 'temperature')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type === 'temperature')
+      .map((sensor) => Number(sensor.sensor_value));
     const humidity = sensorType
-      .filter((item) => item.sensor_type === 'humidity')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type === 'humidity')
+      .map((sensor) => Number(sensor.sensor_value));
     const noiseLeq = sensorType
-      .filter((item) => item.sensor_type.replace(/_/g, '') === 'noiseLeq')
-      .map((item) => Number(item.sensor_value));
+      .filter((sensor) => sensor.sensor_type.replace(/_/g, '') === 'noiseLeq')
+      .map((sensor) => Number(sensor.sensor_value));
     return {
       P0: Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0),
       P1: Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1),
