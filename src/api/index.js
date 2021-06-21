@@ -626,10 +626,10 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     const total = sensor.reduce((acc, c) => acc + c, 0);
     return total / sensor.length;
   }
-  function getSensorTypes(arr) {
+  function getAllSensorTypes(arr) {
     for (let i = 0; i < arr.length; i += 1) {
       if (arr[i] instanceof Array) {
-        return getSensorTypes(arr[i]);
+        return getAllSensorTypes(arr[i]);
       }
       return Object.fromEntries(
         Object.entries(arr[i]).filter(([key]) => key === 'sensordatavalues')
@@ -638,7 +638,7 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     return null;
   }
   const sensorTypeData = nairobiData.map((value) => {
-    const sensorDatas = getSensorTypes(
+    const sensorDatas = getAllSensorTypes(
       value.sensors.map((item) => item.sensordatas)
     );
     const sensorsValues = Object.keys(sensorDatas).map(function (key) {
@@ -653,41 +653,36 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     });
     return obj;
   });
-
-  const P0 = sensorTypeData
-    .filter((item) => item.sensor_type === 'P0')
-    .map((item) => Number(item.sensor_value));
-  const P1 = sensorTypeData
-    .filter((item) => item.sensor_type === 'P1')
-    .map((item) => Number(item.sensor_value));
-  const P2 = sensorTypeData
-    .filter((item) => item.sensor_type === 'P2')
-    .map((item) => Number(item.sensor_value));
-  const temperature = sensorTypeData
-    .filter((item) => item.sensor_type === 'temperature')
-    .map((item) => Number(item.sensor_value));
-  const humidity = sensorTypeData
-    .filter((item) => item.sensor_type === 'humidity')
-    .map((item) => Number(item.sensor_value));
-  const noiseLeq = sensorTypeData
-    .filter((item) => item.sensor_type.replace(/_/g, '') === 'noiseLeq')
-    .map((item) => Number(item.sensor_value));
-  console.log('P0', Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0));
-  console.log('P1', Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1));
-  console.log('P2', Number.isNaN(getAvg(P2)) ? 0 : getAvg(P2));
-  console.log(
-    'temperature',
-    Number.isNaN(getAvg(temperature)) ? 0 : getAvg(temperature)
-  );
-  console.log(
-    'humidity',
-    Number.isNaN(getAvg(humidity)) ? 0 : getAvg(humidity)
-  );
-  console.log(
-    'noiseLeq',
-    Number.isNaN(getAvg(noiseLeq)) ? 0 : getAvg(noiseLeq)
-  );
-
+  function getSensorAverage(sensorType) {
+    const P0 = sensorType
+      .filter((item) => item.sensor_type === 'P0')
+      .map((item) => Number(item.sensor_value));
+    const P1 = sensorType
+      .filter((item) => item.sensor_type === 'P1')
+      .map((item) => Number(item.sensor_value));
+    const P2 = sensorType
+      .filter((item) => item.sensor_type === 'P2')
+      .map((item) => Number(item.sensor_value));
+    const temperature = sensorType
+      .filter((item) => item.sensor_type === 'temperature')
+      .map((item) => Number(item.sensor_value));
+    const humidity = sensorType
+      .filter((item) => item.sensor_type === 'humidity')
+      .map((item) => Number(item.sensor_value));
+    const noiseLeq = sensorType
+      .filter((item) => item.sensor_type.replace(/_/g, '') === 'noiseLeq')
+      .map((item) => Number(item.sensor_value));
+    return {
+      P0: Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0),
+      P1: Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1),
+      P2: Number.isNaN(getAvg(P2)) ? 0 : getAvg(P2),
+      temperature: Number.isNaN(getAvg(temperature)) ? 0 : getAvg(temperature),
+      humidity: Number.isNaN(getAvg(humidity)) ? 0 : getAvg(humidity),
+      noiseLeq: Number.isNaN(getAvg(noiseLeq)) ? 0 : getAvg(noiseLeq),
+    };
+  }
+  const sensorAverages = getSensorAverage(sensorTypeData);
+  console.log(sensorAverages);
   if (resjson.next) {
     const nextData = await fetchGroupedBySensorType(
       resjson.next,
@@ -696,11 +691,11 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     );
     return {
       ...nextData,
-      results: sensorTypeData.concat(nextData.results),
+      results: sensorAverages.concat(nextData.results),
     };
   }
 
-  return { ...resjson, results: sensorTypeData };
+  return { ...resjson, results: sensorAverages };
 }
 
 const API = {
