@@ -495,4 +495,5 @@ window.onload = async () => {
   results = await data.json();
 
   countyGraphChange('Nairobi');
+  worstPMNodes();
 };

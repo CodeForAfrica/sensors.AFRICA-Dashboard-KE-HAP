@@ -190,41 +190,6 @@ new Chart(sensorsChart, {
         <div class="div-block-8">
           <div class="text-block-34"><strong>Worst Nodes</strong><br></div>
           <div class="chart-card-embed w-embed w-script"><canvas id="myChart" width="400" height="200"></canvas>
-            <script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Nairobi', 'Homa Bay', 'Siaya', 'Nakuru', 'Laikipia'],
-        datasets: [{
-            label: '# of Sensors',
-            data: [12, 19, 3, 5, 2],
-            backgroundColor: [
-                '#2DB469',
-                '#2DB469',
-                '#2DB469',
-                '#2DB469',
-                '#2DB469',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-      legend: {
-      display: true,
-      position:'bottom',
-      align:'start'
-    },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
           </div>
           <div class="text-block-37">The top five nodes that measured the highest (worst) levels of PM1, PM 2.5 and PM10 over the past four weeks.<br></div>
         </div>
@@ -367,6 +332,7 @@ var acChart = new Chart(acquisition, {
   <script src="js/webflow.js" type="text/javascript"></script>
   <script src="/js/counties.js" type="text/javascript"></script>
   <script src="../js/countyGraph.js"></script>
+  <script src="../js/worstPMGraph.js"></script>
   <script src="/js/events.js" type="text/javascript"></script>
 
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
