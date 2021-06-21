@@ -2,56 +2,9 @@ const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
 const countyGraphChange = async (county) => {
-  const kenyaCounties = [
-    'Nairobi',
-    'Kwale',
-    'Mombasa',
-    'Kilifi',
-    'Tana River',
-    'Lamu',
-    'Taita Taveta',
-    'Garissa',
-    'Wajir',
-    'Mandera',
-    'Marsabit',
-    'Isiolo',
-    'Tharaka Nithi',
-    'Meru',
-    'Embu',
-    'Kitui',
-    'Machakos',
-    'Makueni',
-    'Nyanadarua',
-    'Nyeri',
-    'Kirinyaga',
-    'Muranga',
-    'Kiambu',
-    'Turkana',
-    'West Pokot',
-    'Samburu',
-    'Trans Nzoia',
-    'Uasin Gishu',
-    'Elgeyo Marakwet',
-    'Nandi',
-    'Baringo',
-    'Laikipia',
-    'Nakuru',
-    'Marok',
-    'Kajiado',
-    'Kericho',
-    'Bomet',
-    'Kakamega',
-    'Vihiga',
-    'Bungoma',
-    'Busia',
-    'Siaya',
-    'Kisumu',
-    'Homa Bay',
-    'Migori',
-    'Kisii',
-    'Nyamira',
-  ];
   const countyData = await getCounties();
+
+  const kenyaCounties = countyData.map((data) => data.County);
 
   let countiesMap = {};
 
