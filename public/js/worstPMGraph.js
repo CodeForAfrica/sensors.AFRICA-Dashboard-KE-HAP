@@ -1,5 +1,37 @@
+let PVal = [];
+
+function filterLevel(dataValues) {
+  console.log('VALUES', dataValues);
+  return dataValues.forEach((value) => {
+    if (
+      value.value_type === 'P2' ||
+      value.value_type === 'P1' ||
+      value.value_type === 'P0'
+    ) {
+      console.log('OONE');
+      PVal.push(value.value);
+      return PVal;
+    }
+    return null;
+  });
+}
+
+function returnHighestPM(sensors) {
+  return sensors.forEach((sensor) => {
+    return sensor.sensordatas.forEach((data) => {
+      console.log('DATA', data);
+      return filterLevel(data.sensordatavalues);
+    });
+  });
+}
+
 function worstPMNodes() {
-  console.log('WORST NODES');
+  console.log('WORST NODES', results);
+  const resultsData = results.results;
+
+  resultsData.forEach((data) => {
+    console.log('HIGHEEEEST', returnHighestPM(data.sensors));
+  });
 }
 
 var ctx = document.getElementById('myChart').getContext('2d');
