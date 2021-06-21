@@ -1,26 +1,143 @@
 const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = (county) => {
-  // filter Nairobi. This will be used to populate the chart when counties are available
-  const currentCounty = results.results.filter((result) => {
-    return result.location.city.includes(county);
+const countyGraphChange = async (county) => {
+  const kenyaCounties = [
+    'Nairobi',
+    'Kwale',
+    'Mombasa',
+    'Kilifi',
+    'Tana River',
+    'Lamu',
+    'Taita Taveta',
+    'Garissa',
+    'Wajir',
+    'Mandera',
+    'Marsabit',
+    'Isiolo',
+    'Tharaka Nithi',
+    'Meru',
+    'Embu',
+    'Kitui',
+    'Machakos',
+    'Makueni',
+    'Nyanadarua',
+    'Nyeri',
+    'Kirinyaga',
+    'Muranga',
+    'Kiambu',
+    'Turkana',
+    'West Pokot',
+    'Samburu',
+    'Trans Nzoia',
+    'Uasin Gishu',
+    'Elgeyo Marakwet',
+    'Nandi',
+    'Baringo',
+    'Laikipia',
+    'Nakuru',
+    'Marok',
+    'Kajiado',
+    'Kericho',
+    'Bomet',
+    'Kakamega',
+    'Vihiga',
+    'Bungoma',
+    'Busia',
+    'Siaya',
+    'Kisumu',
+    'Homa Bay',
+    'Migori',
+    'Kisii',
+    'Nyamira',
+  ];
+  const countyData = await getCounties();
+
+  let countiesMap = {};
+
+  // Map total nodes per county. This will be used to populate the chart when counties are available
+  results.results.filter((result) => {
+    const cityCounty = getCityCounty(result.location.city, countyData);
+
+    // map of nodes per county
+    if (cityCounty) {
+      if (!countiesMap[cityCounty]) {
+        countiesMap[cityCounty] = '1';
+      } else {
+        countiesMap[cityCounty] = Number(countiesMap[cityCounty]) + 1;
+      }
+    }
+
+    return cityCounty === county;
   });
 
-  // no of nodes in Nairobi and total nodes
-  const countyNodes = currentCounty.length;
-  const totalNodes = results.count;
+  const newArr = new Array(47 - Object.keys(countiesMap).length).fill(0); // populate the rest of the counties with 0 nodes
+
+  // Array of counties
+  const countiesArr = [
+    ...new Set([...Object.keys(countiesMap), ...kenyaCounties]),
+  ];
+  // Array of nodes in counties
+  const countiesDataArr = [...Object.values(countiesMap), ...newArr];
 
   new Chart(graph, {
     type: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
     data: {
-      labels: [county, 'Other'],
+      labels: countiesArr,
       datasets: [
         {
           label: 'Population en M ',
-          data: [countyNodes, totalNodes - countyNodes],
+          data: countiesDataArr,
           // backgroundColor: "blue",
-          backgroundColor: ['#38a86b', '#85D6A9'],
+          backgroundColor: [
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+            '#c0ead3',
+            '#57C789',
+            '#85D6A9',
+            '#A3E0BF',
+          ],
           borderColor: ['#38a86b', '#85D6A9'],
           hoverBorderWidth: 3,
         },

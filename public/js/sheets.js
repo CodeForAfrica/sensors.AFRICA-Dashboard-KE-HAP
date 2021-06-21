@@ -56,4 +56,33 @@ async function getHouseHoldCounty(county) {
   return Number(householdInfo.Households);
 }
 
+function getCityCounty(city, counties) {
+  const citiesInfo = counties.find((row) => {
+    return row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim());
+  });
+
+  if (!citiesInfo) {
+    return null;
+  }
+  return citiesInfo.County;
+}
+
+async function getCounties() {
+  return new Promise((resolve, reject) => {
+    Papa.parse(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0',
+      {
+        download: true,
+        header: true,
+        complete(results) {
+          resolve(results.data);
+        },
+        error(err) {
+          reject(err);
+        },
+      }
+    );
+  });
+}
+
 window.addEventListener('DOMContentLoaded', init);
