@@ -3,7 +3,7 @@ const handleLocationChange = async (value) => {
   const newUrl = `${baseUrl}${countiesLocation[value].zoom}/${countiesLocation[value].latitude}/${countiesLocation[value].longitude}`;
 
   const county = countiesLocation[value].name;
-  countyGraphChange(county);
+  countyGraph.changeCounty(county);
   const numberOfHouseholds = await getHouseHoldCounty(county);
 
   document.getElementById('map-iframe').src = newUrl;

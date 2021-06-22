@@ -471,8 +471,6 @@ const countiesLocation = {
   },
 };
 
-let results;
-
 window.onload = async () => {
   const countySelect = document.getElementById('county-select');
   countySelect.addEventListener('change', () => {
@@ -490,10 +488,6 @@ window.onload = async () => {
     countySelect.options.add(c);
   });
 
-  // fetch data. Blocking JS? + quite slow
-  const data = await fetch('/api/data/?length=7');
-  results = await data.json();
-
-  countyGraphChange('Nairobi');
+  countyGraph.fetchResults('Nairobi');
   worstPMNodes();
 };
