@@ -491,7 +491,7 @@ window.onload = async () => {
   });
 
   // fetch data. Blocking JS? + quite slow
-  const data = await fetch('/api/data/?length=7');
+  const data = await fetch('/api/data/?days=7');
   results = await data.json();
 
   countyGraphChange('Nairobi');
