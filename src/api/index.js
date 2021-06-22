@@ -615,13 +615,72 @@ async function fetchAllNodes(url, options = { headers }, times = 0) {
   return { ...resjson, results: data };
 }
 
+const API = {
+  getAirData(city) {
+    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
+  },
+  getWeeklyP2Data(city) {
+    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
+      .toISOString()
+      .substr(0, 10);
+    return fetch(
+      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
+    );
+  },
+};
+/**
+ * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
+ * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
+ * The Papa.LocalChunkSize, Papa.RemoteChunkSize , download, withCredentials, worker, step, and complete config options are unavailable.
+ * To register a callback with the stream to process data, use the data event like so: stream.on('data', callback) and to signal the end of stream, use the 'end' event like so: stream.on('end', callback).
+ * src - https://github.com/mholt/PapaParse/blob/master/README.md#papa-parse-for-node
+ * @returns {Promise} array of { County:String, Citie: String // Comma seperated}
+ */
+async function loadCountyCitiesMap() {
+  return new Promise((resolve, reject) => {
+    const options = {
+      header: true,
+      error(err) {
+        reject(err);
+      },
+    };
+    const dataStream = request.get(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0'
+    );
+    const parseStream = Papa.parse(Papa.NODE_STREAM_INPUT, options);
+    dataStream.pipe(parseStream);
+    const countyCityMap = [];
+    parseStream.on('data', (chunk) => {
+      countyCityMap.push(chunk);
+    });
+
+    parseStream.on('finish', () => {
+      resolve(countyCityMap);
+    });
+  });
+}
+
+async function getCounty(city) {
+  const countyCityMap = await loadCountyCitiesMap();
+  const citiesInfo =
+    countyCityMap &&
+    countyCityMap.find((row) =>
+      row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim())
+    );
+  if (!citiesInfo) {
+    return 'County Unavailable';
+  }
+  return citiesInfo.County;
+}
+
 async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
   const response = await fetch(url, options);
   const resjson = await response.json();
   const data = resjson.results;
   const nairobiData = data.filter(
-    (item) => item.location.city.toLowerCase() === 'nairobi'
+    (item) => item.location?.city.toLowerCase() === 'nairobi'
   );
+
   function getAvg(sensor) {
     const total = sensor.reduce((acc, c) => acc + c, 0);
     return total / sensor.length;
@@ -682,7 +741,6 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     };
   }
   const sensorAverages = getSensorAverage(sensorTypeData);
-  console.log(sensorAverages);
   if (resjson.next) {
     const nextData = await fetchGroupedBySensorType(
       resjson.next,
@@ -696,64 +754,6 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
   }
 
   return { ...resjson, results: sensorAverages };
-}
-
-const API = {
-  getAirData(city) {
-    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
-  },
-  getWeeklyP2Data(city) {
-    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
-      .toISOString()
-      .substr(0, 10);
-    return fetch(
-      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
-    );
-  },
-};
-/**
- * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
- * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
- * The Papa.LocalChunkSize, Papa.RemoteChunkSize , download, withCredentials, worker, step, and complete config options are unavailable.
- * To register a callback with the stream to process data, use the data event like so: stream.on('data', callback) and to signal the end of stream, use the 'end' event like so: stream.on('end', callback).
- * src - https://github.com/mholt/PapaParse/blob/master/README.md#papa-parse-for-node
- * @returns {Promise} array of { County:String, Citie: String // Comma seperated}
- */
-async function loadCountyCitiesMap() {
-  return new Promise((resolve, reject) => {
-    const options = {
-      header: true,
-      error(err) {
-        reject(err);
-      },
-    };
-    const dataStream = request.get(
-      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0'
-    );
-    const parseStream = Papa.parse(Papa.NODE_STREAM_INPUT, options);
-    dataStream.pipe(parseStream);
-    const countyCityMap = [];
-    parseStream.on('data', (chunk) => {
-      countyCityMap.push(chunk);
-    });
-
-    parseStream.on('finish', () => {
-      resolve(countyCityMap);
-    });
-  });
-}
-
-async function getCounty(city) {
-  const countyCityMap = await loadCountyCitiesMap();
-  const citiesInfo =
-    countyCityMap &&
-    countyCityMap.find((row) =>
-      row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim())
-    );
-  if (!citiesInfo) {
-    return 'County Unavailable';
-  }
-  return citiesInfo.County;
 }
 
 export {
