@@ -1,9 +1,7 @@
 const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = async (county) => {
-  const countyData = await getCounties();
-
+const countyGraphChange = async (county, countyData, results) => {
   const kenyaCounties = countyData.map((data) => data.County);
 
   let countiesMap = {};
@@ -139,4 +137,21 @@ const countyGraphChange = async (county) => {
       },
     },
   });
+};
+
+const countyGraph = {
+  results: 0,
+  countyData: [],
+  async fetchResults(county) {
+    const data = await fetch('/api/data/?days=7');
+    this.results = await data.json();
+
+    const countyData = await getCounties();
+    countyGraphChange(county, countyData, this.results);
+  },
+  changeCounty(county) {
+    if (this.results) {
+      countyGraphChange(county, countyData, this.results);
+    }
+  },
 };
