@@ -1,10 +1,12 @@
 const graph = document.getElementById('graph').getContext('2d');
 Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = async (county, countyData, results) => {
-  const kenyaCounties = countyData.map((data) => data.County);
+const countyGraphChange = (county, countyData, results) => {
+  const kenyaCounties = countyData.map((data) => data.name);
 
   let countiesMap = {};
+
+  countiesMap[county] = '0';
 
   // Map total nodes per county. This will be used to populate the chart when counties are available
   results.results.filter((result) => {
@@ -146,12 +148,13 @@ const countyGraph = {
     const data = await fetch('/api/data/?days=7');
     this.results = await data.json();
 
-    const countyData = await getCounties();
-    countyGraphChange(county, countyData, this.results);
+    const countyDataResponse = await getCounties();
+    this.countyData = countyDataResponse;
+    countyGraphChange(county, this.countyData, this.results);
   },
   changeCounty(county) {
     if (this.results) {
-      countyGraphChange(county, countyData, this.results);
+      countyGraphChange(county, this.countyData, this.results);
     }
   },
 };

@@ -48,7 +48,7 @@ async function getHouseHoldCounty(county) {
   const householdInfo =
     countyHouseholdMap &&
     countyHouseholdMap.find(
-      (row) => row.County.toLowerCase().trim() === county.toLowerCase().trim()
+      (row) => row.name.toLowerCase().trim() === county.toLowerCase().trim()
     );
   if (!householdInfo) {
     return 0;
@@ -58,13 +58,13 @@ async function getHouseHoldCounty(county) {
 
 function getCityCounty(city, counties) {
   const citiesInfo = counties.find((row) => {
-    return row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim());
+    return row.name.toLowerCase().trim().includes(city.toLowerCase().trim());
   });
 
   if (!citiesInfo) {
     return null;
   }
-  return citiesInfo.County;
+  return citiesInfo.name;
 }
 
 async function getCounties() {
