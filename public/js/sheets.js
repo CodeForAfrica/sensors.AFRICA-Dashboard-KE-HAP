@@ -1,29 +1,23 @@
-function getLocalItem(key) {
-  const localItem = JSON.parse(localStorage.getItem(key));
-  if (!localItem || !localItem.expiry || Date.now() > localItem.expiry) {
-    return null;
-  }
-  return localItem.data;
-}
+// NOTE: requires('db');
 
-function setLocalItem(key, item) {
-  return localStorage.setItem(
-    key,
-    JSON.stringify({ data: item, expiry: Date.now() + 3 * 60 * 100 }) //expiry = 3 mins
-  );
-}
-
-async function loadCountyHouseholdMap() {
+async function loadCountySlugMap() {
   return new Promise((resolve, reject) => {
-    Papa.parse(
-      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=679979845',
+    window.Papa.parse(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=1323302673',
       {
         download: true,
         header: true,
         complete(results) {
-          const countyHouseholdMap = results.data;
-          setLocalItem('countyHouseholdMap', countyHouseholdMap);
-          resolve(countyHouseholdMap);
+          const countySlugMap = {};
+          if (results.data.length) {
+            const reducer = (acc, { name, value }) => {
+              acc[name.trim()] = value.trim();
+              return acc;
+            };
+            results.data.reduce(reducer, countySlugMap);
+          }
+          window.db.setItem('countySlugMap', countySlugMap);
+          resolve(countySlugMap);
         },
         error(err) {
           reject(err);
@@ -33,49 +27,41 @@ async function loadCountyHouseholdMap() {
   });
 }
 
-async function init() {
-  if (!getLocalItem('countyHouseholdMap')) {
-    loadCountyHouseholdMap();
-  }
-}
-
-async function getHouseHoldCounty(county) {
-  let countyHouseholdMap = getLocalItem('countyHouseholdMap');
-  if (!countyHouseholdMap) {
-    await loadCountyHouseholdMap();
-    countyHouseholdMap = getLocalItem('countyHouseholdMap');
-  }
-  const householdInfo =
-    countyHouseholdMap &&
-    countyHouseholdMap.find(
-      (row) => row.County.toLowerCase().trim() === county.toLowerCase().trim()
-    );
-  if (!householdInfo) {
-    return 0;
-  }
-  return Number(householdInfo.Households);
-}
-
-function getCityCounty(city, counties) {
-  const citiesInfo = counties.find((row) => {
-    return row.Cities.toLowerCase().trim().includes(city.toLowerCase().trim());
-  });
-
-  if (!citiesInfo) {
-    return null;
-  }
-  return citiesInfo.County;
-}
-
-async function getCounties() {
+async function loadCountyCitiesMap() {
   return new Promise((resolve, reject) => {
-    Papa.parse(
+    window.Papa.parse(
       'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=0',
       {
         download: true,
         header: true,
         complete(results) {
-          resolve(results.data);
+          const countyCitiesMap = {};
+          const cityCountyMap = {};
+          if (results.data.length) {
+            const countyReducer = (acc, { name, value }) => {
+              acc[name.trim()] = value
+                .trim()
+                .split(',')
+                .map((city) => city.trim())
+                .filter((city) => city.length);
+              return acc;
+            };
+            results.data.reduce(countyReducer, countyCitiesMap);
+            const cityReducer = (acc, { name, value }) => {
+              const cities = value.trim().split(',');
+              cities.forEach((city) => {
+                const cityName = city.trim();
+                if (cityName) {
+                  acc[cityName] = name.trim();
+                }
+              });
+              return acc;
+            };
+            results.data.reduce(cityReducer, cityCountyMap);
+          }
+          window.db.setItem('countyCitiesMap', countyCitiesMap);
+          window.db.setItem('cityCountyMap', cityCountyMap);
+          resolve(cityCountyMap);
         },
         error(err) {
           reject(err);
@@ -85,4 +71,98 @@ async function getCounties() {
   });
 }
 
-window.addEventListener('DOMContentLoaded', init);
+async function loadCountyHouseholdsMap() {
+  return new Promise((resolve, reject) => {
+    window.Papa.parse(
+      'https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg/export?format=csv&gid=679979845',
+      {
+        download: true,
+        header: true,
+        complete(results) {
+          const countyHouseholdsMap = {};
+          if (results.data.length) {
+            const reducer = (acc, { name, value }) => {
+              acc[name.trim()] = Number(value);
+              return acc;
+            };
+            results.data.reduce(reducer, countyHouseholdsMap);
+          }
+          window.db.setItem('countyHouseholdsMap', countyHouseholdsMap);
+          resolve(countyHouseholdsMap);
+        },
+        error(err) {
+          reject(err);
+        },
+      }
+    );
+  });
+}
+
+async function load() {
+  if (!window.db.getItem('countySlugMap')) {
+    loadCountySlugMap();
+  }
+  if (!window.db.getItem('countyCitiesMap')) {
+    loadCountyCitiesMap();
+  }
+  if (!window.db.getItem('countyHouseholdsMap')) {
+    loadCountyHouseholdsMap();
+  }
+}
+
+async function getHouseholdsMap() {
+  let map = window.db.getItem('countyHouseholdsMap');
+  if (!map) {
+    map = await loadCountyHouseholdsMap();
+  }
+  return map;
+}
+
+async function getHouseholds(county) {
+  const countyHouseholdsMap = await getHouseholdsMap();
+  const name = county ? county.trim() : undefined;
+  const households = name ? countyHouseholdsMap[name] : undefined;
+  if (!households) {
+    return 0;
+  }
+  return households;
+}
+
+async function getCityCountyMap() {
+  let map = window.db.getItem('cityCountMap');
+  if (!map) {
+    map = await loadCountyCitiesMap();
+  }
+  return map;
+}
+
+async function getCounty(city) {
+  const cityCountyMap = await getCityCountyMap();
+  const name = city ? city.trim() : undefined;
+  return name ? cityCountyMap[name] : undefined;
+}
+
+async function getCountyCitiesMap() {
+  let map = window.db.getItem('countyCitiesMap');
+  if (!map) {
+    await loadCountyCitiesMap();
+    map = window.db.getItem('countyCitiesMap');
+  }
+  return map;
+}
+
+async function getCities(county) {
+  const countyCitiesMap = await getCountyCitiesMap();
+  const name = county ? county.trim() : undefined;
+  return name ? countyCitiesMap[name] : [];
+}
+
+window.sheets = {
+  load,
+  getHouseholdsMap,
+  getHouseholds,
+  getCityCountyMap,
+  getCounty,
+  getCountyCitiesMap,
+  getCities,
+};
