@@ -1,3 +1,7 @@
+// NOTE: requires('sheets');
+// NOTE: requires('aq');
+// NOTE: requires('charts/countyCoverage');
+
 const countiesLocation = {
   nairobi: {
     slug: 'nairobi',
@@ -470,20 +474,43 @@ const countiesLocation = {
     center: '-0.56333,34.93583',
   },
 };
- 
-window.onload = function() {
-  const countySelect = document.getElementById("county-select");
-  countySelect.addEventListener("change",()=>{
-    var width = $(window).width(); 
-    if(width < 768 ){
-      $(".menu-button").click();
-    }})
-  Object.keys(countiesLocation).forEach(key => {
-  const c = new Option(countiesLocation[key].label, key);
-  // TODO(Brenda): We only have Nairobi data so we'll disable all other counties for now
-  if(c.value !== "nairobi" ){
-    c.disabled = true
-  }
-  countySelect.options.add(c);
+
+async function handleLocationChange(value) {
+  const baseUrl = '/map/index.html/#';
+  const newUrl = `${baseUrl}${countiesLocation[value].zoom}/${countiesLocation[value].latitude}/${countiesLocation[value].longitude}`;
+
+  const countyName = countiesLocation[value].name;
+  const households = await window.sheets.getHouseholds(countyName);
+
+  document.getElementById('map-iframe').src = newUrl;
+  document.getElementById('county-name').innerHTML = countyName;
+  document.getElementById('county-households').innerHTML = households;
+
+  window.aq.charts.countyCoverage.handleLocationChange(countyName);
+  // TODO(kilemensi): Add other charts here
+}
+
+async function init() {
+  const countySelect = document.getElementById('county-select');
+  countySelect.addEventListener('change', () => {
+    const width = window.$(window).width();
+    if (width < 768) {
+      window.$('.menu-button').click();
+    }
   });
-}; 
+  Object.keys(countiesLocation).forEach((key) => {
+    const c = new Option(countiesLocation[key].label, key);
+    // TODO(Brenda): We only have Nairobi data so we'll disable all other counties for now
+    if (c.value !== 'nairobi') {
+      c.disabled = true;
+    }
+    countySelect.options.add(c);
+  });
+  await window.sheets.load();
+  await window.aq.load();
+  // TODO(kilemensi): Load other data here
+
+  handleLocationChange('nairobi');
+}
+
+window.addEventListener('DOMContentLoaded', init);
