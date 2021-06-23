@@ -487,6 +487,7 @@ async function handleLocationChange(value) {
   document.getElementById('county-households').innerHTML = households;
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
+  window.aq.charts.worstNodes.worstPMNodes();
   // TODO(kilemensi): Add other charts here
 }
 
