@@ -692,17 +692,6 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     })
     .map((county) => (county.county !== undefined ? county : null));
 
-  /*  const allData = (sensors) => { 
-    data.filter(
-      item => {
-        const cityInfo = countyCityMap.find(city => city.value.toLowerCase().trim().includes(item.location?.city.toLowerCase().trim()));
-        item['county'] = cityInfo?.name;
-        return item 
-      }
-    ).map(county => county.county !== undefined ? county : null);
-   }
-   console.log(allData(data)); */
-
   /*  function getAvg(sensor) {
     const total = sensor.reduce((acc, c) => acc + c, 0);
     return total / sensor.length;
