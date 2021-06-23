@@ -1,47 +1,43 @@
+// NOTE: requires('sheets');
+// NOTE: requires('aq');
+
+window.aq.charts.countyCoverage = {};
+
+window.Chart.defaults.global.defaultFontSize = 10;
 const graph = document.getElementById('graph').getContext('2d');
-Chart.defaults.global.defaultFontSize = 10;
 
-const countyGraphChange = (county, countyData, results) => {
-  const kenyaCounties = countyData.map((data) => data.name);
+async function handleLocationChange() {
+  const nodes = await window.aq.getNodes();
+  const countyCitiesMap = await window.sheets.getCountyCitiesMap();
+  const { labels, data } = Object.entries(countyCitiesMap)
+    .map(([countyName, countyCities]) => {
+      const countyNodes = nodes.filter(({ location }) =>
+        countyCities.some(
+          (city) =>
+            location && location.city && location.city.indexOf(city) >= 0
+        )
+      );
+      return { name: countyName, value: countyNodes.length };
+    })
+    // Don't show counties with 0 nodes
+    .filter(({ value }) => value)
+    .reduce(
+      (acc, { name, value }) => {
+        acc.labels.push(name);
+        acc.data.push(value);
+        return acc;
+      },
+      { labels: [], data: [] }
+    );
 
-  let countiesMap = {};
-
-  countiesMap[county] = '0';
-
-  // Map total nodes per county. This will be used to populate the chart when counties are available
-  results.results.filter((result) => {
-    const cityCounty = getCityCounty(result.location.city, countyData);
-
-    // map of nodes per county
-    if (cityCounty) {
-      if (!countiesMap[cityCounty]) {
-        countiesMap[cityCounty] = '1';
-      } else {
-        countiesMap[cityCounty] = Number(countiesMap[cityCounty]) + 1;
-      }
-    }
-
-    return cityCounty === county;
-  });
-
-  const newArr = new Array(47 - Object.keys(countiesMap).length).fill(0); // populate the rest of the counties with 0 nodes
-
-  // Array of counties
-  const countiesArr = [
-    ...new Set([...Object.keys(countiesMap), ...kenyaCounties]),
-  ];
-  // Array of nodes in counties
-  const countiesDataArr = [...Object.values(countiesMap), ...newArr];
-
-  const countyGraphChart = new Chart(graph, {
-    type: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+  window.aq.charts.countyCoverage.el = new window.Chart(graph, {
+    type: 'doughnut',
     data: {
-      labels: countiesArr,
+      labels,
       datasets: [
         {
           label: 'Population en M ',
-          data: countiesDataArr,
-          // backgroundColor: "blue",
+          data,
           backgroundColor: [
             '#57C789',
             '#85D6A9',
@@ -104,18 +100,20 @@ const countyGraphChange = (county, countyData, results) => {
         easing: 'easeOutQuart',
         onComplete() {
           const { ctx } = this.chart;
-          ctx.font = Chart.helpers.fontString(
-            Chart.defaults.global.defaultFontFamily,
+          ctx.font = window.Chart.helpers.fontString(
+            window.Chart.defaults.global.defaultFontFamily,
             'normal',
-            Chart.defaults.global.defaultFontFamily
+            window.Chart.defaults.global.defaultFontFamily
           );
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
           this.data.datasets.forEach((dataset) => {
             for (let i = 0; i < dataset.data.length; i += 1) {
               const model =
+                // eslint-disable-next-line no-underscore-dangle
                 dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-              const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+              // eslint-disable-next-line no-underscore-dangle
+              const { total } = dataset._meta[Object.keys(dataset._meta)[0]];
               const midRadius =
                 model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
               const { startAngle } = model;
@@ -124,8 +122,9 @@ const countyGraphChange = (county, countyData, results) => {
               const x = midRadius * Math.cos(midAngle);
               const y = midRadius * Math.sin(midAngle);
               ctx.fillStyle = '#fff';
-              let percent =
-                String(Math.round((dataset.data[i] / total) * 100)) + '%';
+              const percent = `${String(
+                Math.round((dataset.data[i] / total) * 100)
+              )}%`;
               ctx.fillText(dataset.data[i], model.x + x, model.y + y);
               ctx.fillText(percent, model.x + x, model.y + y + 15);
             }
@@ -139,22 +138,6 @@ const countyGraphChange = (county, countyData, results) => {
       },
     },
   });
-};
+}
 
-const countyGraph = {
-  results: 0,
-  countyData: [],
-  async fetchResults(county) {
-    const data = await fetch('/api/data/?days=7');
-    this.results = await data.json();
-
-    const countyDataResponse = await getCounties();
-    this.countyData = countyDataResponse;
-    countyGraphChange(county, this.countyData, this.results);
-  },
-  changeCounty(county) {
-    if (this.results) {
-      countyGraphChange(county, this.countyData, this.results);
-    }
-  },
-};
+window.aq.charts.countyCoverage.handleLocationChange = handleLocationChange;

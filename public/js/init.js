@@ -1,3 +1,7 @@
+// NOTE: requires('sheets');
+// NOTE: requires('aq');
+// NOTE: requires('charts/countyCoverage');
+
 const countiesLocation = {
   nairobi: {
     slug: 'nairobi',
@@ -471,12 +475,27 @@ const countiesLocation = {
   },
 };
 
-window.onload = async () => {
+async function handleLocationChange(value) {
+  const baseUrl = '/map/index.html/#';
+  const newUrl = `${baseUrl}${countiesLocation[value].zoom}/${countiesLocation[value].latitude}/${countiesLocation[value].longitude}`;
+
+  const countyName = countiesLocation[value].name;
+  const households = await window.sheets.getHouseholds(countyName);
+
+  document.getElementById('map-iframe').src = newUrl;
+  document.getElementById('county-name').innerHTML = countyName;
+  document.getElementById('county-households').innerHTML = households;
+
+  window.aq.charts.countyCoverage.handleLocationChange(countyName);
+  // TODO(kilemensi): Add other charts here
+}
+
+async function init() {
   const countySelect = document.getElementById('county-select');
   countySelect.addEventListener('change', () => {
-    let width = $(window).width();
+    const width = window.$(window).width();
     if (width < 768) {
-      $('.menu-button').click();
+      window.$('.menu-button').click();
     }
   });
   Object.keys(countiesLocation).forEach((key) => {
@@ -487,7 +506,11 @@ window.onload = async () => {
     }
     countySelect.options.add(c);
   });
+  await window.sheets.load();
+  await window.aq.load();
+  // TODO(kilemensi): Load other data here
 
-  countyGraph.fetchResults('Nairobi');
-  worstPMNodes();
-};
+  handleLocationChange('nairobi');
+}
+
+window.addEventListener('DOMContentLoaded', init);
