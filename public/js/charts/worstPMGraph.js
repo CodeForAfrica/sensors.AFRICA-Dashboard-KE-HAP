@@ -85,24 +85,38 @@ async function worstPMNodes() {
           ...averageNodes[cityCountiesMap[data.location.city]].nodes,
           nodeAverage,
         ];
-        averageNodes[cityCountiesMap[data.location.city]].sum += nodeAverage;
+        averageNodes[cityCountiesMap[data.location.city]].sum =
+          (averageNodes[cityCountiesMap[data.location.city]].sum *
+            (averageNodes[cityCountiesMap[data.location.city]].nodes.length -
+              1) +
+            nodeAverage) /
+          averageNodes[cityCountiesMap[data.location.city]].nodes.length;
       }
     }
   });
+
+  console.log('AVERAGE', averageNodes);
 
   // Sort using sum
   const resultSorted = Object.fromEntries(
     Object.entries(averageNodes).sort(([, a], [, b]) => b.sum - a.sum)
   );
 
+  const labels = Object.keys(resultSorted).splice(0, 5);
+  const data = Object.values(resultSorted)
+    .splice(0, 5)
+    .map((result) => result.nodes.length);
+
+  console.log('LABEL', labels, 'DATA', data);
+
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Nairobi', 'Homa Bay', 'Siaya', 'Nakuru', 'Laikipia'],
+      labels,
       datasets: [
         {
           label: '# of Sensors',
-          data: [12, 19, 3, 5, 2],
+          data,
           backgroundColor: [
             '#2DB469',
             '#2DB469',
