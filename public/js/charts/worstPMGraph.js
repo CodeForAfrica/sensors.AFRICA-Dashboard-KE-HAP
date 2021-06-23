@@ -64,6 +64,7 @@ function returnPMAverage(sensors) {
 async function worstPMNodes() {
   const nodes = await window.aq.getNodes(); // get the nodes
   // const countyCitiesMap = await window.sheets.getCountyCitiesMap(); // counties
+  const cityCountiesMap = await window.sheets.getCityCountyMap();
 
   const averageNodes = {};
 
@@ -71,10 +72,28 @@ async function worstPMNodes() {
     // store the no of sensors in a node
     const averageResults = returnPMAverage(data.sensors);
     const nodeAverage = averageResults / averageResults.length;
-    averageNodes[data.location.location] = nodeAverage; //TODO: record the averages per nodes in a county
+
+    // populate map
+    if (cityCountiesMap[data.location.city] !== undefined) {
+      if (!averageNodes[cityCountiesMap[data.location.city]]) {
+        averageNodes[cityCountiesMap[data.location.city]] = {
+          nodes: [nodeAverage],
+          sum: 0,
+        };
+      } else {
+        averageNodes[cityCountiesMap[data.location.city]].nodes = [
+          ...averageNodes[cityCountiesMap[data.location.city]].nodes,
+          nodeAverage,
+        ];
+        averageNodes[cityCountiesMap[data.location.city]].sum += nodeAverage;
+      }
+    }
   });
 
-  console.log(averageNodes);
+  // Sort using sum
+  const resultSorted = Object.fromEntries(
+    Object.entries(averageNodes).sort(([, a], [, b]) => b.sum - a.sum)
+  );
 
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
