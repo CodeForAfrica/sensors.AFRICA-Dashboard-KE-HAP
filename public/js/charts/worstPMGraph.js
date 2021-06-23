@@ -5,7 +5,7 @@ window.aq.charts.worstNodes = {};
 
 const ctx = document.getElementById('myChart').getContext('2d');
 
-function filterLevel(dataValues) {
+function readingAverage(dataValues) {
   // get total of AQ recordings
   const recordings = dataValues.length;
 
@@ -28,31 +28,31 @@ function filterLevel(dataValues) {
   if (sum > 0) {
     average = sum / recordings;
   }
-
+  // else return 0
   return average;
 }
 
-function returnHighestPM(sensors) {
+function returnPMAverage(sensors) {
   // store response
   const sensorAverages = [];
 
   // loop through the sensors array and access the sensorsdatas array
   sensors.forEach((sensor) => {
-    const result = sensor.sensordatas.map((data) => {
-      // pass down the sensordatavalues to filter method and location
-      return filterLevel(data.sensordatavalues);
-    });
+    const resultAverages = sensor.sensordatas
+      .map((data) => {
+        // pass down the sensordatavalues to filter method
+        return readingAverage(data.sensordatavalues);
+      })
+      .filter((data) => data !== 0); // remove zero values
 
-    const refinedArray = result.filter((data) => data !== 0);
-
-    // if data exists, get average of both recordings at different times
-    if (refinedArray.length) {
-      const sum = refinedArray.reduce(
+    // if data exists, get average of sensor recordings at different times
+    if (resultAverages.length) {
+      const sum = resultAverages.reduce(
         (result1, result2) => result1 + result2,
         0
       );
 
-      const average = sum / refinedArray.length;
+      const average = sum / resultAverages.length;
 
       sensorAverages.push(average);
     }
@@ -62,16 +62,16 @@ function returnHighestPM(sensors) {
 }
 
 async function worstPMNodes() {
-  const nodes = await window.aq.getNodes(); // get the results array
+  const nodes = await window.aq.getNodes(); // get the nodes
   // const countyCitiesMap = await window.sheets.getCountyCitiesMap(); // counties
 
   const averageNodes = {};
 
   nodes.forEach((data) => {
     // store the no of sensors in a node
-    const averageResults = returnHighestPM(data.sensors);
-    const totalAverage = averageResults / averageResults.length;
-    averageNodes[data.location.location] = totalAverage;
+    const averageResults = returnPMAverage(data.sensors);
+    const nodeAverage = averageResults / averageResults.length;
+    averageNodes[data.location.location] = nodeAverage; //TODO: record the averages per nodes in a county
   });
 
   console.log(averageNodes);
