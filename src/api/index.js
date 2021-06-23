@@ -598,36 +598,6 @@ const COUNTIES_LOCATION = {
   },
 };
 
-const headers = new Headers();
-
-headers.append('Authorization', `token ${process.env.KE_HAP}`);
-
-async function fetchAllNodes(url, options = { headers }, times = 0) {
-  const response = await fetch(url, options);
-  const resjson = await response.json();
-  const data = resjson.results;
-
-  if (resjson.next) {
-    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
-    return { ...nextData, results: data.concat(nextData.results) };
-  }
-
-  return { ...resjson, results: data };
-}
-
-const API = {
-  getAirData(city) {
-    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
-  },
-  getWeeklyP2Data(city) {
-    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
-      .toISOString()
-      .substr(0, 10);
-    return fetch(
-      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
-    );
-  },
-};
 /**
  * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
  * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
@@ -673,18 +643,70 @@ async function getCounty(city) {
   return citiesInfo.County;
 }
 
+const headers = new Headers();
+
+headers.append('Authorization', `token ${process.env.KE_HAP}`);
+
+async function fetchAllNodes(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: data };
+}
+
+const API = {
+  getAirData(city) {
+    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
+  },
+  getWeeklyP2Data(city) {
+    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
+      .toISOString()
+      .substr(0, 10);
+    return fetch(
+      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
+    );
+  },
+};
+
 async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
   const response = await fetch(url, options);
   const resjson = await response.json();
   const data = resjson.results;
-  const nairobiData = data.filter(
-    (item) => item.location?.city.toLowerCase() === 'nairobi'
-  );
+  const countyCityMap = await loadCountyCitiesMap();
+  /* eslint-disable no-param-reassign */
+  const allData = data
+    .filter((item) => {
+      const cityInfo = countyCityMap.find((city) =>
+        city.value
+          .toLowerCase()
+          .trim()
+          .includes(item.location?.city.toLowerCase().trim())
+      );
+      item.county = cityInfo?.name;
+      return item;
+    })
+    .map((county) => (county.county !== undefined ? county : null));
 
-  function getAvg(sensor) {
+  /*  const allData = (sensors) => { 
+    data.filter(
+      item => {
+        const cityInfo = countyCityMap.find(city => city.value.toLowerCase().trim().includes(item.location?.city.toLowerCase().trim()));
+        item['county'] = cityInfo?.name;
+        return item 
+      }
+    ).map(county => county.county !== undefined ? county : null);
+   }
+   console.log(allData(data)); */
+
+  /*  function getAvg(sensor) {
     const total = sensor.reduce((acc, c) => acc + c, 0);
     return total / sensor.length;
-  }
+  } */
   function getAllSensorTypes(arr) {
     for (let i = 0; i < arr.length; i += 1) {
       if (arr[i] instanceof Array) {
@@ -696,7 +718,7 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     }
     return null;
   }
-  const sensorTypeData = nairobiData.map((value) => {
+  const sensorTypeData = allData.map((value) => {
     const sensorDatas = getAllSensorTypes(
       value.sensors.map((sensor) => sensor.sensordatas)
     );
@@ -732,12 +754,12 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
       .filter((sensor) => sensor.sensor_type.replace(/_/g, '') === 'noiseLeq')
       .map((sensor) => Number(sensor.sensor_value));
     return {
-      P0: Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0),
-      P1: Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1),
-      P2: Number.isNaN(getAvg(P2)) ? 0 : getAvg(P2),
-      temperature: Number.isNaN(getAvg(temperature)) ? 0 : getAvg(temperature),
-      humidity: Number.isNaN(getAvg(humidity)) ? 0 : getAvg(humidity),
-      noiseLeq: Number.isNaN(getAvg(noiseLeq)) ? 0 : getAvg(noiseLeq),
+      P0,
+      P1,
+      P2,
+      temperature,
+      humidity,
+      noiseLeq,
     };
   }
   const sensorAverages = getSensorAverage(sensorTypeData);

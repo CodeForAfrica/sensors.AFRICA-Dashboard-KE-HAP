@@ -47,7 +47,7 @@ async function getHouseHoldCount(county) {
     countyHouseholdMap = getLocalItem('countyHouseholdMap');
   }
   const householdInfo = countyHouseholdMap && countyHouseholdMap.find(
-    (row) => row.County?.toLowerCase().trim() === county.toLowerCase().trim()
+    (row) => row.County.toLowerCase().trim() === county.toLowerCase().trim()
   );
   if (!householdInfo) {
     return 0;
