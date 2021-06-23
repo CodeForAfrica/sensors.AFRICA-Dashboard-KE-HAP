@@ -692,10 +692,10 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
     })
     .map((county) => (county.county !== undefined ? county : null));
 
-  /*  function getAvg(sensor) {
+  function getAvg(sensor) {
     const total = sensor.reduce((acc, c) => acc + c, 0);
     return total / sensor.length;
-  } */
+  }
   function getAllSensorTypes(arr) {
     for (let i = 0; i < arr.length; i += 1) {
       if (arr[i] instanceof Array) {
@@ -743,15 +743,17 @@ async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
       .filter((sensor) => sensor.sensor_type.replace(/_/g, '') === 'noiseLeq')
       .map((sensor) => Number(sensor.sensor_value));
     return {
-      P0,
-      P1,
-      P2,
-      temperature,
-      humidity,
-      noiseLeq,
+      P0: Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0),
+      P1: Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1),
+      P2: Number.isNaN(getAvg(P2)) ? 0 : getAvg(P2),
+      temperature: Number.isNaN(getAvg(temperature)) ? 0 : getAvg(temperature),
+      humidity: Number.isNaN(getAvg(humidity)) ? 0 : getAvg(humidity),
+      noiseLeq: Number.isNaN(getAvg(noiseLeq)) ? 0 : getAvg(noiseLeq),
     };
   }
   const sensorAverages = getSensorAverage(sensorTypeData);
+  console.log(sensorAverages);
+  console.log(sensorAverages);
   if (resjson.next) {
     const nextData = await fetchGroupedBySensorType(
       resjson.next,
