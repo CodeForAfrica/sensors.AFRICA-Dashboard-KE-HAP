@@ -598,35 +598,6 @@ const COUNTIES_LOCATION = {
   },
 };
 
-const headers = new Headers();
-
-headers.append('Authorization', `token ${process.env.KE_HAP}`);
-
-async function fetchAllNodes(url, options = { headers }, times = 0) {
-  const response = await fetch(url, options);
-  const resjson = await response.json();
-  const data = resjson.results;
-  if (resjson.next) {
-    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
-    return { ...nextData, results: data.concat(nextData.results) };
-  }
-
-  return { ...resjson, results: data };
-}
-
-const API = {
-  getAirData(city) {
-    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
-  },
-  getWeeklyP2Data(city) {
-    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
-      .toISOString()
-      .substr(0, 10);
-    return fetch(
-      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
-    );
-  },
-};
 /**
  * Loads county citites map set in https://docs.google.com/spreadsheets/d/1jNk90L1FGXt3estVzFII2-eeKQZ85RYiLKCyNe14nGg
  * for Papa.parse to work in the node environment, we will have to pipe the stream returned,
@@ -671,6 +642,36 @@ async function getCounty(city) {
   }
   return citiesInfo.County;
 }
+
+const headers = new Headers();
+
+headers.append('Authorization', `token ${process.env.KE_HAP}`);
+
+async function fetchAllNodes(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: data };
+}
+
+const API = {
+  getAirData(city) {
+    return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
+  },
+  getWeeklyP2Data(city) {
+    const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
+      .toISOString()
+      .substr(0, 10);
+    return fetch(
+      `https://api.sensors.africa/v2/data/air/?city=${city}&from=${fromDate}&interval=day&value_type=P2`
+    );
+  },
+};
 
 export {
   CITIES_LOCATION,
