@@ -673,102 +673,6 @@ const API = {
   },
 };
 
-async function fetchGroupedBySensorType(url, options = { headers }, times = 0) {
-  const response = await fetch(url, options);
-  const resjson = await response.json();
-  const data = resjson.results;
-  const countyCityMap = await loadCountyCitiesMap();
-  /* eslint-disable no-param-reassign */
-  const allData = data
-    .filter((item) => {
-      const cityInfo = countyCityMap.find((city) =>
-        city.value
-          .toLowerCase()
-          .trim()
-          .includes(item.location?.city.toLowerCase().trim())
-      );
-      item.county = cityInfo?.name;
-      return item;
-    })
-    .map((county) => (county.county !== undefined ? county : null));
-
-  function getAvg(sensor) {
-    const total = sensor.reduce((acc, c) => acc + c, 0);
-    return total / sensor.length;
-  }
-  function getAllSensorTypes(arr) {
-    for (let i = 0; i < arr.length; i += 1) {
-      if (arr[i] instanceof Array) {
-        return getAllSensorTypes(arr[i]);
-      }
-      return Object.fromEntries(
-        Object.entries(arr[i]).filter(([key]) => key === 'sensordatavalues')
-      );
-    }
-    return null;
-  }
-  const sensorTypeData = allData.map((value) => {
-    const sensorDatas = getAllSensorTypes(
-      value.sensors.map((sensor) => sensor.sensordatas)
-    );
-    const sensorsValues = Object.keys(sensorDatas).map(function (key) {
-      return sensorDatas[key].map((sensor) => sensor);
-    });
-    const obj = {};
-    sensorsValues.forEach((sensor) => {
-      for (let i = 0; i < sensor.length; i += 1) {
-        obj.sensor_type = sensor[i].value_type;
-        obj.sensor_value = sensor[i].value;
-      }
-    });
-    return obj;
-  });
-  function getSensorAverage(sensorType) {
-    const P0 = sensorType
-      .filter((sensor) => sensor.sensor_type === 'P0')
-      .map((sensor) => Number(sensor.sensor_value));
-    const P1 = sensorType
-      .filter((sensor) => sensor.sensor_type === 'P1')
-      .map((sensor) => Number(sensor.sensor_value));
-    const P2 = sensorType
-      .filter((sensor) => sensor.sensor_type === 'P2')
-      .map((sensor) => Number(sensor.sensor_value));
-    const temperature = sensorType
-      .filter((sensor) => sensor.sensor_type === 'temperature')
-      .map((sensor) => Number(sensor.sensor_value));
-    const humidity = sensorType
-      .filter((sensor) => sensor.sensor_type === 'humidity')
-      .map((sensor) => Number(sensor.sensor_value));
-    const noiseLeq = sensorType
-      .filter((sensor) => sensor.sensor_type.replace(/_/g, '') === 'noiseLeq')
-      .map((sensor) => Number(sensor.sensor_value));
-    return {
-      P0: Number.isNaN(getAvg(P0)) ? 0 : getAvg(P0),
-      P1: Number.isNaN(getAvg(P1)) ? 0 : getAvg(P1),
-      P2: Number.isNaN(getAvg(P2)) ? 0 : getAvg(P2),
-      temperature: Number.isNaN(getAvg(temperature)) ? 0 : getAvg(temperature),
-      humidity: Number.isNaN(getAvg(humidity)) ? 0 : getAvg(humidity),
-      noiseLeq: Number.isNaN(getAvg(noiseLeq)) ? 0 : getAvg(noiseLeq),
-    };
-  }
-  const sensorAverages = getSensorAverage(sensorTypeData);
-  console.log(sensorAverages);
-  console.log(sensorAverages);
-  if (resjson.next) {
-    const nextData = await fetchGroupedBySensorType(
-      resjson.next,
-      options,
-      times + 1
-    );
-    return {
-      ...nextData,
-      results: sensorAverages.concat(nextData.results),
-    };
-  }
-
-  return { ...resjson, results: sensorAverages };
-}
-
 export {
   CITIES_LOCATION,
   COUNTIES_LOCATION,
@@ -777,7 +681,6 @@ export {
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
   fetchAllNodes,
-  fetchGroupedBySensorType,
   getCounty,
 };
 
