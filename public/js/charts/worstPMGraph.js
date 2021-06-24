@@ -52,6 +52,8 @@ function returnPMAverage(sensors) {
       return average;
     };
 
+    console.log('RESULT AVERAGES', resultAverages);
+
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
       const p1 = getAverage(resultAverages, 'p1');
@@ -63,7 +65,7 @@ function returnPMAverage(sensors) {
       //   0
       // );
       // const average = sum / resultAverages.length;
-      // sensorAverages.push(average);
+      sensorAverages.push({ p1, p2, p0 });
     }
   });
 
@@ -79,48 +81,43 @@ async function worstPMNodes() {
   nodes.forEach((data) => {
     // store the no of sensors in a node
     const averageResults = returnPMAverage(data.sensors);
-    const nodeAverage = averageResults / averageResults.length;
+
+    console.log('AVERAGE FINAL', averageResults);
+    // const nodeAverage = averageResults / averageResults.length;
 
     // populate map TODO: Should check for data in nodeAverage first
     if (cityCountiesMap[data.location.city] !== undefined) {
       if (!averageNodes[cityCountiesMap[data.location.city]]) {
-        averageNodes[cityCountiesMap[data.location.city]] = {
-          nodes: [nodeAverage],
-          sum: 0,
-        };
+        averageNodes[cityCountiesMap[data.location.city]] = [averageResults[0]];
       } else {
-        averageNodes[cityCountiesMap[data.location.city]].nodes = [
-          ...averageNodes[cityCountiesMap[data.location.city]].nodes,
-          nodeAverage,
+        averageNodes[cityCountiesMap[data.location.city]] = [
+          ...averageNodes[cityCountiesMap[data.location.city]],
+          averageResults[0],
         ];
-        averageNodes[cityCountiesMap[data.location.city]].sum =
-          (averageNodes[cityCountiesMap[data.location.city]].sum *
-            (averageNodes[cityCountiesMap[data.location.city]].nodes.length -
-              1) +
-            nodeAverage) /
-          averageNodes[cityCountiesMap[data.location.city]].nodes.length;
       }
     }
   });
 
-  // Sort using sum
-  const resultSorted = Object.fromEntries(
-    Object.entries(averageNodes).sort(([, a], [, b]) => b.sum - a.sum)
-  );
+  console.log('AVERAGE MAP', averageNodes);
 
-  const labels = Object.keys(resultSorted).splice(0, 5);
-  const data = Object.values(resultSorted)
-    .splice(0, 5)
-    .map((result) => result.nodes.length);
+  // // Sort using sum
+  // const resultSorted = Object.fromEntries(
+  //   Object.entries(averageNodes).sort(([, a], [, b]) => b.sum - a.sum)
+  // );
+
+  // const labels = Object.keys(resultSorted).splice(0, 5);
+  // const data = Object.values(resultSorted)
+  //   .splice(0, 5)
+  //   .map((result) => result.nodes.length);
 
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
     data: {
-      labels,
+      labels: ['Nairobi'],
       datasets: [
         {
           label: '# of Sensors',
-          data,
+          data: [12],
           backgroundColor: [
             '#2DB469',
             '#2DB469',
