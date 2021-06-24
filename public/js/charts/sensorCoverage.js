@@ -20,7 +20,7 @@ function getAllSensorTypes(arr) {
 async function handleLocationChange() {
     const nodes = await window.aq.getNodes();
     const countyCitiesMap = await window.sheets.getCountyCitiesMap();
-    const allNodes = Object.entries(countyCitiesMap)
+    const allCountyNodes = Object.entries(countyCitiesMap)
         .map(([countyName, countyCities]) => {
             const countyNodes = nodes.filter(({ location }) =>
                 countyCities.some(
@@ -31,41 +31,42 @@ async function handleLocationChange() {
             return { name: countyName, value: countyNodes };
         })
         // Don't show counties with 0 nodes
-        .filter(({ value }) => value.length !== 0).map(item => item?.value);
-        const aLLNodesReduced = allNodes[0].flatMap(item => item?.sensors).flatMap(item => item?.sensordatas).flatMap(item => item?.sensordatavalues).reduce(function(h, obj) {
+        .filter(({ value }) => value.length !== 0).map(value => value?.value);//Todo (Nyokabi) direct flatmap returns undefined???
+        const aLLNodesReduced = allCountyNodes[0].flatMap(node => node?.sensors).flatMap(node => node?.sensordatas).flatMap(node => node?.sensordatavalues).reduce(function(h, obj) {
             h[obj.value_type] = (h[obj.value_type] || []).concat(obj);
             return h; 
           }, {});
-          const getAllData = Object.keys(aLLNodesReduced).map(key => {
+          const sensorTypes = Object.keys(aLLNodesReduced).map(key => {
             return {
                 sensor: key, 
                 sensorAvg : Math.round(aLLNodesReduced[key].reduce((a, b) => a + (Number(b.value) || 0), 0)/aLLNodesReduced[key].length),
             } 
          });
-         const sensorData = getAllData.filter(item  => item.sensor !== "timestamp" && item.sensor !== "height" && item.sensor !== "lon" && item.sensor !== "lat").map(item => item.sensorAvg);
-
+         const sensorCoverageData = sensorTypes?.filter(item  => item.sensor !== "timestamp" && item.sensor !== "height" && item.sensor !== "lon" && item.sensor !== "lat").map(item => item.sensorAvg);
     window.aq.charts.sensorCoverage.el = new Chart(sensorsChart, {
         type: "doughnut", // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data: {
             labels: [
-                "PM1",
                 "PM2.5",
                 "PM10",
-                "Air",
+                "PM1",
+                "Humidity",
                 "Temperature",
+                "NoiseLeq",
             ],
             datasets: [
                 {
                     label: " ",
-                    data: sensorData,
+                    data: sensorCoverageData,
                     backgroundColor: [
+                        "#339961",
                         '#38a86b',
                         '#57C789',
                         "#85D6A9",
                         "#A3E0BF",
                         "#c0ead3",
                     ],
-                    borderColor: ["#38a86b", "#57C789", "#85D6A9", "#A3E0BF", "#c0ead3"],
+                    borderColor: ["#339961", "#38a86b", "#57C789", "#85D6A9", "#A3E0BF", "#c0ead3"],
                     hoverBorderWidth: 3,
                 },
             ],
