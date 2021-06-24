@@ -94,17 +94,18 @@ async function worstPMNodes() {
   // map to county
   const topWorst = {};
 
-  // populate map TODO: Should check for data in nodeAverage first
-  // if (cityCountiesMap[topFiveNodes.city] !== undefined) {
-  //   if (!topWorst[cityCountiesMap[topFiveNodes.city]]) {
-  //     topWorst[cityCountiesMap[topFiveNodes.city]] = [averageResults[0]];
-  //   } else {
-  //     topWorst[cityCountiesMap[topFiveNodes.city]] = [
-  //       ...topWorst[cityCountiesMap[topFiveNodes.city]],
-  //       averageResults[0],
-  //     ];
-  //   }
-  // }
+  topFiveNodes.forEach((node) => {
+    if (cityCountiesMap[node.city] !== undefined) {
+      if (!topWorst[cityCountiesMap[node.city]]) {
+        topWorst[cityCountiesMap[node.city]] = [node];
+      } else {
+        topWorst[cityCountiesMap[node.city]] = [
+          ...topWorst[cityCountiesMap[node.city]],
+          node,
+        ];
+      }
+    }
+  });
 
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
