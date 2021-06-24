@@ -226,81 +226,8 @@ var myChart = new Chart(ctx, {
         </div>
         <div class="div-block-9">
           <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
-          <div class="chart-card-embed w-embed w-script"><canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
-            <script>
-var acquisition = document.getElementById('acquisition');
-var acChart = new Chart(acquisition, {
-    // The type of chart we want to create
-    type: 'line',
-    // The data for our dataset
-    data: {
-        labels: ["4 Jan", "5 Jan", "6 Jan", "7 Jan", "8 Jan", "9 Jan", "10 Jan"],
-        datasets: [
-        {
-          label: "Nairobi",
-          backgroundColor: '#9EE6BE',
-          data: [78, 88, 68, 74, 50, 55, 25],
-          lineTension: 0.3,
-          pointBackgroundColor: '#9EE6BE',
-          pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
-        },
-          {
-          label: "Mpala",
-          backgroundColor: '#4BD288',
-          data: [88, 108, 78, 95, 65, 73, 42],
-          lineTension: 0.3,
-          pointBackgroundColor: '#4BD288',
-          pointHoverBackgroundColor: 'rgba(254, 196, 0,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
-        },
-          {
-          label: "Elgeyo-Marakwet",
-          backgroundColor: '#2DB469',
-          data: [103, 125, 95, 110, 79, 92, 58],
-          lineTension: 0.3,
-          pointBackgroundColor: '#2DB469',
-          pointHoverBackgroundColor: 'rgba(41, 204, 151,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
-        }
-      ]
-    },
-    // Configuration options go here
-    options: {
-     legend: {
-      display: true,
-      position:'bottom',
-      align:'start'
-    },
-      scales: {
-        xAxes: [{
-          gridLines: {
-            display:false
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-             display:true
-          },
-          ticks: {
-             beginAtZero: true,
-          },
-       }]
-     },
-     tooltips: {
-    }
-  }
-});
-</script>
+          <div class="chart-card-embed w-embed w-script">
+            <canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
           </div>
           <div class="text-block-37">An overview of AQ trends over an average week, measuring daily PM1, PM2.5 and PM10 levels, over a four week period.<br></div>
         </div>
