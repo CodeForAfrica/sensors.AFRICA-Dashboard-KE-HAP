@@ -5,7 +5,7 @@ window.aq.charts.trendsCoverage = {};
 
 window.Chart.defaults.global.defaultFontSize = 10;
 
-var acquisition = document.getElementById('acquisition');
+const acquisition = document.getElementById('acquisition');
 
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
@@ -18,28 +18,31 @@ async function handleLocationChange() {
             location && location.city && location.city.indexOf(city) >= 0
         )
       );
-      //step one flatmap until ou get timestamp => reduce to get timestamp and sensord data alone(process timestamp data =>p1 values and such for each data)
-      //return all data 
       return { name: countyName, value: countyNodes };
     })
     // Don't show counties with 0 nodes
     .filter(({ value }) => value.length !== 0)
-    .flatMap(node => node?.value)
-    .flatMap(node => node?.sensors)
-    .flatMap(node => node?.sensordatas).reduce(function(h, obj) {
+    .flatMap((node) => node?.value)
+    .flatMap((node) => node?.sensors)
+    .flatMap((node) => node?.sensordatas)
+    // eslint-disable-next-line func-names
+    .reduce(function (h, obj) {
+      // eslint-disable-next-line no-param-reassign
       h[obj?.timestamp] = (h[obj?.timestamp] || []).concat(obj);
-      return h; 
-    }, {})
-  
-    window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
+      return h;
+    }, {});
+  // eslint-disable-next-line no-console
+  console.log(allCountyNodes);
+
+  window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
     // The data for our dataset
     data: {
-        labels: ["4 Jan", "5 Jan", "6 Jan", "7 Jan", "8 Jan", "9 Jan", "10 Jan"],
-        datasets: [
+      labels: ['4 Jan', '5 Jan', '6 Jan', '7 Jan', '8 Jan', '9 Jan', '10 Jan'],
+      datasets: [
         {
-          label: "Nairobi",
+          label: 'Nairobi',
           backgroundColor: '#9EE6BE',
           data: [78, 88, 68, 74, 50, 55, 25],
           lineTension: 0.3,
@@ -48,10 +51,10 @@ async function handleLocationChange() {
           pointHoverRadius: 3,
           pointHitRadius: 30,
           pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
+          pointStyle: 'rectRounded',
         },
-          {
-          label: "Mpala",
+        {
+          label: 'Mpala',
           backgroundColor: '#4BD288',
           data: [0, 0, 0, 0, 0, 73, 0],
           lineTension: 0.3,
@@ -60,10 +63,10 @@ async function handleLocationChange() {
           pointHoverRadius: 3,
           pointHitRadius: 30,
           pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
+          pointStyle: 'rectRounded',
         },
-          {
-          label: "Elgeyo-Marakwet",
+        {
+          label: 'Elgeyo-Marakwet',
           backgroundColor: '#2DB469',
           data: [0, 0, 0, 0, 0, 0, 0],
           lineTension: 0.3,
@@ -72,36 +75,39 @@ async function handleLocationChange() {
           pointHoverRadius: 3,
           pointHitRadius: 30,
           pointBorderWidth: 2,
-          pointStyle: 'rectRounded'
-        }
-      ]
+          pointStyle: 'rectRounded',
+        },
+      ],
     },
     // Configuration options go here
     options: {
-     legend: {
-      display: true,
-      position:'bottom',
-      align:'start'
-    },
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'start',
+      },
       scales: {
-        xAxes: [{
-          gridLines: {
-            display:false
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-             display:true
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
           },
-          ticks: {
-             beginAtZero: true,
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: true,
+            },
+            ticks: {
+              beginAtZero: true,
+            },
           },
-       }]
-     },
-     tooltips: {
-    }
-  }
-})};
+        ],
+      },
+      tooltips: {},
+    },
+  });
+}
 
 window.aq.charts.trendsCoverage.handleLocationChange = handleLocationChange;
-
