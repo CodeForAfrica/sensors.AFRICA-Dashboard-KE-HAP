@@ -1,15 +1,26 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
-
 window.aq.charts.sensorCoverage = {};
 window.Chart.defaults.global.defaultFontSize = 10;
 const sensorsChart = document.getElementById("sensorsChart").getContext("2d");
 
+function getAllSensorTypes(arr) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i] instanceof Array) {
+        return getAllSensorTypes(arr[i]);
+      }
+      return Object.fromEntries(
+        Object.entries(arr[i]).filter(([key]) => key === 'sensordatavalues')
+      );
+    }
+    return null;
+  }
+
 async function handleLocationChange() {
     const nodes = await window.aq.getNodes();
     const countyCitiesMap = await window.sheets.getCountyCitiesMap();
-    const { labels, data } = Object.entries(countyCitiesMap)
+    const allNodes = Object.entries(countyCitiesMap)
         .map(([countyName, countyCities]) => {
             const countyNodes = nodes.filter(({ location }) =>
                 countyCities.some(
@@ -17,20 +28,21 @@ async function handleLocationChange() {
                         location && location.city && location.city.indexOf(city) >= 0
                 )
             );
-            console.log({ name: countyName, value: countyNodes });
-            return { name: countyName, value: countyNodes.length };
+            return { name: countyName, value: countyNodes };
         })
         // Don't show counties with 0 nodes
-        .filter(({ value }) => value)
-        .reduce(
-            (acc, { name, value }) => {
-                acc.labels.push(name);
-                acc.data.push(value);
-                return acc;
-            },
-            { labels: [], data: [] }
-        );
-
+        .filter(({ value }) => value.length !== 0).map(item => item?.value);
+        const aLLNodesReduced = allNodes[0].flatMap(item => item?.sensors).flatMap(item => item?.sensordatas).flatMap(item => item?.sensordatavalues).reduce(function(h, obj) {
+            h[obj.value_type] = (h[obj.value_type] || []).concat(obj);
+            return h; 
+          }, {});
+          const getAllData = Object.keys(aLLNodesReduced).map(key => {
+            return {
+                sensor: key, 
+                sensorAvg : Math.round(aLLNodesReduced[key].reduce((a, b) => a + (Number(b.value) || 0), 0)/aLLNodesReduced[key].length),
+            } 
+         });
+         const sensorData = getAllData.filter(item  => item.sensor !== "timestamp" && item.sensor !== "height" && item.sensor !== "lon" && item.sensor !== "lat").map(item => item.sensorAvg);
 
     window.aq.charts.sensorCoverage.el = new Chart(sensorsChart, {
         type: "doughnut", // bar, horizontalBar, pie, line, doughnut, radar, polarArea
@@ -45,8 +57,7 @@ async function handleLocationChange() {
             datasets: [
                 {
                     label: " ",
-                    data: [6, 8, 3, 4, 4],
-                    // backgroundColor: "blue",
+                    data: sensorData,
                     backgroundColor: [
                         '#38a86b',
                         '#57C789',

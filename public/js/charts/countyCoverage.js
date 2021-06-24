@@ -17,7 +17,6 @@ async function handleLocationChange() {
             location && location.city && location.city.indexOf(city) >= 0
         )
       );
-      console.log({name: countyName, value: countyNodes});
       return { name: countyName, value: countyNodes.length };
     })
     // Don't show counties with 0 nodes
