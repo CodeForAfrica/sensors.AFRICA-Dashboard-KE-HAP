@@ -7,29 +7,28 @@ const ctx = document.getElementById('myChart').getContext('2d');
 
 function readingAverage(dataValues) {
   // get total of AQ recordings
-  const recordings = dataValues.length;
 
-  let average = 0;
-  let sum = 0;
+  const averageAll = {};
 
   dataValues.forEach((value) => {
-    // loop through the values and sum the total of the P1,2 and 0 values
-    if (
-      value.value_type === 'P2' ||
-      value.value_type === 'P1' ||
-      value.value_type === 'P0'
-    ) {
-      // sum them up
-      sum += Number(value.value);
+    // loop through the values and get the readings of the P1,2 and 0 values
+
+    switch (value.value_type) {
+      case 'P1':
+        averageAll.p1 = Number(value.value);
+        break;
+      case 'P2':
+        averageAll.p2 = Number(value.value);
+        break;
+      case 'P0':
+        averageAll.p0 = Number(value.value);
+        break;
+      default:
+        break;
     }
   });
 
-  // if the sum shows the respective AQ nodes exist, get their average.
-  if (sum > 0) {
-    average = sum / recordings;
-  }
-  // else return 0
-  return average;
+  return averageAll;
 }
 
 function returnPMAverage(sensors) {
@@ -43,18 +42,20 @@ function returnPMAverage(sensors) {
         // pass down the sensordatavalues to filter method
         return readingAverage(data.sensordatavalues);
       })
-      .filter((data) => data !== 0); // remove zero values
+      .filter((data) => Object.keys(data).length !== 0); // remove zero values
+
+    console.log('AVERAGES RESULT', resultAverages);
 
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
-      const sum = resultAverages.reduce(
-        (result1, result2) => result1 + result2,
-        0
-      );
+      console.log('RESULTS AVAILABLE', resultAverages);
 
-      const average = sum / resultAverages.length;
-
-      sensorAverages.push(average);
+      // const sum = resultAverages.reduce(
+      //   (result1, result2) => result1 + result2,
+      //   0
+      // );
+      // const average = sum / resultAverages.length;
+      // sensorAverages.push(average);
     }
   });
 
@@ -72,7 +73,7 @@ async function worstPMNodes() {
     const averageResults = returnPMAverage(data.sensors);
     const nodeAverage = averageResults / averageResults.length;
 
-    // populate map
+    // populate map TODO: Should check for data in nodeAverage first
     if (cityCountiesMap[data.location.city] !== undefined) {
       if (!averageNodes[cityCountiesMap[data.location.city]]) {
         averageNodes[cityCountiesMap[data.location.city]] = {
