@@ -3,20 +3,7 @@
 
 window.aq.charts.sensorCoverage = {};
 window.Chart.defaults.global.defaultFontSize = 10;
-const sensorsChart = document.getElementById("sensorsChart").getContext("2d");
-
-function getAllSensorTypes(arr) {
-    for (let i = 0; i < arr.length; i += 1) {
-      if (arr[i] instanceof Array) {
-        return getAllSensorTypes(arr[i]);
-      }
-      return Object.fromEntries(
-        Object.entries(arr[i]).filter(([key]) => key === 'sensordatavalues')
-      );
-    }
-    return null;
-  }
-
+const sensorsChart = document.getElementById("sensorsCoverage").getContext("2d");
 async function handleLocationChange() {
     const nodes = await window.aq.getNodes();
     const countyCitiesMap = await window.sheets.getCountyCitiesMap();
