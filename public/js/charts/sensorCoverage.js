@@ -19,7 +19,10 @@ async function handleLocationChange() {
         })
         // Don't show counties with 0 nodes
         .filter(({ value }) => value.length !== 0).map(value => value?.value);//Todo (Nyokabi) direct flatmap returns undefined???
-        const allNodesReduced = allCountyNodes[0]?.flatMap(node => node?.sensors).flatMap(node => node?.sensordatas).flatMap(node => node?.sensordatavalues).reduce(function(h, obj) {
+        const allNodesReduced = allCountyNodes[0]?.flatMap(node => node?.sensors)
+        .flatMap(node => node?.sensordatas)
+        .flatMap(node => node?.sensordatavalues)
+        .reduce(function(h, obj) {
             h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
             return h; 
           }, {});
@@ -28,7 +31,8 @@ async function handleLocationChange() {
                 sensor: key, 
                 sensorAvg : Math.round(allNodesReduced[key].reduce((a, b) => a + (Number(b.value) || 0), 0)/allNodesReduced[key].length),
             } 
-         }).filter(item  => item.sensor !== "timestamp" && item.sensor !== "height" && item.sensor !== "lon" && item.sensor !== "lat").map(item => item.sensorAvg);
+         }).filter(item  => item.sensor !== "timestamp" && item.sensor !== "height" && item.sensor !== "lon" && item.sensor !== "lat")
+         .map(item => item.sensorAvg);
     window.aq.charts.sensorCoverage.el = new Chart(sensorsChart, {
         type: "doughnut", // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data: {
