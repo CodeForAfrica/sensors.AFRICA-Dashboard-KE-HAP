@@ -1,7 +1,7 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
-window.aq.charts.trendsChartCoverage = {};
+window.aq.charts.trendsCoverage = {};
 
 window.Chart.defaults.global.defaultFontSize = 10;
 
@@ -10,7 +10,7 @@ var acquisition = document.getElementById('acquisition');
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
-  const { labels, data } = Object.entries(countyCitiesMap)
+  const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
         countyCities.some(
@@ -18,21 +18,20 @@ async function handleLocationChange() {
             location && location.city && location.city.indexOf(city) >= 0
         )
       );
-      return { name: countyName, value: countyNodes.length };
+      //step one flatmap until ou get timestamp => reduce to get timestamp and sensord data alone(process timestamp data =>p1 values and such for each data)
+      //return all data 
+      return { name: countyName, value: countyNodes };
     })
     // Don't show counties with 0 nodes
-    .filter(({ value }) => value)
-    .reduce(
-      (acc, { name, value }) => {
-        acc.labels.push(name);
-        acc.data.push(value);
-        return acc;
-      },
-      { labels: [], data: [] }
-    );
-
-
-    window.aq.charts.trendsChartCoverage.el =  new Chart(acquisition, {
+    .filter(({ value }) => value.length !== 0)
+    .flatMap(node => node?.value)
+    .flatMap(node => node?.sensors)
+    .flatMap(node => node?.sensordatas).reduce(function(h, obj) {
+      h[obj?.timestamp] = (h[obj?.timestamp] || []).concat(obj);
+      return h; 
+    }, {})
+  
+    window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
     // The data for our dataset
@@ -54,7 +53,7 @@ async function handleLocationChange() {
           {
           label: "Mpala",
           backgroundColor: '#4BD288',
-          data: [88, 108, 78, 95, 65, 73, 42],
+          data: [0, 0, 0, 0, 0, 73, 0],
           lineTension: 0.3,
           pointBackgroundColor: '#4BD288',
           pointHoverBackgroundColor: 'rgba(254, 196, 0,1)',
@@ -66,7 +65,7 @@ async function handleLocationChange() {
           {
           label: "Elgeyo-Marakwet",
           backgroundColor: '#2DB469',
-          data: [103, 125, 95, 110, 79, 92, 58],
+          data: [0, 0, 0, 0, 0, 0, 0],
           lineTension: 0.3,
           pointBackgroundColor: '#2DB469',
           pointHoverBackgroundColor: 'rgba(41, 204, 151,1)',
@@ -104,5 +103,5 @@ async function handleLocationChange() {
   }
 })};
 
-window.aq.charts.trendsChartCoverage.handleLocationChange = handleLocationChange;
+window.aq.charts.trendsCoverage.handleLocationChange = handleLocationChange;
 

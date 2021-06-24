@@ -1,6 +1,7 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 // NOTE: requires('charts/countyCoverage');
+// NOTE: requires('charts/trendsCoverage');
 
 const countiesLocation = {
   nairobi: {
@@ -487,6 +488,7 @@ async function handleLocationChange(value) {
   document.getElementById('county-households').innerHTML = households;
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
+  window.aq.charts.trendsCoverage.handleLocationChange(countyName);
   // TODO(kilemensi): Add other charts here
 }
 
