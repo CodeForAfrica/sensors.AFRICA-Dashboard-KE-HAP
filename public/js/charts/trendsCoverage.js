@@ -10,6 +10,7 @@ const acquisition = document.getElementById('acquisition');
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
+
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -28,11 +29,20 @@ async function handleLocationChange() {
     // eslint-disable-next-line func-names
     .reduce(function (h, obj) {
       // eslint-disable-next-line no-param-reassign
-      h[obj?.timestamp] = (h[obj?.timestamp] || []).concat(obj);
+      h[obj?.timestamp.split('T')[0]] = (
+        h[obj?.timestamp.split('T')[0]] || []
+      ).concat(obj);
       return h;
     }, {});
+
+  const getDataAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
+    return {
+      date: node[0],
+      sensorTypes: node[1].flatMap((sensor) => sensor?.sensordatavalues),
+    };
+  });
   // eslint-disable-next-line no-console
-  console.log(allCountyNodes);
+  console.log(getDataAndSensorTypes);
 
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
