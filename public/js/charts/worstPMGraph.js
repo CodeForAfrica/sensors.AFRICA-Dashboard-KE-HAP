@@ -52,19 +52,12 @@ function returnPMAverage(sensors) {
       return average;
     };
 
-    console.log('RESULT AVERAGES', resultAverages);
-
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
       const p1 = getAverage(resultAverages, 'p1');
       const p2 = getAverage(resultAverages, 'p2');
       const p0 = getAverage(resultAverages, 'p0');
 
-      // const sum = resultAverages.reduce(
-      //   (result1, result2) => result1 + result2,
-      //   0
-      // );
-      // const average = sum / resultAverages.length;
       sensorAverages.push({ p1, p2, p0 });
     }
   });
@@ -76,39 +69,42 @@ async function worstPMNodes() {
   const nodes = await window.aq.getNodes(); // get the nodes
   const cityCountiesMap = await window.sheets.getCityCountyMap();
 
-  const averageNodes = {};
-
-  nodes.forEach((data) => {
+  const resultAverages = nodes.map((data) => {
     // store the no of sensors in a node
     const averageResults = returnPMAverage(data.sensors);
 
-    console.log('AVERAGE FINAL', averageResults);
-    // const nodeAverage = averageResults / averageResults.length;
-
-    // populate map TODO: Should check for data in nodeAverage first
-    if (cityCountiesMap[data.location.city] !== undefined) {
-      if (!averageNodes[cityCountiesMap[data.location.city]]) {
-        averageNodes[cityCountiesMap[data.location.city]] = [averageResults[0]];
-      } else {
-        averageNodes[cityCountiesMap[data.location.city]] = [
-          ...averageNodes[cityCountiesMap[data.location.city]],
-          averageResults[0],
-        ];
-      }
+    if (averageResults.length > 0) {
+      // do an average here
     }
+
+    // add its city
+    const updatedNode = { ...averageResults[0], city: data.location.city };
+
+    return updatedNode;
   });
 
-  console.log('AVERAGE MAP', averageNodes);
+  // sort by p2 nodes
+  const p2Sorted = resultAverages.sort(
+    (result1, result2) => result2.p2 - result1.p2
+  );
 
-  // // Sort using sum
-  // const resultSorted = Object.fromEntries(
-  //   Object.entries(averageNodes).sort(([, a], [, b]) => b.sum - a.sum)
-  // );
+  // get top 5 nodes here
+  const topFiveNodes = p2Sorted.splice(0, 5);
 
-  // const labels = Object.keys(resultSorted).splice(0, 5);
-  // const data = Object.values(resultSorted)
-  //   .splice(0, 5)
-  //   .map((result) => result.nodes.length);
+  // map to county
+  const topWorst = {};
+
+  // populate map TODO: Should check for data in nodeAverage first
+  // if (cityCountiesMap[topFiveNodes.city] !== undefined) {
+  //   if (!topWorst[cityCountiesMap[topFiveNodes.city]]) {
+  //     topWorst[cityCountiesMap[topFiveNodes.city]] = [averageResults[0]];
+  //   } else {
+  //     topWorst[cityCountiesMap[topFiveNodes.city]] = [
+  //       ...topWorst[cityCountiesMap[topFiveNodes.city]],
+  //       averageResults[0],
+  //     ];
+  //   }
+  // }
 
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
