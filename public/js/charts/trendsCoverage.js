@@ -38,7 +38,15 @@ async function handleLocationChange() {
   const getDataAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
     return {
       date: node[0],
-      sensorTypes: node[1].flatMap((sensor) => sensor?.sensordatavalues),
+      sensorTypes: node[1]
+        .flatMap((sensor) => sensor?.sensordatavalues)
+        // eslint-disable-next-line func-names
+        .reduce(function (h, obj) {
+          // eslint-disable-next-line no-param-reassign
+          h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
+          // eslint-disable-next-line no-console
+          return h;
+        }, {}),
     };
   });
   // eslint-disable-next-line no-console
