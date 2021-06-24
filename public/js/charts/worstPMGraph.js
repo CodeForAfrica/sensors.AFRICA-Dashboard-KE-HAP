@@ -44,11 +44,19 @@ function returnPMAverage(sensors) {
       })
       .filter((data) => Object.keys(data).length !== 0); // remove zero values
 
-    console.log('AVERAGES RESULT', resultAverages);
+    const getAverage = (AQReading, type) => {
+      const total = AQReading.map((result) => result[type]);
+      const average =
+        total.reduce((result1, result2) => result1 + result2, 0) / total.length;
+
+      return average;
+    };
 
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
-      console.log('RESULTS AVAILABLE', resultAverages);
+      const p1 = getAverage(resultAverages, 'p1');
+      const p2 = getAverage(resultAverages, 'p2');
+      const p0 = getAverage(resultAverages, 'p0');
 
       // const sum = resultAverages.reduce(
       //   (result1, result2) => result1 + result2,
