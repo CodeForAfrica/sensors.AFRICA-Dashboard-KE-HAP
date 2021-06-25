@@ -40,6 +40,7 @@ const renderWorstNodesChart = (labels, data) => {
             ticks: {
               beginAtZero: true,
             },
+            scaleLabel: '0 - 50 : Good',
           },
         ],
       },
@@ -103,6 +104,11 @@ function returnPMAverage(sensors) {
 }
 
 const PMTopFiveChart = async (type) => {
+  const AQIBand = {
+    p1: '100', // to update with correct value
+    p2: '71',
+    p0: '101',
+  };
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
 
   // sort by pm type
@@ -114,9 +120,9 @@ const PMTopFiveChart = async (type) => {
   const topFiveNodes = typeSorted.splice(0, 5);
 
   const labels = topFiveNodes.map((_, index) => index + 1);
-  const data = Object.values(topFiveNodes).map(
-    (worstNodes) => worstNodes[type]
-  );
+  let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
+
+  data = [...data, AQIBand[type]];
 
   renderWorstNodesChart(labels, data);
 };
