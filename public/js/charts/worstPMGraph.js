@@ -5,6 +5,45 @@ window.aq.charts.worstNodes = {};
 
 const ctx = document.getElementById('myChart').getContext('2d');
 
+const renderWorstNodesChart = (labels, data) => {
+  window.aq.charts.worstNodes.el = new window.Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '# of Sensors',
+          data,
+          backgroundColor: [
+            '#2DB469',
+            '#2DB469',
+            '#2DB469',
+            '#2DB469',
+            '#2DB469',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'start',
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+};
+
 function readingAverage(dataValues) {
   // get total of AQ recordings
 
@@ -65,31 +104,18 @@ function returnPMAverage(sensors) {
   return sensorAverages;
 }
 
-async function worstPMNodes() {
-  const nodes = await window.aq.getNodes(); // get the nodes
+const PMTopFiveChart = async (type) => {
+  // fetch data
+  const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
   const cityCountiesMap = await window.sheets.getCityCountyMap();
 
-  const resultAverages = nodes.map((data) => {
-    // store the no of sensors in a node
-    const averageResults = returnPMAverage(data.sensors);
-
-    if (averageResults.length > 0) {
-      // do an average here
-    }
-
-    // add its city
-    const updatedNode = { ...averageResults[0], city: data.location.city };
-
-    return updatedNode;
-  });
-
-  // sort by p2 nodes
-  const p2Sorted = resultAverages.sort(
-    (result1, result2) => result2.p2 - result1.p2
+  // sort by pm type
+  const typeSorted = resultAverages.sort(
+    (result1, result2) => result2[type] - result1[type]
   );
 
   // get top 5 nodes here
-  const topFiveNodes = p2Sorted.splice(0, 5);
+  const topFiveNodes = typeSorted.splice(0, 5);
 
   // map to county
   const topWorst = {};
@@ -109,43 +135,31 @@ async function worstPMNodes() {
 
   const labels = Object.keys(topWorst);
   const data = Object.values(topWorst).map((worstNodes) => worstNodes.length);
+  renderWorstNodesChart(labels, data);
+};
 
-  window.aq.charts.worstNodes.el = new window.Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: '# of Sensors',
-          data,
-          backgroundColor: [
-            '#2DB469',
-            '#2DB469',
-            '#2DB469',
-            '#2DB469',
-            '#2DB469',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'start',
-      },
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
-    },
+async function worstPMNodes() {
+  const nodes = await window.aq.getNodes(); // get the nodes
+
+  const resultAverages = nodes.map((data) => {
+    // store the no of sensors in a node
+    const averageResults = returnPMAverage(data.sensors);
+
+    if (averageResults.length > 0) {
+      // do an average here
+    }
+
+    // add its city
+    const updatedNode = { ...averageResults[0], city: data.location.city };
+
+    return updatedNode;
   });
+
+  // store for aq change
+  window.aq.charts.worstNodes.pmAverages = resultAverages;
+
+  PMTopFiveChart('p2');
+  document.getElementById('pmtypes').disabled = false;
 }
 
 window.aq.charts.worstNodes.worstPMNodes = worstPMNodes;
