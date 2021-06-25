@@ -101,33 +101,20 @@ function returnPMAverage(sensors) {
 
 const PMTopFiveChart = async (type) => {
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
-  const cityCountiesMap = await window.sheets.getCityCountyMap();
 
   // sort by pm type
   const typeSorted = resultAverages.sort(
     (result1, result2) => result2[type] - result1[type]
   );
 
-  // Highest 5 nodes
+  // Highest 5 nodes of pm type
   const topFiveNodes = typeSorted.splice(0, 5);
 
-  const topWorst = {};
-  // map by county
-  topFiveNodes.forEach((node) => {
-    if (cityCountiesMap[node.city] !== undefined) {
-      if (!topWorst[cityCountiesMap[node.city]]) {
-        topWorst[cityCountiesMap[node.city]] = [node];
-      } else {
-        topWorst[cityCountiesMap[node.city]] = [
-          ...topWorst[cityCountiesMap[node.city]],
-          node,
-        ];
-      }
-    }
-  });
+  const labels = Object.keys(topFiveNodes);
+  const data = Object.values(topFiveNodes).map(
+    (worstNodes) => worstNodes[type]
+  );
 
-  const labels = Object.keys(topWorst);
-  const data = Object.values(topWorst).map((worstNodes) => worstNodes.length);
   renderWorstNodesChart(labels, data);
 };
 
