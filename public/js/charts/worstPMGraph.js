@@ -6,6 +6,9 @@ window.aq.charts.worstNodes = {};
 const ctx = document.getElementById('myChart').getContext('2d');
 
 const renderWorstNodesChart = (labels, data) => {
+  if (window.aq.charts.worstNodes.el !== undefined) {
+    window.aq.charts.worstNodes.el.destroy();
+  }
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
     data: {
