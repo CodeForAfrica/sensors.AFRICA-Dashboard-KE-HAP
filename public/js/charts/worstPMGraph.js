@@ -12,7 +12,7 @@ const renderWorstNodesChart = (labels, data) => {
       labels,
       datasets: [
         {
-          label: '# of Sensors',
+          label: '# of Nodes',
           data,
           backgroundColor: [
             '#2DB469',
