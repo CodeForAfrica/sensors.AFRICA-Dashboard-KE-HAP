@@ -1,6 +1,7 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 // NOTE: requires('charts/countyCoverage');
+// NOTE: requires('charts/sensorCoverage');
 
 const countiesLocation = {
   nairobi: {
@@ -488,6 +489,7 @@ async function handleLocationChange(value) {
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
   window.aq.charts.worstNodes.worstPMNodes();
+  window.aq.charts.sensorCoverage.handleLocationChange(countyName);
   // TODO(kilemensi): Add other charts here
 }
 
