@@ -107,14 +107,17 @@ async function worstPMNodes() {
     }
   });
 
+  const labels = Object.keys(topWorst);
+  const data = Object.values(topWorst).map((worstNodes) => worstNodes.length);
+
   window.aq.charts.worstNodes.el = new window.Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Nairobi'],
+      labels,
       datasets: [
         {
           label: '# of Sensors',
-          data: [12],
+          data,
           backgroundColor: [
             '#2DB469',
             '#2DB469',
