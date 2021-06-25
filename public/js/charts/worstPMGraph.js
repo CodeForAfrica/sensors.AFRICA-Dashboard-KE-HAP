@@ -45,13 +45,10 @@ const renderWorstNodesChart = (labels, data) => {
 };
 
 function readingAverage(dataValues) {
-  // get total of AQ recordings
-
   const averageAll = {};
 
   dataValues.forEach((value) => {
-    // loop through the values and get the readings of the P1,2 and 0 values
-
+    // Get the readings of the P1,2 and 0 values
     switch (value.value_type) {
       case 'P1':
         averageAll.p1 = Number(value.value);
@@ -70,26 +67,24 @@ function readingAverage(dataValues) {
   return averageAll;
 }
 
+// helper function
+const getAverage = (AQReading, type) => {
+  const total = AQReading.map((result) => result[type]);
+  const average =
+    total.reduce((result1, result2) => result1 + result2, 0) / total.length;
+
+  return average;
+};
+
 function returnPMAverage(sensors) {
-  // store response
   const sensorAverages = [];
 
-  // loop through the sensors array and access the sensorsdatas array
   sensors.forEach((sensor) => {
     const resultAverages = sensor.sensordatas
       .map((data) => {
-        // pass down the sensordatavalues to filter method
         return readingAverage(data.sensordatavalues);
       })
       .filter((data) => Object.keys(data).length !== 0); // remove zero values
-
-    const getAverage = (AQReading, type) => {
-      const total = AQReading.map((result) => result[type]);
-      const average =
-        total.reduce((result1, result2) => result1 + result2, 0) / total.length;
-
-      return average;
-    };
 
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
@@ -105,7 +100,6 @@ function returnPMAverage(sensors) {
 }
 
 const PMTopFiveChart = async (type) => {
-  // fetch data
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
   const cityCountiesMap = await window.sheets.getCityCountyMap();
 
@@ -114,12 +108,11 @@ const PMTopFiveChart = async (type) => {
     (result1, result2) => result2[type] - result1[type]
   );
 
-  // get top 5 nodes here
+  // Highest 5 nodes
   const topFiveNodes = typeSorted.splice(0, 5);
 
-  // map to county
   const topWorst = {};
-
+  // map by county
   topFiveNodes.forEach((node) => {
     if (cityCountiesMap[node.city] !== undefined) {
       if (!topWorst[cityCountiesMap[node.city]]) {
@@ -139,24 +132,27 @@ const PMTopFiveChart = async (type) => {
 };
 
 async function worstPMNodes() {
-  const nodes = await window.aq.getNodes(); // get the nodes
+  const nodes = await window.aq.getNodes();
 
-  const resultAverages = nodes.map((data) => {
-    // store the no of sensors in a node
-    const averageResults = returnPMAverage(data.sensors);
+  const nodePMAverages = nodes.map((data) => {
+    let averageResults = returnPMAverage(data.sensors);
 
     if (averageResults.length > 0) {
-      // do an average here
+      // get average if more than one sensor has data
+      const p1 = getAverage(averageResults, 'p1');
+      const p2 = getAverage(averageResults, 'p2');
+      const p0 = getAverage(averageResults, 'p0');
+
+      averageResults = [{ p1, p2, p0 }];
     }
 
-    // add its city
-    const updatedNode = { ...averageResults[0], city: data.location.city };
+    const updatedNode = { ...averageResults[0], city: data.location.city }; // for county check
 
     return updatedNode;
   });
 
   // store for aq change
-  window.aq.charts.worstNodes.pmAverages = resultAverages;
+  window.aq.charts.worstNodes.pmAverages = nodePMAverages;
 
   PMTopFiveChart('p2');
   document.getElementById('pmtypes').disabled = false;
