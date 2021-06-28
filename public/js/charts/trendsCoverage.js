@@ -11,6 +11,19 @@ async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
 
+  // Get average
+  /*  function getAvg(sensor) {
+    const total = sensor.reduce((acc, c) => acc + c, 0);
+    return total / sensor.length;
+  } */
+  // Format date
+  function formatDate(date, langCode) {
+    const dateObj = new Date(date);
+    const day = dateObj.toLocaleString(langCode, { day: '2-digit' }); // DD
+    const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
+    return `${day} ${month}`;
+  }
+
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -36,30 +49,26 @@ async function handleLocationChange() {
     }, {});
 
   const getDataAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
-    return {
-      date: node[0],
-      sensorTypes: node[1]
-        .flatMap((sensor) => sensor?.sensordatavalues)
-        // eslint-disable-next-line func-names
-        .filter((item) => item.value_type === 'P2')
-        // eslint-disable-next-line func-names
-        .reduce(function (h, obj) {
-          // eslint-disable-next-line no-param-reassign
-          h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
-          // eslint-disable-next-line no-console
-          return h;
-        }, {}),
-    };
-  });
+      return {
+        date: formatDate(node[0], 'en-US'),
+        sensorTypes: node[1]
+          .flatMap((sensor) => sensor?.sensordatavalues)
+          // eslint-disable-next-line func-names
+          .filter((item) => item.value_type === 'P2')
+          // eslint-disable-next-line func-names
+          .reduce(function (h, obj) {
+            // eslint-disable-next-line no-param-reassign
+            h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
+            // eslint-disable-next-line no-console
+            return h;
+          }, {}),
+      };
+    })
+    .slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   // eslint-disable-next-line no-console
   console.log(getDataAndSensorTypes);
-
-  /*  .reduce(function (h, obj) {
-    // eslint-disable-next-line no-param-reassign
-    h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
-    // eslint-disable-next-line no-console
-    return h;
-  }, {}), */
 
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
