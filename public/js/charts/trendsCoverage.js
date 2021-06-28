@@ -21,7 +21,7 @@ async function handleLocationChange() {
     const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
     return `${day} ${month}`;
   }
-  // get chartlabels for the week
+  // get chartlabels for the week in form of an array
   const chartLabels = [...Array(7)]
     .map((_, i) => {
       const d = new Date();
@@ -56,34 +56,44 @@ async function handleLocationChange() {
       return h;
     }, {});
 
-  const getDataAndSensorTypes = Object.entries(allCountyNodes)
-    .map((node) => {
-      return {
-        date: formatDate(node[0], 'en-US'),
-        sensorTypes: node[1]
-          .flatMap((sensor) => sensor?.sensordatavalues)
-          // eslint-disable-next-line func-names
-          .filter((item) => item?.value_type === 'P2')
-          // eslint-disable-next-line func-names
-          .reduce(function (h, obj) {
-            // eslint-disable-next-line no-param-reassign
-            h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
-            // eslint-disable-next-line no-console
-            return h;
-          }, {}),
-      };
-    })
-    .slice()
-    .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
-  const filteredData = getDataAndSensorTypes.filter((item) =>
+  const getDateAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
+    return {
+      date: formatDate(node[0], 'en-US'),
+      sensorTypes: node[1]
+        .flatMap((sensor) => sensor?.sensordatavalues)
+        // eslint-disable-next-line func-names
+        .filter((item) => item?.value_type === 'P2')
+        // eslint-disable-next-line func-names
+        .reduce(function (h, obj) {
+          // eslint-disable-next-line no-param-reassign
+          h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
+          // eslint-disable-next-line no-console
+          return h;
+        }, {}),
+    };
+  });
+  const filteredP2Data = getDateAndSensorTypes.filter((item) =>
     chartLabels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
     )
   );
-  const P2Data = filteredData.map((item) =>
-    item.sensorTypes.P2.map((sensor) => Number(sensor.value))
-  );
-  const chartData = P2Data.map((item) => Math.round(getAvg(item)));
+  // eslint-disable-next-line consistent-return
+  chartLabels.forEach((date) => {
+    if (!filteredP2Data.find((item) => item.date === date)) {
+      return filteredP2Data.push({ date, sensorTypes: [] });
+    }
+  });
+  const P2Data = filteredP2Data
+    .slice()
+    .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime())
+    .map(
+      // eslint-disable-next-line no-console
+      (item) =>
+        item?.sensorTypes?.P2 === undefined
+          ? 0
+          : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value))
+    )
+    .map((item) => (item === 0 ? 0 : Math.round(getAvg(item))));
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -94,7 +104,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: chartData,
+          data: P2Data,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
