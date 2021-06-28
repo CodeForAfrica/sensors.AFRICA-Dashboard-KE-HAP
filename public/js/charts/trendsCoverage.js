@@ -21,8 +21,8 @@ async function handleLocationChange() {
     const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
     return `${day} ${month}`;
   }
-  // get chartlabels for the week in form of an array
-  const chartLabels = [...Array(7)]
+  // get chartlabels for the week in an array
+  const labels = [...Array(7)]
     .map((_, i) => {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -73,12 +73,12 @@ async function handleLocationChange() {
     };
   });
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
-    chartLabels.find((data) =>
+    labels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
     )
   );
   // eslint-disable-next-line consistent-return
-  chartLabels.forEach((date) => {
+  labels.forEach((date) => {
     if (!filteredP2Data.find((item) => item.date === date)) {
       return filteredP2Data.push({ date, sensorTypes: [] });
     }
@@ -99,7 +99,7 @@ async function handleLocationChange() {
     type: 'line',
     // The data for our dataset
     data: {
-      labels: chartLabels,
+      labels,
       datasets: [
         {
           label: 'Nairobi',
