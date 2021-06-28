@@ -10,17 +10,28 @@ const acquisition = document.getElementById('acquisition');
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
-  // Format date
+  function getAvg(sensor) {
+    const total = sensor.reduce((acc, c) => acc + c, 0);
+    return total / sensor.length;
+  }
+  // Format dates from nodes
   function formatDate(date, langCode) {
     const dateObj = new Date(date);
     const day = dateObj.toLocaleString(langCode, { day: '2-digit' }); // DD
     const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
     return `${day} ${month}`;
   }
-  function getAvg(sensor) {
-    const total = sensor.reduce((acc, c) => acc + c, 0);
-    return total / sensor.length;
-  }
+  // get chartlabels for the week
+  const chartLabels = [...Array(7)]
+    .map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      return d;
+    })
+    .map((item) => formatDate(item, 'en-US'))
+    .slice()
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -45,7 +56,8 @@ async function handleLocationChange() {
       return h;
     }, {});
 
-  const getDataAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
+  const getDataAndSensorTypes = Object.entries(allCountyNodes)
+    .map((node) => {
       return {
         date: formatDate(node[0], 'en-US'),
         sensorTypes: node[1]
@@ -63,19 +75,23 @@ async function handleLocationChange() {
     })
     .slice()
     .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
-  const labels = getDataAndSensorTypes?.map((item) => item.date);
+
+  // eslint-disable-next-line no-console
+  console.log(getDataAndSensorTypes);
+
+  // eslint-disable-next-line no-console
+  console.log(chartLabels);
 
   const P2Data = getDataAndSensorTypes.map((item) =>
     item.sensorTypes.P2.map((sensor) => Number(sensor.value))
   );
-
   const chartData = P2Data.map((item) => Math.round(getAvg(item)));
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
     // The data for our dataset
     data: {
-      labels,
+      labels: chartLabels,
       datasets: [
         {
           label: 'Nairobi',
