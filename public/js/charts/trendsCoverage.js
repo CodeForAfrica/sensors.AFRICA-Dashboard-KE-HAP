@@ -64,11 +64,12 @@ async function handleLocationChange() {
     .slice()
     .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
   const labels = getDataAndSensorTypes?.map((item) => item.date);
+
   const P2Data = getDataAndSensorTypes.map((item) =>
     item.sensorTypes.P2.map((sensor) => Number(sensor.value))
   );
-  const chartData = P2Data.map((item) => getAvg(item));
 
+  const chartData = P2Data.map((item) => Math.round(getAvg(item)));
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -91,7 +92,7 @@ async function handleLocationChange() {
         {
           label: 'Mpala',
           backgroundColor: '#4BD288',
-          data: [0, 0, 0, 0, 0, 73, 0],
+          data: [0, 0, 0, 0, 0, 0, 0],
           lineTension: 0.3,
           pointBackgroundColor: '#4BD288',
           pointHoverBackgroundColor: 'rgba(254, 196, 0,1)',
