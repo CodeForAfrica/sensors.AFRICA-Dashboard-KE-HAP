@@ -41,6 +41,8 @@ async function handleLocationChange() {
       sensorTypes: node[1]
         .flatMap((sensor) => sensor?.sensordatavalues)
         // eslint-disable-next-line func-names
+        .filter((item) => item.value_type === 'P2')
+        // eslint-disable-next-line func-names
         .reduce(function (h, obj) {
           // eslint-disable-next-line no-param-reassign
           h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
@@ -51,6 +53,13 @@ async function handleLocationChange() {
   });
   // eslint-disable-next-line no-console
   console.log(getDataAndSensorTypes);
+
+  /*  .reduce(function (h, obj) {
+    // eslint-disable-next-line no-param-reassign
+    h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
+    // eslint-disable-next-line no-console
+    return h;
+  }, {}), */
 
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
