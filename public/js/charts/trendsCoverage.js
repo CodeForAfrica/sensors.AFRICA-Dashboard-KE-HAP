@@ -10,12 +10,6 @@ const acquisition = document.getElementById('acquisition');
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
-
-  // Get average
-  /*  function getAvg(sensor) {
-    const total = sensor.reduce((acc, c) => acc + c, 0);
-    return total / sensor.length;
-  } */
   // Format date
   function formatDate(date, langCode) {
     const dateObj = new Date(date);
@@ -23,7 +17,10 @@ async function handleLocationChange() {
     const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
     return `${day} ${month}`;
   }
-
+  function getAvg(sensor) {
+    const total = sensor.reduce((acc, c) => acc + c, 0);
+    return total / sensor.length;
+  }
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -54,7 +51,7 @@ async function handleLocationChange() {
         sensorTypes: node[1]
           .flatMap((sensor) => sensor?.sensordatavalues)
           // eslint-disable-next-line func-names
-          .filter((item) => item.value_type === 'P2')
+          .filter((item) => item?.value_type === 'P2')
           // eslint-disable-next-line func-names
           .reduce(function (h, obj) {
             // eslint-disable-next-line no-param-reassign
@@ -65,22 +62,24 @@ async function handleLocationChange() {
       };
     })
     .slice()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  // eslint-disable-next-line no-console
-  console.log(getDataAndSensorTypes);
+    .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
+  const labels = getDataAndSensorTypes?.map((item) => item.date);
+  const P2Data = getDataAndSensorTypes.map((item) =>
+    item.sensorTypes.P2.map((sensor) => Number(sensor.value))
+  );
+  const chartData = P2Data.map((item) => getAvg(item));
 
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
     // The data for our dataset
     data: {
-      labels: ['4 Jan', '5 Jan', '6 Jan', '7 Jan', '8 Jan', '9 Jan', '10 Jan'],
+      labels,
       datasets: [
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: [78, 88, 68, 74, 50, 55, 25],
+          data: chartData,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
