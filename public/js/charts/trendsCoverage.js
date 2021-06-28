@@ -75,14 +75,12 @@ async function handleLocationChange() {
     })
     .slice()
     .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
-
-  // eslint-disable-next-line no-console
-  console.log(getDataAndSensorTypes);
-
-  // eslint-disable-next-line no-console
-  console.log(chartLabels);
-
-  const P2Data = getDataAndSensorTypes.map((item) =>
+  const filteredData = getDataAndSensorTypes.filter((item) =>
+    chartLabels.find((data) =>
+      data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
+    )
+  );
+  const P2Data = filteredData.map((item) =>
     item.sensorTypes.P2.map((sensor) => Number(sensor.value))
   );
   const chartData = P2Data.map((item) => Math.round(getAvg(item)));
