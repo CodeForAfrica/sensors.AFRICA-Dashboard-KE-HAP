@@ -105,7 +105,7 @@ function returnPMAverage(sensors) {
 
 const PMTopFiveChart = async (type) => {
   const AQIBand = {
-    p1: '100', // to update with correct value
+    p1: '71', // no standard for PM1 safe levels yet
     p2: '71',
     p0: '101',
   };
