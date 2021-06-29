@@ -17,9 +17,7 @@ async function handleLocationChange() {
   // Format dates from nodes
   function formatDate(date, langCode) {
     const dateObj = new Date(date);
-    const day = dateObj.toLocaleString(langCode, { day: '2-digit' }); // DD
-    const month = dateObj.toLocaleString(langCode, { month: 'short' }); // MMM
-    return `${day} ${month}`;
+    dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' })
   }
   // get chartlabels for the week in an array
   const labels = [...Array(7)]
