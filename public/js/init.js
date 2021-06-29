@@ -514,6 +514,7 @@ async function init() {
   // TODO(kilemensi): Load other data here
 
   handleLocationChange('nairobi');
+  window.analytics.getAnalytics();
 }
 
 window.addEventListener('DOMContentLoaded', init);
