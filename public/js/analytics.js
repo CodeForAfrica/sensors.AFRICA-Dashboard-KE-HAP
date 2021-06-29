@@ -68,7 +68,18 @@ const getAnalytics = () => {
     data.forEach((result) => getValue(result));
   });
 
-  console.log('OLOOO', rangeMap);
+  const { pm1, pm2, pm0, noise } = rangeMap;
+  const pm1Elem = document.querySelector('.pm1-range .title');
+  pm1Elem.innerHTML = `${pm1.high}-${pm1.low}`;
+
+  const pm2Elem = document.querySelector('.pm2-5-range .title');
+  pm2Elem.innerHTML = `${pm2.high}-${pm2.low}`;
+
+  const pm0Elem = document.querySelector('.pm10-range .title');
+  pm0Elem.innerHTML = `${pm0.high}-${pm0.low}`;
+
+  const noiseElem = document.querySelector('.noise-range .title');
+  noiseElem.innerHTML = `${noise.high}-${noise.low}`;
 };
 
 window.analytics = {
