@@ -20,8 +20,7 @@ async function handleLocationChange() {
     dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' })
   }
   // get chartlabels for the week in an array
-  const labels = [...Array(7)]
-    .map((_, i) => {
+  Array.from({ length: 7 }, (_, i) => {
       const d = new Date();
       d.setDate(d.getDate() - i);
       return d;
