@@ -19,10 +19,10 @@ async function handleLocationChange() {
     const dateObj = new Date(date);
     return dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' });
   }
-  // get chartlabels for the week in an array
+  // get chartlabels for the current  week in an array
   const chartLabels = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
-    d.setDate(d.getDate() - 7 + i);
+    d.setDate(d.getDate() - i);
     return d;
   }).map((item) => formatDate(item));
   const allCountyNodes = Object.entries(countyCitiesMap)
@@ -75,9 +75,12 @@ async function handleLocationChange() {
       return filteredP2Data.push({ date, sensorTypes: [] });
     }
   });
-  const P2Data = filteredP2Data
+  // Sort all Data
+  const getAllSortedData = filteredP2Data
     .slice()
-    .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime())
+    .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
+  const labels = getAllSortedData.map((item) => item?.date);
+  const data = getAllSortedData
     .map(
       // eslint-disable-next-line no-console
       (item) =>
@@ -92,12 +95,12 @@ async function handleLocationChange() {
     type: 'line',
     // The data for our dataset
     data: {
-      labels: chartLabels,
+      labels,
       datasets: [
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: P2Data,
+          data,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
