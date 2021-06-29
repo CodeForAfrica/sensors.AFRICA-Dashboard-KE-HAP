@@ -79,6 +79,8 @@ async function handleLocationChange() {
   const getAllSortedData = filteredP2Data
     .slice()
     .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
+
+  // Return label, data values
   const labels = getAllSortedData.map((item) => item?.date);
   const data = getAllSortedData
     .map(
