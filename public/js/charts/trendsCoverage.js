@@ -15,20 +15,18 @@ async function handleLocationChange() {
     return total / sensor.length;
   }
   // Format dates from nodes
-  function formatDate(date, langCode) {
+  function formatDate(date) {
     const dateObj = new Date(date);
-    dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' })
+    return dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' });
   }
   // get chartlabels for the week in an array
-  Array.from({ length: 7 }, (_, i) => {
+  const labels = [...Array(7)]
+    .map((_, i) => {
       const d = new Date();
-      d.setDate(d.getDate() - i);
+      d.setDate(d.getDate() - 7 + i);
       return d;
     })
-    .map((item) => formatDate(item, 'en-US'))
-    .slice()
-    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
+    .map((item) => formatDate(item));
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -56,7 +54,7 @@ async function handleLocationChange() {
   // eslint-disable-next-line no-console
   const getDateAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
     return {
-      date: formatDate(node[0], 'en-US'),
+      date: formatDate(node[0]),
       sensorTypes: node[1]
         .flatMap((sensor) => sensor?.sensordatavalues)
         // eslint-disable-next-line func-names
@@ -70,6 +68,8 @@ async function handleLocationChange() {
         }, {}),
     };
   });
+  // eslint-disable-next-line no-console
+  console.log(getDateAndSensorTypes);
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
     labels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
