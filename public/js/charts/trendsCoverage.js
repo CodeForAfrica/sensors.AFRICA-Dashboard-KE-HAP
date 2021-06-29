@@ -43,7 +43,7 @@ async function handleLocationChange() {
       return { name: countyName, value: countyNodes };
     })
     // Don't show counties with 0 nodes
-    .filter(({ value }) => value.length !== 0)
+    .filter(({ value }) => value)
     .flatMap((node) => node?.value)
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
@@ -56,6 +56,7 @@ async function handleLocationChange() {
       return h;
     }, {});
 
+  // eslint-disable-next-line no-console
   const getDateAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
     return {
       date: formatDate(node[0], 'en-US'),
@@ -94,6 +95,7 @@ async function handleLocationChange() {
           : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value))
     )
     .map((item) => (item === 0 ? 0 : Math.round(getAvg(item))));
+
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -108,30 +110,6 @@ async function handleLocationChange() {
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded',
-        },
-        {
-          label: 'Mpala',
-          backgroundColor: '#4BD288',
-          data: [0, 0, 0, 0, 0, 0, 0],
-          lineTension: 0.3,
-          pointBackgroundColor: '#4BD288',
-          pointHoverBackgroundColor: 'rgba(254, 196, 0,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded',
-        },
-        {
-          label: 'Elgeyo-Marakwet',
-          backgroundColor: '#2DB469',
-          data: [0, 0, 0, 0, 0, 0, 0],
-          lineTension: 0.3,
-          pointBackgroundColor: '#2DB469',
-          pointHoverBackgroundColor: 'rgba(41, 204, 151,1)',
           pointHoverRadius: 3,
           pointHitRadius: 30,
           pointBorderWidth: 2,
