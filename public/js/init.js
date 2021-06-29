@@ -487,6 +487,8 @@ async function handleLocationChange(value) {
   document.getElementById('county-name').innerHTML = countyName;
   document.getElementById('county-households').innerHTML = households;
 
+  window.analytics.getAnalytics(countyName);
+
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
   window.aq.charts.worstNodes.worstPMNodes();
   window.aq.charts.sensorCoverage.handleLocationChange(countyName);
@@ -504,9 +506,9 @@ async function init() {
   Object.keys(countiesLocation).forEach((key) => {
     const c = new Option(countiesLocation[key].label, key);
     // TODO(Brenda): We only have Nairobi data so we'll disable all other counties for now
-    if (c.value !== 'nairobi') {
-      c.disabled = true;
-    }
+    // if (c.value !== 'nairobi') {
+    //   c.disabled = true;
+    // }
     countySelect.options.add(c);
   });
   await window.sheets.load();
@@ -514,7 +516,7 @@ async function init() {
   // TODO(kilemensi): Load other data here
 
   handleLocationChange('nairobi');
-  window.analytics.getAnalytics();
+  window.analytics.getAnalytics('Nairobi');
 }
 
 window.addEventListener('DOMContentLoaded', init);

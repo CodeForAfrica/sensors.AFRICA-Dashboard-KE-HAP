@@ -1,4 +1,14 @@
-const getAnalytics = () => {
+const getAnalytics = async (county) => {
+  const pm1Elem = document.querySelector('.pm1-range .title');
+  const pm2Elem = document.querySelector('.pm2-5-range .title');
+  const pm0Elem = document.querySelector('.pm10-range .title');
+  const noiseElem = document.querySelector('.noise-range .title');
+
+  pm1Elem.innerHTML = 0;
+  pm2Elem.innerHTML = '0';
+  pm0Elem.innerHTML = '0';
+  noiseElem.innerHTML = 0;
+
   const rangeMap = {
     pm1: { high: 0, low: 0 },
     pm2: { high: 0, low: 0 },
@@ -7,49 +17,34 @@ const getAnalytics = () => {
   };
 
   const getValue = (sensorReading) => {
-    const { pm1, pm2, pm0, noise } = rangeMap;
+    const updateMap = (type, data) => {
+      rangeMap[type].high =
+        Number(data.value) > rangeMap[type].high
+          ? Number(data.value)
+          : rangeMap[type].high;
+      if (rangeMap[type].low === 0) {
+        rangeMap[type].low = Number(data.value);
+      } else {
+        rangeMap[type].low =
+          Number(data.value) < rangeMap[type].low
+            ? Number(data.value)
+            : rangeMap[type].low;
+      }
+    };
     sensorReading.forEach((reading) => {
       reading.sensordatavalues.forEach((data) => {
         switch (data.value_type) {
           case 'P1':
-            pm1.high =
-              Number(data.value) > pm1.high ? Number(data.value) : pm1.high; // Extract to helper function. Repetitively ugly
-            if (pm1.low === 0) {
-              pm1.low = Number(data.value);
-            } else {
-              pm1.low =
-                Number(data.value) < pm1.low ? Number(data.value) : pm1.low;
-            }
+            updateMap('pm1', data);
             break;
           case 'P2':
-            pm2.high =
-              Number(data.value) > pm2.high ? Number(data.value) : pm2.high;
-            if (pm2.low === 0) {
-              pm2.low = Number(data.value);
-            } else {
-              pm2.low =
-                Number(data.value) < pm2.low ? Number(data.value) : pm2.low;
-            }
+            updateMap('pm2', data);
             break;
           case 'P0':
-            pm0.high =
-              Number(data.value) > pm0.high ? Number(data.value) : pm0.high;
-            if (pm0.low === 0) {
-              pm0.low = Number(data.value);
-            } else {
-              pm0.low =
-                Number(data.value) < pm0.low ? Number(data.value) : pm0.low;
-            }
+            updateMap('pm0', data);
             break;
           case 'noise_Leq':
-            noise.high =
-              Number(data.value) > noise.high ? Number(data.value) : noise.high;
-            if (noise.low === 0) {
-              noise.low = Number(data.value);
-            } else {
-              noise.low =
-                Number(data.value) < noise.low ? Number(data.value) : noise.low;
-            }
+            updateMap('noise', data);
             break;
           default:
             break;
@@ -57,29 +52,29 @@ const getAnalytics = () => {
       });
     });
   };
-  const nodes = window.db.getItem('nodes');
+  const nodes = await window.aq.getNodes();
+  const counties = await window.sheets.getCityCountyMap();
 
-  // Loop
-  const sensorData = nodes
-    .map((node) => node.sensors)
-    .map((data) => data.map((result) => result.sensordatas));
-
-  sensorData.forEach((data) => {
-    data.forEach((result) => getValue(result));
+  const selectedCounty = nodes.filter((node) => {
+    return counties[node.location.city] === county;
   });
 
-  const { pm1, pm2, pm0, noise } = rangeMap;
-  const pm1Elem = document.querySelector('.pm1-range .title');
-  pm1Elem.innerHTML = `${pm1.high}-${pm1.low}`;
+  const sensorData = selectedCounty
+    ?.map((node) => node.sensors)
+    ?.map((data) => data.map((result) => result.sensordatas));
 
-  const pm2Elem = document.querySelector('.pm2-5-range .title');
-  pm2Elem.innerHTML = `${pm2.high}-${pm2.low}`;
+  sensorData?.forEach((data) => {
+    data?.forEach((result) => getValue(result));
+  });
 
-  const pm0Elem = document.querySelector('.pm10-range .title');
-  pm0Elem.innerHTML = `${pm0.high}-${pm0.low}`;
+  if (selectedCounty) {
+    const { pm1, pm2, pm0, noise } = rangeMap;
 
-  const noiseElem = document.querySelector('.noise-range .title');
-  noiseElem.innerHTML = `${noise.high}-${noise.low}`;
+    pm1Elem.innerHTML = `${pm1.low}-${pm1.high}`;
+    pm2Elem.innerHTML = `${pm2.low}-${pm2.high}`;
+    pm0Elem.innerHTML = `${pm0.low}-${pm0.high}`;
+    noiseElem.innerHTML = `${noise.low}-${noise.high}`;
+  }
 };
 
 window.analytics = {
