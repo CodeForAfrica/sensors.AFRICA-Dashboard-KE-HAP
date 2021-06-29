@@ -20,13 +20,11 @@ async function handleLocationChange() {
     return dateObj.toLocaleString('en-GB', { day: '2-digit', month: 'short' });
   }
   // get chartlabels for the week in an array
-  const labels = [...Array(7)]
-    .map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - 7 + i);
-      return d;
-    })
-    .map((item) => formatDate(item));
+  const chartLabels = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - 7 + i);
+    return d;
+  }).map((item) => formatDate(item));
   const allCountyNodes = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
@@ -66,15 +64,13 @@ async function handleLocationChange() {
         }, {}),
     };
   });
-  // eslint-disable-next-line no-console
-  console.log(getDateAndSensorTypes);
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
-    labels.find((data) =>
+    chartLabels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
     )
   );
   // eslint-disable-next-line consistent-return
-  labels.forEach((date) => {
+  chartLabels.forEach((date) => {
     if (!filteredP2Data.find((item) => item.date === date)) {
       return filteredP2Data.push({ date, sensorTypes: [] });
     }
@@ -96,7 +92,7 @@ async function handleLocationChange() {
     type: 'line',
     // The data for our dataset
     data: {
-      labels,
+      labels: chartLabels,
       datasets: [
         {
           label: 'Nairobi',
