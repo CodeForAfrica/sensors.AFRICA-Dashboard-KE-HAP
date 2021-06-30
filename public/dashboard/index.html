@@ -133,7 +133,17 @@
           <div class="text-block-37">The top five nodes that measured the highest (worst) levels of PM over the past four weeks.<br></div>
         </div>
         <div class="div-block-9">
-          <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
+          <div style="display: flex;flex-direction: row; justify-content: space-between;"> 
+            <div class="text-block-34"><strong>Seven Day Trends</strong><br></div>
+            <form>
+              <label for="pmtypes">PM Type:</label>
+              <select id="pmtypes" name="pms">
+                <option value="p2">PM 2.5</option>
+                <option value="p1">PM 1</option>
+                <option value="p0">PM 10</option>
+              </select>
+            </form>
+           </div>
           <div class="chart-card-embed w-embed w-script">
             <canvas id="acquisition" width="400" height="200" class="chartjs"></canvas>
           </div>
