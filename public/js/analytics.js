@@ -1,9 +1,9 @@
-const getAnalytics = async (county) => {
-  const pm1Elem = document.querySelector('.pm1-range .title');
-  const pm2Elem = document.querySelector('.pm2-5-range .title');
-  const pm0Elem = document.querySelector('.pm10-range .title');
-  const noiseElem = document.querySelector('.noise-range .title');
+const pm1Elem = document.querySelector('.pm1-range .title');
+const pm2Elem = document.querySelector('.pm2-5-range .title');
+const pm0Elem = document.querySelector('.pm10-range .title');
+const noiseElem = document.querySelector('.noise-range .title');
 
+const getAnalytics = async (county) => {
   pm1Elem.innerHTML = 0;
   pm2Elem.innerHTML = 0;
   pm0Elem.innerHTML = 0;
