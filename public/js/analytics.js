@@ -16,29 +16,23 @@ const getAnalytics = async (county) => {
     noise_Leq: { high: 0, low: 0 },
   };
 
-  const getValue = (sensorReading) => {
-    const updateMap = (data) => {
-      if (rangeMap[data.value_type]) {
-        rangeMap[data.value_type].high =
-          Number(data.value) > rangeMap[data.value_type].high
+  const updateMap = (data) => {
+    if (rangeMap[data.value_type]) {
+      rangeMap[data.value_type].high =
+        Number(data.value) > rangeMap[data.value_type].high
+          ? Number(data.value)
+          : rangeMap[data.value_type].high;
+      if (rangeMap[data.value_type].low === 0) {
+        rangeMap[data.value_type].low = Number(data.value);
+      } else {
+        rangeMap[data.value_type].low =
+          Number(data.value) < rangeMap[data.value_type].low
             ? Number(data.value)
-            : rangeMap[data.value_type].high;
-        if (rangeMap[data.value_type].low === 0) {
-          rangeMap[data.value_type].low = Number(data.value);
-        } else {
-          rangeMap[data.value_type].low =
-            Number(data.value) < rangeMap[data.value_type].low
-              ? Number(data.value)
-              : rangeMap[data.value_type].low;
-        }
+            : rangeMap[data.value_type].low;
       }
-    };
-    sensorReading.forEach((reading) => {
-      reading.sensordatavalues.forEach((data) => {
-        updateMap(data);
-      });
-    });
+    }
   };
+
   const nodes = await window.aq.getNodes();
   const cityCountyMap = await window.sheets.getCityCountyMap();
 
@@ -47,11 +41,12 @@ const getAnalytics = async (county) => {
   });
 
   const sensorData = selectedCountyNodes
-    ?.map((node) => node.sensors)
-    ?.map((data) => data.map((result) => result.sensordatas));
+    ?.flatMap((node) => node.sensors)
+    ?.flatMap((data) => data.sensordatas)
+    ?.flatMap((result) => result.sensordatavalues);
 
   sensorData?.forEach((data) => {
-    data?.forEach((result) => getValue(result));
+    updateMap(data);
   });
 
   if (selectedCountyNodes) {
