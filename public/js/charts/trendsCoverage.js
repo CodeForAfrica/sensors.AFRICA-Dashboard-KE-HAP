@@ -55,7 +55,12 @@ async function handleLocationChange() {
       date: formatDate(node[0]),
       sensorTypes: node[1]
         .flatMap((sensor) => sensor?.sensordatavalues)
-        .filter((sensor) => sensor?.value_type === 'P2')
+        .filter(
+          (sensor) =>
+            sensor?.value_type === 'P2' ||
+            sensor?.value_type === 'P1' ||
+            sensor?.value_type === 'P0'
+        )
         // eslint-disable-next-line func-names
         .reduce(function (h, obj) {
           // eslint-disable-next-line no-param-reassign
@@ -82,16 +87,30 @@ async function handleLocationChange() {
 
   // Return label, data values
   const labels = getAllSortedData.map((item) => item?.date);
-  const data = getAllSortedData
-    .map(
-      // eslint-disable-next-line no-console
-      (item) =>
+  const data = getAllSortedData.map(
+    // eslint-disable-next-line no-console
+    (item) => ({
+      P2:
         item?.sensorTypes?.P2 === undefined
           ? 0
-          : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value))
-    )
-    .map((item) => (item === 0 ? 0 : Math.round(getAvg(item))));
-
+          : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value)),
+      P0:
+        item?.sensorTypes?.P0 === undefined
+          ? 0
+          : item?.sensorTypes?.P0.map((sensor) => Number(sensor.value)),
+      P1:
+        item?.sensorTypes?.P1 === undefined
+          ? 0
+          : item?.sensorTypes?.P1.map((sensor) => Number(sensor.value)),
+    })
+  );
+  const allSensorAverages = data.map((item) => ({
+    P0: item.P0 === 0 ? 0 : Math.round(getAvg(item.P0)),
+    P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
+    P2: item.P2 === 0 ? 0 : Math.round(getAvg(item.P2)),
+  }));
+  // eslint-disable-next-line no-console
+  console.log(allSensorAverages);
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -102,7 +121,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data,
+          // data,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
