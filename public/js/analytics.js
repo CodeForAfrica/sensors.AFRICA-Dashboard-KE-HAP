@@ -5,8 +5,8 @@ const getAnalytics = async (county) => {
   const noiseElem = document.querySelector('.noise-range .title');
 
   pm1Elem.innerHTML = 0;
-  pm2Elem.innerHTML = '0';
-  pm0Elem.innerHTML = '0';
+  pm2Elem.innerHTML = 0;
+  pm0Elem.innerHTML = 0;
   noiseElem.innerHTML = 0;
 
   const rangeMap = {
