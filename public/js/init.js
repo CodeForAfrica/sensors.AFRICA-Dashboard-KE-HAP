@@ -506,9 +506,9 @@ async function init() {
   Object.keys(countiesLocation).forEach((key) => {
     const c = new Option(countiesLocation[key].label, key);
     // TODO(Brenda): We only have Nairobi data so we'll disable all other counties for now
-    // if (c.value !== 'nairobi') {
-    //   c.disabled = true;
-    // }
+    if (c.value !== 'nairobi') {
+      c.disabled = true;
+    }
     countySelect.options.add(c);
   });
   await window.sheets.load();
