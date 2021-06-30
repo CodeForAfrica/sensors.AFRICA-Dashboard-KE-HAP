@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
@@ -69,6 +70,7 @@ async function handleLocationChange() {
         }, {}),
     };
   });
+
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
     chartLabels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
@@ -87,30 +89,35 @@ async function handleLocationChange() {
 
   // Return label, data values
   const labels = getAllSortedData.map((item) => item?.date);
-  const data = getAllSortedData.map(
-    // eslint-disable-next-line no-console
-    (item) => ({
-      P2:
-        item?.sensorTypes?.P2 === undefined
-          ? 0
-          : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value)),
-      P0:
-        item?.sensorTypes?.P0 === undefined
-          ? 0
-          : item?.sensorTypes?.P0.map((sensor) => Number(sensor.value)),
-      P1:
-        item?.sensorTypes?.P1 === undefined
-          ? 0
-          : item?.sensorTypes?.P1.map((sensor) => Number(sensor.value)),
-    })
-  );
-  const allSensorAverages = data.map((item) => ({
-    P0: item.P0 === 0 ? 0 : Math.round(getAvg(item.P0)),
-    P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
-    P2: item.P2 === 0 ? 0 : Math.round(getAvg(item.P2)),
-  }));
+  const data = getAllSortedData
+    .map(
+      // eslint-disable-next-line no-console
+      (item) => ({
+        P0:
+          item?.sensorTypes?.P0 === undefined
+            ? 0
+            : item?.sensorTypes?.P0.map((sensor) => Number(sensor.value)),
+        P1:
+          item?.sensorTypes?.P1 === undefined
+            ? 0
+            : item?.sensorTypes?.P1.map((sensor) => Number(sensor.value)),
+        P2:
+          item?.sensorTypes?.P2 === undefined
+            ? 0
+            : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value)),
+      })
+    )
+    .map((item) => ({
+      P0: item.P0 === 0 ? 0 : Math.round(getAvg(item.P0)),
+      P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
+      P2: item.P2 === 0 ? 0 : Math.round(getAvg(item.P2)),
+    }));
+  const getSelectedData = (sensorType) => {
+    return data.map((item) => item[sensorType]);
+  };
   // eslint-disable-next-line no-console
-  console.log(allSensorAverages);
+  console.log(getSelectedData('P1'));
+
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -121,7 +128,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          // data,
+          data: getSelectedData('P1'),
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
