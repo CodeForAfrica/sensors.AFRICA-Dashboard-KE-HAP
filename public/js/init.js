@@ -487,6 +487,8 @@ async function handleLocationChange(value) {
   document.getElementById('county-name').innerHTML = countyName;
   document.getElementById('county-households').innerHTML = households;
 
+  window.analytics.getAnalytics(countyName);
+
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
   window.aq.charts.worstNodes.worstPMNodes();
   window.aq.charts.sensorCoverage.handleLocationChange(countyName);
