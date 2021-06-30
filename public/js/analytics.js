@@ -40,13 +40,13 @@ const getAnalytics = async (county) => {
     });
   };
   const nodes = await window.aq.getNodes();
-  const counties = await window.sheets.getCityCountyMap();
+  const cityCountyMap = await window.sheets.getCityCountyMap();
 
-  const selectedCounty = nodes.filter((node) => {
-    return counties[node.location.city] === county;
+  const selectedCountyNodes = nodes.filter((node) => {
+    return cityCountyMap[node.location.city] === county;
   });
 
-  const sensorData = selectedCounty
+  const sensorData = selectedCountyNodes
     ?.map((node) => node.sensors)
     ?.map((data) => data.map((result) => result.sensordatas));
 
@@ -54,7 +54,7 @@ const getAnalytics = async (county) => {
     data?.forEach((result) => getValue(result));
   });
 
-  if (selectedCounty) {
+  if (selectedCountyNodes) {
     const { P1, P2, P0, noise_Leq: noise } = rangeMap;
 
     pm1Elem.innerHTML = `${P1.low}-${P1.high}`;
