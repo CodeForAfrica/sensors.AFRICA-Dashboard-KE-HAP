@@ -10,45 +10,32 @@ const getAnalytics = async (county) => {
   noiseElem.innerHTML = 0;
 
   const rangeMap = {
-    pm1: { high: 0, low: 0 },
-    pm2: { high: 0, low: 0 },
-    pm0: { high: 0, low: 0 },
-    noise: { high: 0, low: 0 },
+    P1: { high: 0, low: 0 },
+    P2: { high: 0, low: 0 },
+    P0: { high: 0, low: 0 },
+    noise_Leq: { high: 0, low: 0 },
   };
 
   const getValue = (sensorReading) => {
-    const updateMap = (type, data) => {
-      rangeMap[type].high =
-        Number(data.value) > rangeMap[type].high
-          ? Number(data.value)
-          : rangeMap[type].high;
-      if (rangeMap[type].low === 0) {
-        rangeMap[type].low = Number(data.value);
-      } else {
-        rangeMap[type].low =
-          Number(data.value) < rangeMap[type].low
+    const updateMap = (data) => {
+      if (rangeMap[data.value_type]) {
+        rangeMap[data.value_type].high =
+          Number(data.value) > rangeMap[data.value_type].high
             ? Number(data.value)
-            : rangeMap[type].low;
+            : rangeMap[data.value_type].high;
+        if (rangeMap[data.value_type].low === 0) {
+          rangeMap[data.value_type].low = Number(data.value);
+        } else {
+          rangeMap[data.value_type].low =
+            Number(data.value) < rangeMap[data.value_type].low
+              ? Number(data.value)
+              : rangeMap[data.value_type].low;
+        }
       }
     };
     sensorReading.forEach((reading) => {
       reading.sensordatavalues.forEach((data) => {
-        switch (data.value_type) {
-          case 'P1':
-            updateMap('pm1', data);
-            break;
-          case 'P2':
-            updateMap('pm2', data);
-            break;
-          case 'P0':
-            updateMap('pm0', data);
-            break;
-          case 'noise_Leq':
-            updateMap('noise', data);
-            break;
-          default:
-            break;
-        }
+        updateMap(data);
       });
     });
   };
@@ -68,11 +55,11 @@ const getAnalytics = async (county) => {
   });
 
   if (selectedCounty) {
-    const { pm1, pm2, pm0, noise } = rangeMap;
+    const { P1, P2, P0, noise_Leq: noise } = rangeMap;
 
-    pm1Elem.innerHTML = `${pm1.low}-${pm1.high}`;
-    pm2Elem.innerHTML = `${pm2.low}-${pm2.high}`;
-    pm0Elem.innerHTML = `${pm0.low}-${pm0.high}`;
+    pm1Elem.innerHTML = `${P1.low}-${P1.high}`;
+    pm2Elem.innerHTML = `${P2.low}-${P2.high}`;
+    pm0Elem.innerHTML = `${P0.low}-${P0.high}`;
     noiseElem.innerHTML = `${noise.low}-${noise.high}`;
   }
 };
