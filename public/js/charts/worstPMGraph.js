@@ -150,7 +150,8 @@ async function worstPMNodes() {
   // store for aq change
   window.aq.charts.worstNodes.pmAverages = nodePMAverages;
 
-  document.getElementById('trendpmtypes').disabled = false;
+  PMTopFiveChart('p2');
+  document.getElementById('pmtypes').disabled = false;
 }
 
 window.aq.charts.worstNodes.worstPMNodes = worstPMNodes;
