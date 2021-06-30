@@ -88,7 +88,7 @@ async function handleLocationChange() {
     .sort((a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime());
 
   // Return label, data values
-  const labels = getAllSortedData.map((item) => item?.date);
+  const labels = getAllSortedData.map((label) => label?.date);
   const getDataBySensorType = (sensorType) => {
     const data = getAllSortedData
       .map(
@@ -116,9 +116,7 @@ async function handleLocationChange() {
       .map((item) => item[sensorType]);
     return data;
   };
-  // eslint-disable-next-line no-console
-  console.log('p2 data', getDataBySensorType('P2'));
-
+  const sel = document.getElementById('trendpmtypes').value;
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -129,7 +127,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: getDataBySensorType('P2'),
+          data: getDataBySensorType(sel || 'P2'),
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
@@ -169,5 +167,6 @@ async function handleLocationChange() {
       tooltips: {},
     },
   });
+  getDataBySensorType('P2');
 }
 window.aq.charts.trendsCoverage.handleLocationChange = handleLocationChange;
