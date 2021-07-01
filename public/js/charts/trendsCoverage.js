@@ -111,10 +111,10 @@ async function handleLocationChange() {
       ).concat(obj);
       return sensorNodes;
     }, {});
-  const getDateAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
+  const getDateAndSensorTypes = Object.entries(allCountySensorDatas).map(([date, sensorTypes]) => {
     return {
-      date: formatDate(node[0]),
-      sensorTypes: node[1]
+      date: formatDate(date),
+      sensorTypes,
         .flatMap((sensor) => sensor?.sensordatavalues)
         .filter(
           (sensor) =>
