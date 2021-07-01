@@ -9,11 +9,14 @@ window.Chart.defaults.global.defaultFontSize = 10;
 
 const acquisition = document.getElementById('acquisition');
 const select = document.getElementById('trendpmtypes');
-// eslint-disable-next-line func-names
+const valueSensor = select.value;
+console.log('Value sensor is:', valueSensor);
+/* // eslint-disable-next-line func-names
 select.addEventListener('change', function () {
-  console.log(`${this.value}`);
+  console.log('Fist value is: '`${this.value}`);
   return `${this.value}`;
-});
+}); */
+
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
@@ -48,12 +51,12 @@ async function handleLocationChange() {
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
     // eslint-disable-next-line func-names
-    .reduce(function (h, obj) {
+    .reduce(function (sensorNodes, obj) {
       // eslint-disable-next-line no-param-reassign
-      h[obj?.timestamp.split('T')[0]] = (
-        h[obj?.timestamp.split('T')[0]] || []
+      sensorNodes[obj?.timestamp.split('T')[0]] = (
+        sensorNodes[obj?.timestamp.split('T')[0]] || []
       ).concat(obj);
-      return h;
+      return sensorNodes;
     }, {});
 
   // eslint-disable-next-line no-console
@@ -69,10 +72,12 @@ async function handleLocationChange() {
             sensor?.value_type === 'P0'
         )
         // eslint-disable-next-line func-names
-        .reduce(function (h, obj) {
+        .reduce(function (sensorValueTypes, obj) {
           // eslint-disable-next-line no-param-reassign
-          h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
-          return h;
+          sensorValueTypes[obj?.value_type] = (
+            sensorValueTypes[obj?.value_type] || []
+          ).concat(obj);
+          return sensorValueTypes;
         }, {}),
     };
   });
@@ -119,7 +124,7 @@ async function handleLocationChange() {
       .map((item) => item[sensorType]);
     return data;
   };
-  const CurrentSelectData = getDataBySensorType('P2' || 'P0' || 'P1');
+  const currentSelectData = getDataBySensorType(valueSensor);
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -130,7 +135,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: CurrentSelectData,
+          data: currentSelectData,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
