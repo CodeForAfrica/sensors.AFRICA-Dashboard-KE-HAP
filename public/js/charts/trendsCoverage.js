@@ -53,8 +53,6 @@ function plotChart(sensorType) {
             ticks: {
               beginAtZero: true,
               stepSize: 10,
-              suggestedMin: 0,
-              suggestedMax: 80,
             },
           },
         ],
