@@ -1,9 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable-next-line no-param-reassign */
-/* eslint-disable consistent-return */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
@@ -105,29 +99,32 @@ async function handleLocationChange() {
     .flatMap((node) => node?.value)
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
+    // eslint-disable-next-line func-names
     .reduce(function (sensorDatas, obj) {
-      sensorNodes[obj?.timestamp.split('T')[0]] = (
-        sensorNodes[obj?.timestamp.split('T')[0]] || []
+      // eslint-disable-next-line no-param-reassign
+      sensorDatas[obj?.timestamp.split('T')[0]] = (
+        sensorDatas[obj?.timestamp.split('T')[0]] || []
       ).concat(obj);
-      return sensorNodes;
+      return sensorDatas;
     }, {});
-  const getDateAndSensorTypes = Object.entries(allCountySensorDatas).map(([date, sensorTypes]) => {
-    return {
-      date: formatDate(date),
-      sensorTypes,
-        .flatMap((sensor) => sensor?.sensordatavalues)
-        .filter(
-          (sensor) =>
-            ['P0', 'P1', 'P2'].includes(sensor?.value_type)
-        )
-        .reduce(function (sensorValueTypes, obj) {
-          sensorValueTypes[obj?.value_type] = (
-            sensorValueTypes[obj?.value_type] || []
-          ).concat(obj);
-          return sensorValueTypes;
-        }, {}),
-    };
-  });
+  const getDateAndSensorTypes = Object.entries(allCountySensorDatas).map(
+    ([date, sensorTypes]) => {
+      return {
+        date: formatDate(date),
+        sensorTypes: sensorTypes
+          .flatMap((sensor) => sensor?.sensordatavalues)
+          .filter((sensor) => ['P0', 'P1', 'P2'].includes(sensor?.value_type))
+          // eslint-disable-next-line func-names
+          .reduce(function (sensorValueTypes, obj) {
+            // eslint-disable-next-line no-param-reassign
+            sensorValueTypes[obj?.value_type] = (
+              sensorValueTypes[obj?.value_type] || []
+            ).concat(obj);
+            return sensorValueTypes;
+          }, {}),
+      };
+    }
+  );
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
     chartLabels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
