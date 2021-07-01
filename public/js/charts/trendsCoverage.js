@@ -90,7 +90,7 @@ async function handleLocationChange() {
     d.setDate(d.getDate() - i);
     return d;
   }).map((item) => formatDate(item));
-  const allCountyNodes = Object.entries(countyCitiesMap)
+  const allCountySensorDatas = Object.entries(countyCitiesMap)
     .map(([countyName, countyCities]) => {
       const countyNodes = nodes.filter(({ location }) =>
         countyCities.some(
