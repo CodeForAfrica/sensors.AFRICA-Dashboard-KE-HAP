@@ -8,15 +8,66 @@ window.aq.charts.trendsCoverage = {};
 window.Chart.defaults.global.defaultFontSize = 10;
 
 const acquisition = document.getElementById('acquisition');
-const select = document.getElementById('trendpmtypes');
-const valueSensor = select.value;
-console.log('Value sensor is:', valueSensor);
-/* // eslint-disable-next-line func-names
-select.addEventListener('change', function () {
-  console.log('Fist value is: '`${this.value}`);
-  return `${this.value}`;
-}); */
+function plotChart(sensorType) {
+  window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
+    // The type of chart we want to create
+    type: 'line',
+    // The data for our dataset
+    data: {
+      labels: window.aq.charts.trendsCoverage.labels,
+      datasets: [
+        {
+          label: 'Nairobi',
+          backgroundColor: '#9EE6BE',
+          data: window.aq.charts.trendsCoverage.data.map(
+            (item) => item[sensorType]
+          ),
+          lineTension: 0.3,
+          pointBackgroundColor: '#9EE6BE',
+          pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
+          pointHoverRadius: 3,
+          pointHitRadius: 30,
+          pointBorderWidth: 2,
+          pointStyle: 'rectRounded',
+        },
+      ],
+    },
+    // Configuration options go here
+    options: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'start',
+      },
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+          },
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: true,
+            },
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+      tooltips: {},
+    },
+  });
+}
 
+// eslint-disable-next-line func-names
+document.getElementById('trendpmtypes').onchange = function (evt) {
+  const { value } = evt.target;
+  plotChart(value);
+};
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
@@ -100,7 +151,7 @@ async function handleLocationChange() {
 
   // Return label, data values
   const labels = getAllSortedData.map((label) => label?.date);
-  const getDataBySensorType = (sensorType) => {
+  const getDataBySensorType = () => {
     const data = getAllSortedData
       .map((item) => ({
         P0:
@@ -120,61 +171,11 @@ async function handleLocationChange() {
         P0: item.P0 === 0 ? 0 : Math.round(getAvg(item.P0)),
         P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
         P2: item.P2 === 0 ? 0 : Math.round(getAvg(item.P2)),
-      }))
-      .map((item) => item[sensorType]);
+      }));
     return data;
   };
-  const currentSelectData = getDataBySensorType(valueSensor);
-  window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
-    // The type of chart we want to create
-    type: 'line',
-    // The data for our dataset
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Nairobi',
-          backgroundColor: '#9EE6BE',
-          data: currentSelectData,
-          lineTension: 0.3,
-          pointBackgroundColor: '#9EE6BE',
-          pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
-          pointHoverRadius: 3,
-          pointHitRadius: 30,
-          pointBorderWidth: 2,
-          pointStyle: 'rectRounded',
-        },
-      ],
-    },
-    // Configuration options go here
-    options: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'start',
-      },
-      scales: {
-        xAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            gridLines: {
-              display: true,
-            },
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
-      tooltips: {},
-    },
-  });
+  window.aq.charts.trendsCoverage.data = getDataBySensorType();
+  window.aq.charts.trendsCoverage.labels = labels;
+  plotChart('P2');
 }
-
 window.aq.charts.trendsCoverage.handleLocationChange = handleLocationChange;
