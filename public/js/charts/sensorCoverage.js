@@ -1,7 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable func-names */
-/* eslint-disable no-undef */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
@@ -29,8 +25,7 @@ async function handleLocationChange() {
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
     .flatMap((node) => node?.sensordatavalues)
-    // eslint-disable-next-line func-names
-    .reduce(function (sensorDatas, obj) {
+    .reduce((sensorDatas, obj) => {
       // eslint-disable-next-line no-param-reassign
       sensorDatas[obj?.value_type] = (
         sensorDatas[obj?.value_type] || []
@@ -56,7 +51,7 @@ async function handleLocationChange() {
     )
     .map((item) => item.sensorAvg);
 
-  window.aq.charts.sensorCoverage.el = new Chart(sensorsChart, {
+  window.aq.charts.sensorCoverage.el = new window.Chart(sensorsChart, {
     type: 'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
     data: {
       labels: ['PM2.5', 'PM10', 'PM1', 'Humidity', 'Temperature', 'NoiseLeq'],
@@ -92,26 +87,28 @@ async function handleLocationChange() {
         easing: 'easeOutQuart',
         onComplete() {
           const { ctx } = this.chart;
-          ctx.font = Chart.helpers.fontString(
-            Chart.defaults.global.defaultFontFamily,
+          ctx.font = window.Chart.helpers.fontString(
+            window.Chart.defaults.global.defaultFontFamily,
             'normal',
-            Chart.defaults.global.defaultFontFamily
+            window.Chart.defaults.global.defaultFontFamily
           );
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
-          this.data.datasets.forEach(function (dataset) {
-            for (let i = 0; i < dataset.data.length; i++) {
+          this.data.datasets.forEach((dataset) => {
+            for (let i = 0; i < dataset.data.length; i += 1) {
               const model =
+                // eslint-disable-next-line no-underscore-dangle
                 dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+              // eslint-disable-next-line no-underscore-dangle
               const { total } = dataset._meta[Object.keys(dataset._meta)[0]];
-              const mid_radius =
+              const midRadiusValue =
                 model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
-              const start_angle = model.startAngle;
-              const end_angle = model.endAngle;
-              const mid_angle = start_angle + (end_angle - start_angle) / 2;
-              // eslint-disable-next-line vars-on-top
-              const x = mid_radius * Math.cos(mid_angle);
-              const y = mid_radius * Math.sin(mid_angle);
+              const startAngleValue = model.startAngle;
+              const endAngleValue = model.endAngle;
+              const midAngleValue =
+                startAngleValue + (endAngleValue - startAngleValue) / 2;
+              const x = midRadiusValue * Math.cos(midAngleValue);
+              const y = midRadiusValue * Math.sin(midAngleValue);
               ctx.fillStyle = '#fff';
               const percent = `${String(
                 Math.round((dataset.data[i] / total) * 100)
