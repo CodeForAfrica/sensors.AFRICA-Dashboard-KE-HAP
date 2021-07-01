@@ -118,9 +118,7 @@ async function handleLocationChange() {
         .flatMap((sensor) => sensor?.sensordatavalues)
         .filter(
           (sensor) =>
-            sensor?.value_type === 'P2' ||
-            sensor?.value_type === 'P1' ||
-            sensor?.value_type === 'P0'
+            ['P0', 'P1', 'P2'].includes(sensor?.value_type)
         )
         .reduce(function (sensorValueTypes, obj) {
           sensorValueTypes[obj?.value_type] = (
