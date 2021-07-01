@@ -20,15 +20,15 @@ const getAnalytics = async (county) => {
     if (rangeMap[data.value_type]) {
       rangeMap[data.value_type].high =
         Number(data.value) > rangeMap[data.value_type].high
-          ? Number(data.value)
-          : rangeMap[data.value_type].high;
+          ? Math.round(Number(data.value))
+          : Math.round(rangeMap[data.value_type].high);
       if (rangeMap[data.value_type].low === 0) {
-        rangeMap[data.value_type].low = Number(data.value);
+        rangeMap[data.value_type].low = Math.round(Number(data.value));
       } else {
         rangeMap[data.value_type].low =
           Number(data.value) < rangeMap[data.value_type].low
-            ? Number(data.value)
-            : rangeMap[data.value_type].low;
+            ? Math.round(Number(data.value))
+            : Math.round(rangeMap[data.value_type].low);
       }
     }
   };
