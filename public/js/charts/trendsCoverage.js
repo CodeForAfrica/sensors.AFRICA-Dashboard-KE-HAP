@@ -52,6 +52,9 @@ function plotChart(sensorType) {
             },
             ticks: {
               beginAtZero: true,
+              stepSize: 10,
+              suggestedMin: 0,
+              suggestedMax: 80,
             },
           },
         ],
@@ -99,8 +102,7 @@ async function handleLocationChange() {
     .flatMap((node) => node?.value)
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
-    // eslint-disable-next-line func-names
-    .reduce(function (sensorDatas, obj) {
+    .reduce((sensorDatas, obj) => {
       // eslint-disable-next-line no-param-reassign
       sensorDatas[obj?.timestamp.split('T')[0]] = (
         sensorDatas[obj?.timestamp.split('T')[0]] || []
@@ -114,8 +116,7 @@ async function handleLocationChange() {
         sensorTypes: sensorTypes
           .flatMap((sensor) => sensor?.sensordatavalues)
           .filter((sensor) => ['P0', 'P1', 'P2'].includes(sensor?.value_type))
-          // eslint-disable-next-line func-names
-          .reduce(function (sensorValueTypes, obj) {
+          .reduce((sensorValueTypes, obj) => {
             // eslint-disable-next-line no-param-reassign
             sensorValueTypes[obj?.value_type] = (
               sensorValueTypes[obj?.value_type] || []

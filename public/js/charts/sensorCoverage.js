@@ -30,10 +30,12 @@ async function handleLocationChange() {
     .flatMap((node) => node?.sensordatas)
     .flatMap((node) => node?.sensordatavalues)
     // eslint-disable-next-line func-names
-    .reduce(function (h, obj) {
+    .reduce(function (sensorDatas, obj) {
       // eslint-disable-next-line no-param-reassign
-      h[obj?.value_type] = (h[obj?.value_type] || []).concat(obj);
-      return h;
+      sensorDatas[obj?.value_type] = (
+        sensorDatas[obj?.value_type] || []
+      ).concat(obj);
+      return sensorDatas;
     }, {});
   const sensorCoverageData = Object.keys(allCountyNodes)
     .map((key) => {
