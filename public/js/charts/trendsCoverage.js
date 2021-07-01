@@ -1,4 +1,8 @@
+/* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+/* eslint-disable-next-line no-param-reassign */
 /* eslint-disable consistent-return */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
@@ -101,16 +105,12 @@ async function handleLocationChange() {
     .flatMap((node) => node?.value)
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
-    // eslint-disable-next-line func-names
     .reduce(function (sensorNodes, obj) {
-      // eslint-disable-next-line no-param-reassign
       sensorNodes[obj?.timestamp.split('T')[0]] = (
         sensorNodes[obj?.timestamp.split('T')[0]] || []
       ).concat(obj);
       return sensorNodes;
     }, {});
-
-  // eslint-disable-next-line no-console
   const getDateAndSensorTypes = Object.entries(allCountyNodes).map((node) => {
     return {
       date: formatDate(node[0]),
@@ -122,9 +122,7 @@ async function handleLocationChange() {
             sensor?.value_type === 'P1' ||
             sensor?.value_type === 'P0'
         )
-        // eslint-disable-next-line func-names
         .reduce(function (sensorValueTypes, obj) {
-          // eslint-disable-next-line no-param-reassign
           sensorValueTypes[obj?.value_type] = (
             sensorValueTypes[obj?.value_type] || []
           ).concat(obj);
@@ -132,13 +130,11 @@ async function handleLocationChange() {
         }, {}),
     };
   });
-
   const filteredP2Data = getDateAndSensorTypes.filter((item) =>
     chartLabels.find((data) =>
       data?.toLowerCase().trim().includes(item.date?.toLowerCase().trim())
     )
   );
-  // eslint-disable-next-line consistent-return
   chartLabels.forEach((date) => {
     if (!filteredP2Data.find((item) => item.date === date)) {
       return filteredP2Data.push({ date, sensorTypes: [] });

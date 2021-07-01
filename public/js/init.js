@@ -490,7 +490,7 @@ async function handleLocationChange(value) {
   document.getElementById('county-households').innerHTML = households;
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
-  window.aq.charts.trendsCoverage.handleLocationChange();
+  window.aq.charts.trendsCoverage.handleLocationChange(countyName);
   window.aq.charts.worstNodes.worstPMNodes();
   window.aq.charts.sensorCoverage.handleLocationChange(countyName);
   // TODO(kilemensi): Add other charts here
