@@ -488,6 +488,7 @@ async function handleLocationChange(value) {
   document.getElementById('map-iframe').src = newUrl;
   document.getElementById('county-name').innerHTML = countyName;
   document.getElementById('county-households').innerHTML = households;
+  document.getElementById('total-households').innerHTML = households;
 
   window.analytics.getAnalytics(countyName);
 
