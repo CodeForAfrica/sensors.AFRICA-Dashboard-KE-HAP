@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable consistent-return */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
@@ -7,7 +8,12 @@ window.aq.charts.trendsCoverage = {};
 window.Chart.defaults.global.defaultFontSize = 10;
 
 const acquisition = document.getElementById('acquisition');
-
+const select = document.getElementById('trendpmtypes');
+// eslint-disable-next-line func-names
+select.addEventListener('change', function () {
+  console.log(`${this.value}`);
+  return `${this.value}`;
+});
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
@@ -91,23 +97,20 @@ async function handleLocationChange() {
   const labels = getAllSortedData.map((label) => label?.date);
   const getDataBySensorType = (sensorType) => {
     const data = getAllSortedData
-      .map(
-        // eslint-disable-next-line no-console
-        (item) => ({
-          P0:
-            item?.sensorTypes?.P0 === undefined
-              ? 0
-              : item?.sensorTypes?.P0.map((sensor) => Number(sensor.value)),
-          P1:
-            item?.sensorTypes?.P1 === undefined
-              ? 0
-              : item?.sensorTypes?.P1.map((sensor) => Number(sensor.value)),
-          P2:
-            item?.sensorTypes?.P2 === undefined
-              ? 0
-              : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value)),
-        })
-      )
+      .map((item) => ({
+        P0:
+          item?.sensorTypes?.P0 === undefined
+            ? 0
+            : item?.sensorTypes?.P0.map((sensor) => Number(sensor.value)),
+        P1:
+          item?.sensorTypes?.P1 === undefined
+            ? 0
+            : item?.sensorTypes?.P1.map((sensor) => Number(sensor.value)),
+        P2:
+          item?.sensorTypes?.P2 === undefined
+            ? 0
+            : item?.sensorTypes?.P2.map((sensor) => Number(sensor.value)),
+      }))
       .map((item) => ({
         P0: item.P0 === 0 ? 0 : Math.round(getAvg(item.P0)),
         P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
@@ -116,7 +119,7 @@ async function handleLocationChange() {
       .map((item) => item[sensorType]);
     return data;
   };
-  const sel = document.getElementById('trendpmtypes').value;
+  const CurrentSelectData = getDataBySensorType('P2' || 'P0' || 'P1');
   window.aq.charts.trendsCoverage.el = new window.Chart(acquisition, {
     // The type of chart we want to create
     type: 'line',
@@ -127,7 +130,7 @@ async function handleLocationChange() {
         {
           label: 'Nairobi',
           backgroundColor: '#9EE6BE',
-          data: getDataBySensorType(sel || 'P2'),
+          data: CurrentSelectData,
           lineTension: 0.3,
           pointBackgroundColor: '#9EE6BE',
           pointHoverBackgroundColor: 'rgba(76, 132, 255,1)',
@@ -167,6 +170,6 @@ async function handleLocationChange() {
       tooltips: {},
     },
   });
-  getDataBySensorType('P2');
 }
+
 window.aq.charts.trendsCoverage.handleLocationChange = handleLocationChange;
