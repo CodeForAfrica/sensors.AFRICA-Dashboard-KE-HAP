@@ -12,7 +12,7 @@ async function loadNodes() {
 }
 
 async function load() {
-  loadNodes();
+  await loadNodes();
 }
 
 async function getNodes() {
