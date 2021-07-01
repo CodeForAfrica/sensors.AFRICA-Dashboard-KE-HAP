@@ -105,7 +105,7 @@ async function handleLocationChange() {
     .flatMap((node) => node?.value)
     .flatMap((node) => node?.sensors)
     .flatMap((node) => node?.sensordatas)
-    .reduce(function (sensorNodes, obj) {
+    .reduce(function (sensorDatas, obj) {
       sensorNodes[obj?.timestamp.split('T')[0]] = (
         sensorNodes[obj?.timestamp.split('T')[0]] || []
       ).concat(obj);
