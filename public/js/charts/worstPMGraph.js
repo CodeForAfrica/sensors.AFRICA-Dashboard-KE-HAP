@@ -5,7 +5,7 @@ window.aq.charts.worstNodes = {};
 
 const ctx = document.getElementById('myChart').getContext('2d');
 
-const renderWorstNodesChart = (labels, data) => {
+const renderWorstNodesChart = (labels, data, type) => {
   if (window.aq.charts.worstNodes.el !== undefined) {
     window.aq.charts.worstNodes.el.destroy();
   }
@@ -39,6 +39,8 @@ const renderWorstNodesChart = (labels, data) => {
           {
             ticks: {
               beginAtZero: true,
+              stepSize: 10,
+              suggestedMax: type === 'P0' ? 101 : 71,
             },
             scaleLabel: '0 - 50 : Good',
           },
@@ -104,11 +106,6 @@ function returnPMAverage(sensors) {
 }
 
 const PMTopFiveChart = async (type) => {
-  const AQIBand = {
-    p1: '71', // no standard for PM1 safe levels yet
-    p2: '71',
-    p0: '101',
-  };
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
 
   // sort by pm type
@@ -122,9 +119,8 @@ const PMTopFiveChart = async (type) => {
   const labels = topFiveNodes.map((_, index) => index + 1);
   let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
 
-  data = [...data, AQIBand[type]];
-
-  renderWorstNodesChart(labels, data);
+  data = [...data];
+  renderWorstNodesChart(labels, data, type);
 };
 
 async function worstPMNodes() {

@@ -1,7 +1,9 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 // NOTE: requires('charts/countyCoverage');
+// NOTE: requires('charts/trendsCoverage');
 // NOTE: requires('charts/sensorCoverage');
+// NOTE: requires('charts/worstNodes');
 
 const countiesLocation = {
   nairobi: {
@@ -486,10 +488,12 @@ async function handleLocationChange(value) {
   document.getElementById('map-iframe').src = newUrl;
   document.getElementById('county-name').innerHTML = countyName;
   document.getElementById('county-households').innerHTML = households;
+  document.getElementById('total-households').innerHTML = households;
 
   window.analytics.getAnalytics(countyName);
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
+  window.aq.charts.trendsCoverage.handleLocationChange(countyName);
   window.aq.charts.worstNodes.worstPMNodes();
   window.aq.charts.sensorCoverage.handleLocationChange(countyName);
   // TODO(kilemensi): Add other charts here
