@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from 'components/Landing/Hero';
 import { providers, useSession } from 'next-auth/client';
 import Router from 'next/router';
+import { loadNodes } from 'lib/aq';
 
 function Home(props) {
   const [session] = useSession();
@@ -16,7 +17,14 @@ function Home(props) {
 }
 
 export async function getStaticProps(context) {
-  return { props: { providers: await providers(context) } };
+  const nodes = await loadNodes();
+  return {
+    props: {
+      providers: await providers(context),
+      nodes: nodes?.length ?? null,
+    },
+    revalidate: 60 * 60, // 60 minutes
+  };
 }
 
 export default Home;
