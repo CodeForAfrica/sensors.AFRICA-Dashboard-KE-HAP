@@ -163,8 +163,6 @@ async function handleLocationChange() {
         P1: item.P1 === 0 ? 0 : Math.round(getAvg(item.P1)),
         P2: item.P2 === 0 ? 0 : Math.round(getAvg(item.P2)),
       }));
-    // eslint-disable-next-line no-console
-    console.log(data);
     return data;
   };
   window.aq.charts.trendsCoverage.data = getDataBySensorType();
