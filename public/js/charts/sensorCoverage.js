@@ -2,10 +2,12 @@
 // NOTE: requires('aq');
 
 window.aq.charts.sensorCoverage = {};
+
 window.Chart.defaults.global.defaultFontSize = 10;
 const sensorsChart = document
   .getElementById('sensorsCoverage')
   .getContext('2d');
+
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();

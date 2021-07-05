@@ -1,5 +1,6 @@
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
+// NOTE: requires('summary');
 // NOTE: requires('charts/countyCoverage');
 // NOTE: requires('charts/trendsCoverage');
 // NOTE: requires('charts/sensorCoverage');
@@ -490,12 +491,12 @@ async function handleLocationChange(value) {
   document.getElementById('county-households').innerHTML = households;
   document.getElementById('total-households').innerHTML = households;
 
-  window.analytics.getAnalytics(countyName);
+  window.aq.summary.handleLocationChange(countyName);
 
   window.aq.charts.countyCoverage.handleLocationChange(countyName);
-  window.aq.charts.trendsCoverage.handleLocationChange(countyName);
-  window.aq.charts.worstNodes.worstPMNodes();
   window.aq.charts.sensorCoverage.handleLocationChange(countyName);
+  window.aq.charts.worstNodes.handleLocationChange(countyName);
+  window.aq.charts.trendsCoverage.handleLocationChange(countyName);
   // TODO(kilemensi): Add other charts here
 }
 

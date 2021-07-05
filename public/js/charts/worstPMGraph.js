@@ -123,7 +123,7 @@ const PMTopFiveChart = async (type) => {
   renderWorstNodesChart(labels, data, type);
 };
 
-async function worstPMNodes() {
+async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
 
   const nodePMAverages = nodes.map((data) => {
@@ -150,4 +150,4 @@ async function worstPMNodes() {
   document.getElementById('pmtypes').disabled = false;
 }
 
-window.aq.charts.worstNodes.worstPMNodes = worstPMNodes;
+window.aq.charts.worstNodes.handleLocationChange = handleLocationChange;
