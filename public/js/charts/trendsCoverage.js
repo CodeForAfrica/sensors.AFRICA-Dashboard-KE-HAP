@@ -68,6 +68,7 @@ document.getElementById('trendpmtypes').onchange = function (evt) {
   const { value } = evt.target;
   plotChart(value);
 };
+
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
   const countyCitiesMap = await window.sheets.getCountyCitiesMap();
