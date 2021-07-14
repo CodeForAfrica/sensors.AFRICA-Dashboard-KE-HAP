@@ -86,6 +86,7 @@ function returnPMAverage(sensors) {
   const sensorAverages = [];
 
   sensors.forEach((sensor) => {
+    const { id } = sensor;
     const resultAverages = sensor.sensordatas
       .map((data) => {
         return readingAverage(data.sensordatavalues);
@@ -94,11 +95,12 @@ function returnPMAverage(sensors) {
 
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
+      // eslint-disable-next-line no-shadow
       const p1 = getAverage(resultAverages, 'p1');
       const p2 = getAverage(resultAverages, 'p2');
       const p0 = getAverage(resultAverages, 'p0');
 
-      sensorAverages.push({ p1, p2, p0 });
+      sensorAverages.push({ p1, p2, p0, id });
     }
   });
 
