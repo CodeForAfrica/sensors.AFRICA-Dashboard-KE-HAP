@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
@@ -103,13 +104,11 @@ function returnPMAverage(sensors) {
       sensorAverages.push({ p1, p2, p0, id });
     }
   });
-
   return sensorAverages;
 }
 
 const PMTopFiveChart = async (type) => {
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
-
   // sort by pm type
   const typeSorted = resultAverages.sort(
     (result1, result2) => result2[type] - result1[type]
@@ -117,8 +116,9 @@ const PMTopFiveChart = async (type) => {
 
   // Highest 5 nodes of pm type
   const topFiveNodes = typeSorted.splice(0, 5);
+  console.log(topFiveNodes);
 
-  const labels = topFiveNodes.map((_, index) => index + 1);
+  const labels = topFiveNodes.map((item) => item.id);
   let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
 
   data = [...data];
@@ -132,16 +132,18 @@ async function handleLocationChange() {
     let averageResults = returnPMAverage(data.sensors);
 
     if (averageResults.length > 0) {
-      // get average if more than one sensor has data
+      // get average  + idif more than one sensor has data
+      const id = averageResults.map((item) => item.id)[0];
       const p1 = getAverage(averageResults, 'p1');
       const p2 = getAverage(averageResults, 'p2');
       const p0 = getAverage(averageResults, 'p0');
 
-      averageResults = [{ p1, p2, p0 }];
+      averageResults = [{ p1, p2, p0, id }];
     }
 
     const updatedNode = { ...averageResults[0], city: data.location.city }; // for county check
 
+    console.log(updatedNode);
     return updatedNode;
   });
 
