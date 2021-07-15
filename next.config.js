@@ -20,12 +20,7 @@ module.exports = withImages({
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value:
-              'https://sensors-africa-map-ke-hap-git-main-codeforafrica.vercel.app/#6/0.263/39.568',
-          },
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: 'http://map.hap.ke.sensors.africa/',
+            value: 'https://map.hap.ke.sensors.africa/',
           },
           {
             key: 'Access-Control-Allow-Methods',
