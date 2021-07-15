@@ -75,13 +75,18 @@ function readingAverage(dataValues) {
 }
 
 // helper function
+function checkIsNAN(number) {
+  return Number.isNaN(number) ? 0 : number;
+}
+// helper function
 const getAverage = (AQReading, type) => {
-  const total = AQReading.map((result) => result[type]);
-
+  const total = AQReading.map((result) =>
+    Number.isNaN(result) ? 0 : result[type]
+  );
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
-  return average;
+  return checkIsNAN(average);
 };
 
 function returnPMAverage(sensors) {
