@@ -126,8 +126,22 @@ const PMTopFiveChart = async (type) => {
 
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
+  const countyCitiesMap = await window.sheets.getCountyCitiesMap();
+  const allCountyNodes = Object.entries(countyCitiesMap)
+    .map(([countyName, countyCities]) => {
+      const countyNodes = nodes.filter(({ location }) =>
+        countyCities.some(
+          (city) =>
+            location && location.city && location.city.indexOf(city) >= 0
+        )
+      );
+      return { name: countyName, value: countyNodes };
+    })
+    // Don't show counties with 0 nodes
+    .filter(({ value }) => value.length !== 0)
+    .map((node) => node?.value);
 
-  const nodePMAverages = nodes.map((data) => {
+  const nodePMAverages = allCountyNodes[0].map((data) => {
     let averageResults = returnPMAverage(data.sensors);
 
     if (averageResults.length > 0) {
