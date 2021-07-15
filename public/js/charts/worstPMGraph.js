@@ -122,7 +122,6 @@ const PMTopFiveChart = async (type) => {
 
   // Highest 5 nodes of pm type
   const topFiveNodes = typeSorted.splice(0, 5);
-  console.log(topFiveNodes);
 
   const labels = topFiveNodes.map((item) => item.id);
   let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
