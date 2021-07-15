@@ -23,6 +23,10 @@ module.exports = withImages({
             value: 'https://map.hap.ke.sensors.africa/',
           },
           {
+            key: 'Access-Control-Allow-Origin',
+            value: 'http://127.0.0.1:8080',
+          },
+          {
             key: 'Access-Control-Allow-Methods',
             value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
           },
