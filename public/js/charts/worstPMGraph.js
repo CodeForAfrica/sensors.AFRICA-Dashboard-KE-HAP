@@ -77,6 +77,7 @@ function readingAverage(dataValues) {
 // helper function
 const getAverage = (AQReading, type) => {
   const total = AQReading.map((result) => result[type]);
+
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
@@ -116,6 +117,7 @@ const PMTopFiveChart = async (type) => {
 
   // Highest 5 nodes of pm type
   const topFiveNodes = typeSorted.splice(0, 5);
+  console.log(topFiveNodes);
 
   const labels = topFiveNodes.map((item) => item.id);
   let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
@@ -140,7 +142,6 @@ async function handleLocationChange() {
     // Don't show counties with 0 nodes
     .filter(({ value }) => value.length !== 0)
     .map((node) => node?.value);
-
   const nodePMAverages = allCountyNodes[0].map((data) => {
     let averageResults = returnPMAverage(data.sensors);
 
