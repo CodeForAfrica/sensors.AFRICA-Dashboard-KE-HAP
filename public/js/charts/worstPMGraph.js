@@ -74,18 +74,12 @@ function readingAverage(dataValues) {
 }
 
 // helper function
-function checkIsNAN(number) {
-  return Number.isNaN(number) ? 0 : number;
-}
-// helper function
 const getAverage = (AQReading, type) => {
-  const total = AQReading.map((result) =>
-    Number.isNaN(result) ? 0 : result[type]
-  );
+  const total = AQReading.map((result) => result[type] || 0);
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
-  return (average || 0);
+  return average || 0;
 };
 
 function returnPMAverage(sensors) {
@@ -150,7 +144,7 @@ async function handleLocationChange() {
 
     if (averageResults.length > 0) {
       // get average  + idif more than one sensor has data
-      const id = data.id;
+      const { id } = data;
       const p1 = getAverage(averageResults, 'p1');
       const p2 = getAverage(averageResults, 'p2');
       const p0 = getAverage(averageResults, 'p0');
