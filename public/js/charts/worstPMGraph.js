@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // NOTE: requires('sheets');
 // NOTE: requires('aq');
 
