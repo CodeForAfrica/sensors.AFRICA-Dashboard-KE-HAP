@@ -85,7 +85,7 @@ const getAverage = (AQReading, type) => {
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
-  return checkIsNAN(average);
+  return (average || 0);
 };
 
 function returnPMAverage(sensors) {
@@ -150,7 +150,7 @@ async function handleLocationChange() {
 
     if (averageResults.length > 0) {
       // get average  + idif more than one sensor has data
-      const id = averageResults.map((item) => item.id)[0];
+      const id = data.id;
       const p1 = getAverage(averageResults, 'p1');
       const p2 = getAverage(averageResults, 'p2');
       const p0 = getAverage(averageResults, 'p0');
