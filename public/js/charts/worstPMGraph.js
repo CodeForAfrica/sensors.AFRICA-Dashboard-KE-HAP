@@ -86,7 +86,7 @@ const getAverage = (AQReading, type) => {
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
-  return checkIsNAN(average);
+  return (average || 0);
 };
 
 function returnPMAverage(sensors) {
