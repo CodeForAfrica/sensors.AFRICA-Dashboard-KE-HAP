@@ -143,7 +143,7 @@ async function handleLocationChange() {
     let averageResults = returnPMAverage(data.sensors);
 
     if (averageResults.length > 0) {
-      // get average  + idif more than one sensor has data
+      // get average  + id if more than one sensor has data
       const { id } = data;
       const p1 = getAverage(averageResults, 'p1');
       const p2 = getAverage(averageResults, 'p2');
