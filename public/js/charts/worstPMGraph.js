@@ -15,7 +15,7 @@ const renderWorstNodesChart = (labels, data, type) => {
       labels,
       datasets: [
         {
-          label: '# of Nodes',
+          label: 'PM type',
           data,
           backgroundColor: [
             '#2DB469',
