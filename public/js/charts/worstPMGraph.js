@@ -15,7 +15,7 @@ const renderWorstNodesChart = (labels, data, type) => {
       labels,
       datasets: [
         {
-          label: '# of Nodes',
+          label: 'PM type',
           data,
           backgroundColor: [
             '#2DB469',
@@ -75,17 +75,18 @@ function readingAverage(dataValues) {
 
 // helper function
 const getAverage = (AQReading, type) => {
-  const total = AQReading.map((result) => result[type]);
+  const total = AQReading.map((result) => result[type] || 0);
   const average =
     total.reduce((result1, result2) => result1 + result2, 0) / total.length;
 
-  return average;
+  return average || 0;
 };
 
 function returnPMAverage(sensors) {
   const sensorAverages = [];
 
   sensors.forEach((sensor) => {
+    const { id } = sensor;
     const resultAverages = sensor.sensordatas
       .map((data) => {
         return readingAverage(data.sensordatavalues);
@@ -94,20 +95,19 @@ function returnPMAverage(sensors) {
 
     // if data exists, get average of sensor recordings at different times
     if (resultAverages.length) {
+      // eslint-disable-next-line no-shadow
       const p1 = getAverage(resultAverages, 'p1');
       const p2 = getAverage(resultAverages, 'p2');
       const p0 = getAverage(resultAverages, 'p0');
 
-      sensorAverages.push({ p1, p2, p0 });
+      sensorAverages.push({ p1, p2, p0, id });
     }
   });
-
   return sensorAverages;
 }
 
 const PMTopFiveChart = async (type) => {
   const resultAverages = [...window.aq.charts.worstNodes.pmAverages];
-
   // sort by pm type
   const typeSorted = resultAverages.sort(
     (result1, result2) => result2[type] - result1[type]
@@ -116,7 +116,7 @@ const PMTopFiveChart = async (type) => {
   // Highest 5 nodes of pm type
   const topFiveNodes = typeSorted.splice(0, 5);
 
-  const labels = topFiveNodes.map((_, index) => index + 1);
+  const labels = topFiveNodes.map((item) => item.id);
   let data = Object.values(topFiveNodes).map((worstNodes) => worstNodes[type]);
 
   data = [...data];
@@ -125,21 +125,34 @@ const PMTopFiveChart = async (type) => {
 
 async function handleLocationChange() {
   const nodes = await window.aq.getNodes();
-
-  const nodePMAverages = nodes.map((data) => {
+  const countyCitiesMap = await window.sheets.getCountyCitiesMap();
+  const allCountyNodes = Object.entries(countyCitiesMap)
+    .map(([countyName, countyCities]) => {
+      const countyNodes = nodes.filter(({ location }) =>
+        countyCities.some(
+          (city) =>
+            location && location.city && location.city.indexOf(city) >= 0
+        )
+      );
+      return { name: countyName, value: countyNodes };
+    })
+    // Don't show counties with 0 nodes
+    .filter(({ value }) => value.length !== 0)
+    .map((node) => node?.value);
+  const nodePMAverages = allCountyNodes[0].map((data) => {
     let averageResults = returnPMAverage(data.sensors);
 
     if (averageResults.length > 0) {
-      // get average if more than one sensor has data
+      // get average  + id if more than one sensor has data
+      const { id } = data;
       const p1 = getAverage(averageResults, 'p1');
       const p2 = getAverage(averageResults, 'p2');
       const p0 = getAverage(averageResults, 'p0');
 
-      averageResults = [{ p1, p2, p0 }];
+      averageResults = [{ p1, p2, p0, id }];
     }
 
     const updatedNode = { ...averageResults[0], city: data.location.city }; // for county check
-
     return updatedNode;
   });
 
