@@ -1,13 +1,13 @@
 import React from 'react';
 import Hero from 'components/Landing/Hero';
 import { providers, useSession } from 'next-auth/client';
-import Router from 'next/router';
+/* import Router from 'next/router'; */
 import { loadNodes } from 'lib/aq';
 
 function Home(props) {
   const [session] = useSession();
   if (session) {
-    Router.push('/dashboard/index.html');
+    // Router.push('/dashboard/index.html');
   }
   return (
     <>
